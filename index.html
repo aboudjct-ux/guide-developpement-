@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Servic'eau × Claude</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Guide interactif : développer Servic'eau Piscines et Solution pour Piscine avec Claude au centre.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout : hub radial en ouverture (Claude au centre), puis règle des 2 min, puis axes filtrables en 3 parties, puis quêtes */
+:root{
+  --ground:#f9fbfb; --surface:#ffffff; --sunk:#eaf1f3;
+  --ink:#09242f; --ink-2:#3d5a66; --line:#d4e1e6;
+  --deep:#1f5872; --sea:#578d9f; --foam:#d9ecf1;
+  --red:#c7372f; --red-soft:#fbe7e5;
+  --ok:#2f8a5b; --ok-soft:#e1f3e9; --amber:#b9770e; --amber-soft:#fbf0dc; --grey-soft:#eceff1;
+  --display:"Bree Serif",Georgia,serif; --body:Figtree,system-ui,-apple-system,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#071b23; --surface:#0d2833; --sunk:#0a222b; --ink:#eef6f8; --ink-2:#a9c3cc; --line:#1d3f4c;
+    --deep:#7fb6c9; --sea:#5f9cb0; --foam:#123744; --red:#f0756b; --red-soft:#3a1715;
+    --ok:#5cc58c; --ok-soft:#10301f; --amber:#e8b04f; --amber-soft:#33260c; --grey-soft:#16313b; color-scheme:dark }
+}
+:root[data-theme="dark"]{
+  --ground:#071b23; --surface:#0d2833; --sunk:#0a222b; --ink:#eef6f8; --ink-2:#a9c3cc; --line:#1d3f4c;
+  --deep:#7fb6c9; --sea:#5f9cb0; --foam:#123744; --red:#f0756b; --red-soft:#3a1715;
+  --ok:#5cc58c; --ok-soft:#10301f; --amber:#e8b04f; --amber-soft:#33260c; --grey-soft:#16313b; color-scheme:dark }
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.15}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--sea);outline-offset:2px;border-radius:6px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
+
+/* Hero */
+.hero{padding-block:36px 28px;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+.hero h1{font-size:clamp(32px,6vw,52px);margin-top:10px}
+.hero h1 em{font-style:normal;color:var(--deep)}
+.hero .lead{margin-top:14px;font-size:17px;color:var(--ink-2);max-width:46ch}
+.meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--ink-2)}
+.meta span{padding:4px 10px;border:1px solid var(--line);border-radius:99px;background:var(--surface)}
+.hub{position:relative;width:100%;max-width:440px;aspect-ratio:1;margin:0 auto}
+.hub svg{position:absolute;inset:0;width:100%;height:100%}
+.hub svg line{stroke:var(--line);stroke-width:1.5}
+.hub svg circle.ring{fill:none;stroke:var(--line);stroke-dasharray:3 5}
+.core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:27%;aspect-ratio:1;border-radius:50%;
+  background:var(--deep);color:var(--ground);display:grid;place-items:center;text-align:center;font-family:var(--display);font-size:clamp(15px,3.4vw,20px);
+  box-shadow:0 0 0 8px var(--foam)}
+.core small{display:block;font-family:var(--body);font-size:11px;opacity:.8;margin-top:2px}
+.node{position:absolute;transform:translate(-50%,-50%);border:1px solid var(--line);background:var(--surface);border-radius:12px;
+  padding:6px 9px;font-size:12px;font-weight:600;line-height:1.2;text-align:center;max-width:31%;transition:transform .15s,border-color .15s,background .15s}
+.node:hover{transform:translate(-50%,-50%) scale(1.06);border-color:var(--sea)}
+.node .d{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:1px}
+.hub-hint{text-align:center;font-size:13px;color:var(--ink-2);margin-top:8px}
+
+/* Progress strip */
+.progress{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ground);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ground)}
+.progress .wrap{padding-block:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.bar{flex:1 1 180px;height:10px;border-radius:99px;background:var(--sunk);overflow:hidden;display:flex}
+.bar i{display:block;height:100%;transition:width .4s}
+.progress strong{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:5px 11px;font-size:13px;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.chip .n{font-family:var(--mono);font-size:11px;opacity:.7;margin-left:4px}
+
+section.block{padding-block:44px 8px}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(24px,4vw,32px)}
+.sec-head .num{font-family:var(--mono);color:var(--sea);font-size:14px}
+.sec-head p{flex-basis:100%;color:var(--ink-2);max-width:62ch}
+
+/* 2-minute rule */
+.rule{border-radius:18px;background:var(--red-soft);border:1.5px solid var(--red);padding:22px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center}
+.clock{width:120px;height:120px;position:relative}
+.clock svg{width:100%;height:100%;transform:rotate(-90deg)}
+.clock circle{fill:none;stroke-width:9}
+.clock .bg{stroke:var(--surface)}
+.clock .fg{stroke:var(--red);stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.clock span{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:22px;color:var(--red);font-variant-numeric:tabular-nums}
+.rule h3{font-size:22px;color:var(--red)}
+.rule p{margin-top:6px}
+.rule .tri{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rule input{flex:1 1 200px;min-width:0;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;background:var(--surface);color:var(--ink)}
+.btn{border:0;border-radius:10px;padding:9px 14px;font-weight:700;background:var(--ink);color:var(--ground)}
+.btn.red{background:var(--red);color:#fff}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.verdict{margin-top:10px;font-weight:600;min-height:1.5em}
+
+/* Axes */
+.part{margin-top:30px}
+.part h3.p{font-size:20px;color:var(--deep);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.part h3.p::after{content:"";flex:1;height:1px;background:var(--line)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.axe{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;scroll-margin-top:80px;transition:border-color .2s,box-shadow .2s}
+.axe.flash{border-color:var(--sea);box-shadow:0 0 0 4px var(--foam)}
+.axe.done{background:var(--sunk)}
+.axe>button.head{width:100%;border:0;background:none;text-align:left;padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:start}
+.axe .t{font-weight:700;font-size:16px}
+.axe.done .t{text-decoration:line-through;text-decoration-color:var(--sea)}
+.axe .tools{grid-column:1/-1;font-size:13px;color:var(--ink-2)}
+.pill{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.s0{background:var(--ok-soft);color:var(--ok)} .s1{background:var(--foam);color:var(--deep)} .s2{background:var(--amber-soft);color:var(--amber)} .s3{background:var(--grey-soft);color:var(--ink-2)}
+.chev{transition:transform .2s;display:inline-block;margin-left:6px;color:var(--sea)}
+.axe.open .chev{transform:rotate(90deg)}
+.body{padding:0 16px 16px;display:none;flex-direction:column;gap:12px}
+.axe.open .body{display:flex}
+.body ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:15px}
+.claude{border-radius:10px;background:var(--foam);padding:10px 12px;font-size:14px}
+.claude b{color:var(--deep)}
+.voice{display:flex;gap:8px;align-items:flex-start;font-size:14px;border:1px dashed var(--sea);border-radius:10px;padding:9px 11px}
+.voice .mic{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--deep);display:grid;place-items:center}
+.voice q{font-style:italic}
+.copy{margin-left:auto;flex-shrink:0;border:0;background:none;color:var(--sea);font-size:12px;font-weight:700}
+.donebox{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
+.donebox input{width:18px;height:18px;accent-color:var(--sea)}
+.hide{display:none!important}
+
+/* Quests */
+.players{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.player{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.player .who{display:flex;align-items:center;gap:10px}
+.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:18px;color:#fff;flex-shrink:0}
+.player .lvl{font-size:12px;color:var(--ink-2)}
+.xp{height:8px;border-radius:99px;background:var(--sunk);overflow:hidden}
+.xp i{display:block;height:100%;background:var(--sea);transition:width .4s}
+.quest{display:flex;gap:8px;align-items:flex-start;font-size:14px;padding:8px;border-radius:10px;background:var(--sunk)}
+.quest input{margin-top:3px;accent-color:var(--sea)}
+.quest .xpv{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--sea);white-space:nowrap}
+.quest.ok span.q{text-decoration:line-through;color:var(--ink-2)}
+.addq{display:flex;gap:6px}
+.addq input{flex:1;min-width:0;border:1px solid var(--line);border-radius:8px;padding:7px 9px;font:inherit;font-size:14px;background:var(--surface);color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);opacity:0;background:var(--ink);color:var(--ground);
+  padding:10px 16px;border-radius:12px;font-weight:600;transition:all .3s;z-index:20;pointer-events:none}
+.toast.on{transform:translate(-50%,0);opacity:1}
+footer{padding-block:40px 50px;color:var(--ink-2);font-size:13px;text-align:center}
+
+/* Animations continues */
+@keyframes flow{to{stroke-dashoffset:-20}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes halo{0%,100%{box-shadow:0 0 0 8px var(--foam),0 0 0 8px rgba(87,141,159,.35)}50%{box-shadow:0 0 0 8px var(--foam),0 0 0 22px rgba(87,141,159,0)}}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -5px}}
+@keyframes dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(1.5)}}
+@keyframes shimmer{from{background-position:-200% 0}to{background-position:200% 0}}
+@keyframes wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes ring{0%,100%{box-shadow:0 0 0 0 rgba(199,55,47,0)}50%{box-shadow:0 0 0 6px rgba(199,55,47,.15)}}
+.hub svg line{stroke-dasharray:4 4;animation:flow 1.4s linear infinite}
+.hub svg circle.ring{transform-origin:50px 50px;animation:spin 60s linear infinite}
+.core{animation:halo 2.8s ease-out infinite}
+.node{animation:float 3.2s ease-in-out infinite;animation-delay:var(--fd,0s)}
+.node .d{animation:dot 2s ease-in-out infinite;animation-delay:var(--fd,0s)}
+.bar{position:relative}
+.bar::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);background-size:50% 100%;background-repeat:no-repeat;animation:shimmer 3s linear infinite}
+.rule{animation:ring 2.4s ease-in-out infinite}
+.pill.s0{animation:wave 2.6s ease-in-out infinite}
+.hero h1 em{background:linear-gradient(90deg,var(--deep),var(--sea),var(--deep));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 6s linear infinite}
+.avatar{animation:float 3.6s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.hub svg line,.hub svg circle.ring,.core,.node,.node .d,.bar::after,.rule,.pill.s0,.hero h1 em,.avatar{animation:none}}
+
+@media (max-width:760px){
+  .hero{grid-template-columns:1fr}
+  .grid,.players{grid-template-columns:1fr}
+  .rule{grid-template-columns:1fr;justify-items:start}
+  .node{font-size:10.5px;padding:4px 6px}
+}
+</style>
+</head>
+<body>
+
+<header class="wrap hero">
+  <div>
+    <div class="eyebrow">Servic'eau Piscines · Solution pour Piscine</div>
+    <h1>Développer l'entreprise avec <em>Claude au centre</em></h1>
+    <p class="lead">Claude relie l'agenda, les tâches, les réseaux, le site et les outils internes. On le pilote directement par notes vocales. Clique sur un axe pour l'ouvrir, coche ce qui est fait.</p>
+    <div class="meta"><span>Mis à jour le 19/10/2026</span><span>Aboud Boulberhane</span><span id="metaCount">17 axes</span></div>
+  </div>
+  <div>
+    <div class="hub" id="hub">
+      <svg viewBox="0 0 100 100" aria-hidden="true" id="hubSvg"><circle class="ring" cx="50" cy="50" r="38"></circle></svg>
+      <div class="core">Claude<small>notes vocales</small></div>
+    </div>
+    <p class="hub-hint">Les points de couleur donnent le statut de chaque axe.</p>
+  </div>
+</header>
+
+<div class="progress">
+  <div class="wrap">
+    <div class="bar" id="bar" role="img" aria-label="Avancement"></div>
+    <strong id="pct">0 %</strong>
+    <div class="chips" id="chips" role="group" aria-label="Filtrer par statut"></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <section class="block" id="regle">
+    <div class="rule">
+      <div class="clock"><svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"></circle><circle class="fg" id="arc" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="0"></circle></svg><span id="clk">2:00</span></div>
+      <div>
+        <div class="eyebrow" style="color:var(--red)">La règle d'or</div>
+        <h3>Règle des 2 minutes</h3>
+        <p><b>Toute tâche qui prend moins de 2 minutes est traitée tout de suite.</b> Elle ne va pas dans Todoist, elle ne s'accumule pas. Un mail court, un rappel client, une validation de visuel : on le fait dans la seconde.</p>
+        <div class="tri">
+          <input id="tache" placeholder="Ex. : répondre au mail de M. Martin" aria-label="Tâche à trier">
+          <button class="btn red" data-t="short">Moins de 2 min</button>
+          <button class="btn ghost" data-t="long">Plus long</button>
+        </div>
+        <p class="verdict" id="verdict" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="axes">
+    <div class="sec-head"><span class="num">17 axes</span><h2>Le plan, axe par axe</h2><p>Chaque carte donne les outils, ce que Claude y apporte et un exemple de note vocale à dicter. Ta progression est gardée sur ton appareil.</p></div>
+    <div id="parts"></div>
+  </section>
+
+  <section class="block" id="quetes">
+    <div class="sec-head"><span class="num">Plus tard</span><h2>Système de quêtes</h2><p>Des objectifs sous forme de quêtes, comme dans un jeu : chaque objectif atteint valide une quête et donne de l'XP. Pour la partie développement (Adélie, Lisa, Aboud), pas pour les chantiers. Les quêtes vivront ensuite dans un projet Todoist « Quêtes ».</p></div>
+    <div class="players" id="players"></div>
+  </section>
+</main>
+
+<footer class="wrap">Servic'eau Piscines · 2 rue des Internautes, 37210 Rochecorbon — Solution pour Piscine · 43 rue Marcel Sembat, 37000 Tours</footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const STATUS=[
+  {k:0,label:"En place",c:"var(--ok)"},
+  {k:1,label:"À appliquer",c:"var(--sea)"},
+  {k:2,label:"À mettre en place",c:"var(--amber)"},
+  {k:3,label:"Plus tard",c:"var(--ink-2)"}
+];
+const PARTS=[
+ {name:"1. Organisation : agenda, tâches, rappels",axes:[
+  {id:"agenda",t:"Agenda partagé",short:"Agenda",s:2,tools:"Extrabat, Google Agenda",
+   pts:["Synchronisation du calendrier Extrabat avec Google Agenda.","Notifications sur téléphone pour chaque rendez-vous."],
+   claude:"On dicte une note vocale et Claude l'inscrit directement dans l'agenda. Tout est lié, plus besoin d'ouvrir chaque application.",
+   voice:"Ajoute un rendez-vous jeudi 14 h chez M. Martin pour un devis liner."},
+  {id:"taches",t:"Tâches, rappels, urgences",short:"Tâches",s:1,tools:"Todoist",
+   pts:["Toutes les tâches boulot dans Todoist : un projet Servic'eau Piscines, un projet Solution pour Piscine.","4 niveaux de priorité : rouge = les plus urgentes, violet = très urgent, vert = urgent, bleu = moins urgent.","Rappels datés pour ne rien oublier."],
+   claude:"Une note vocale suffit pour créer, prioriser ou décaler une tâche.",
+   voice:"Mets en rouge la fiche produit du robot Aquaneed pour demain matin."}
+ ]},
+ {name:"2. Digital et communication",axes:[
+  {id:"liens",t:"Nos propres liens",short:"Liens GitHub",s:2,tools:"GitHub",
+   pts:["Hébergement de nos pages et liens sur GitHub, sous le nom Servic'eau.","Liens pour les campagnes de com, les pages Google, les QR codes.","Objectif : ne plus dépendre de pages ou de services tiers."],
+   claude:"Il code et met à jour les pages directement. Ce guide en fait partie.",
+   voice:"Crée une page de liens Servic'eau avec Instagram, Facebook, TikTok et le site."},
+  {id:"reseaux",t:"Réseaux Servic'eau",short:"Réseaux",s:1,tools:"TikTok, Facebook, Instagram, LinkedIn, CapCut, Canva",
+   pts:["La patte et l'univers ont été trouvés. Il reste à les appliquer et à les régler.","Développement des bulles Instagram.","CapCut : montage des vidéos. Canva : visuels de l'entreprise en général.","Comptes : réseaux et CapCut au nom de l'entreprise. Canva et Claude pas encore."],
+   claude:"Légendes, descriptions, planning de publication. Sur Canva, il décline les visuels à la charte en plusieurs formats d'un coup (post, story, bannière).",
+   voice:"Écris la légende du chantier PVC armé de Montlouis, avant/après."},
+  {id:"spp-reseaux",t:"Réseaux Solution pour Piscine",short:"Réseaux SPP",s:2,tools:"YouTube, Facebook, Instagram, TikTok",
+   pts:["Création d'une chaîne YouTube et de comptes Facebook, Instagram et TikTok."],
+   claude:"Contenus et descriptions des publications.",
+   voice:"Propose 5 idées de vidéos courtes sur l'hivernage."},
+  {id:"site",t:"Site e-commerce",short:"Site",s:0,tools:"WooCommerce, Bricks",
+   pts:["Site sous WooCommerce.","Bricks permet de coder et de construire les pages."],
+   claude:"Claude est l'IA générative du site : fiches produit, descriptions, SEO, articles de blog.",
+   voice:"Fais la fiche produit simple des pastilles pH moins."},
+  {id:"avis",t:"Avis clients",short:"Avis",s:2,tools:"Google Business Profile",
+   pts:["Demande d'avis automatique après chaque commande sur le site."],
+   claude:"Rédaction des réponses aux avis.",
+   voice:"Réponds à l'avis 5 étoiles de Julie sur la rénovation."},
+  {id:"seo",t:"Mesure et SEO du site",short:"SEO",s:2,tools:"Google Analytics, Search Console",
+   pts:["Savoir d'où viennent les visiteurs et les commandes, grâce à des liens suivis depuis nos pages GitHub."],
+   claude:"Analyse des chiffres et pistes d'amélioration.",
+   voice:"Quelles pages ont le plus de visites ce mois-ci ?"},
+  {id:"pub",t:"Publicité en ligne",short:"Pub",s:2,tools:"Google Ads, Meta Ads",
+   pts:["Pour l'instant : gérée par l'entreprise Link.","Ensuite : reprise en interne avec Claude, Emeric et Aboud."],
+   claude:"Reprise et suivi des campagnes avec Emeric et Aboud.",
+   voice:"Prépare une annonce Google Ads pour les cubes robots."},
+  {id:"mail",t:"Emailing et newsletter",short:"Emailing",s:2,tools:"Brevo",
+   pts:["Relances saisonnières (remise en route, hivernage) et paniers abandonnés."],
+   claude:"Rédaction des mails.",
+   voice:"Écris le mail de relance remise en route pour mars."},
+  {id:"campagnes",t:"Calendrier de campagnes",short:"Campagnes",s:3,tools:"À définir",
+   pts:["À mettre en place quand ce sera bien structuré et que le site sera bien lancé.","Il fixera quand lancer chaque campagne de l'année."],
+   claude:"Planning annuel des campagnes.",
+   voice:"Fais le calendrier des campagnes 2027."}
+ ]},
+ {name:"3. Fonctionnement interne",axes:[
+  {id:"banque",t:"Banque photos et vidéos",short:"Photos",s:2,tools:"Google Drive",
+   pts:["Toutes les photos et vidéos avant/après classées par type de réalisation, pour alimenter les réseaux et le site."],
+   claude:null,voice:null},
+  {id:"procedures",t:"Procédures et formation",short:"Procédures",s:2,tools:"Google Drive",
+   pts:["Procédures écrites et vidéos explicatives, par Aboud, Emeric et Kevin.","Exemples : poser un revêtement armé, faire une facture, passer une commande sur Solution pour Piscine, trouver des clients, ajouter un produit sur le site."],
+   claude:"Rédaction et mise en forme des procédures.",
+   voice:"Rédige la procédure pour ajouter un produit sur le site."},
+  {id:"stockage",t:"Stockage",short:"Stockage",s:0,tools:"Cloud Insta360, cloud Servic'eau, Google Drive",
+   pts:["Cloud Insta360 pour les images de la caméra.","Cloud Servic'eau.","Google Drive."],claude:null,voice:null},
+  {id:"whatsapp",t:"Communication interne",short:"WhatsApp",s:0,tools:"WhatsApp",
+   pts:["Un seul canal pour l'équipe."],claude:null,voice:null},
+  {id:"mdp",t:"Mots de passe en commun",short:"Mots de passe",s:2,tools:"Bitwarden",
+   pts:["Mettre les mots de passe en commun de façon sécurisée, pour que chacun accède aux outils dont il a besoin."],claude:null,voice:null},
+  {id:"quetes-axe",t:"Système de quêtes",short:"Quêtes",s:3,tools:"Todoist (projet « Quêtes »)",
+   pts:["Objectifs sous forme de quêtes pour la partie développement. Voir la section Quêtes plus bas."],
+   claude:"Propose et suit les quêtes.",voice:"Donne une nouvelle quête à Lisa pour cette semaine."}
+ ]}
+];
+const ALL=PARTS.flatMap(p=>p.axes);
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let done=store.get("sv-done",{});
+let filter="all";
+const $=s=>document.querySelector(s);
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const mic='<span class="mic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>';
+
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>el.classList.remove("on"),1800)}
+
+/* Hub */
+(function(){
+  const hub=$("#hub"),svg=$("#hubSvg"),n=ALL.length;
+  ALL.forEach((a,i)=>{
+    const ang=-Math.PI/2+i*2*Math.PI/n, r=38, x=50+r*Math.cos(ang), y=50+r*Math.sin(ang);
+    const ln=document.createElementNS("http://www.w3.org/2000/svg","line");
+    ln.setAttribute("x1",50);ln.setAttribute("y1",50);ln.setAttribute("x2",x);ln.setAttribute("y2",y);svg.insertBefore(ln,svg.firstChild);
+    const b=document.createElement("button");b.className="node";b.style.left=x+"%";b.style.top=y+"%";b.id="node-"+a.id;b.style.setProperty("--fd",(-i*0.37).toFixed(2)+"s");
+    b.innerHTML='<span class="d" style="background:'+STATUS[a.s].c+'"></span>'+esc(a.short);
+    b.addEventListener("click",()=>openAxe(a.id));hub.appendChild(b);
+  });
+})();
+
+/* Axes */
+function renderAxes(){
+  $("#parts").innerHTML=PARTS.map(p=>'<div class="part"><h3 class="p">'+esc(p.name)+'</h3><div class="grid">'+p.axes.map(a=>{
+    const d=!!done[a.id];
+    return '<article class="axe'+(d?" done":"")+'" id="axe-'+a.id+'" data-s="'+a.s+'">'+
+      '<button class="head" aria-expanded="false"><span class="t">'+esc(a.t)+'<span class="chev">›</span></span><span class="pill s'+a.s+'">'+STATUS[a.s].label+'</span><span class="tools">'+esc(a.tools)+'</span></button>'+
+      '<div class="body"><ul>'+a.pts.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>'+
+      (a.claude?'<div class="claude"><b>Avec Claude :</b> '+esc(a.claude)+'</div>':'')+
+      (a.voice?'<div class="voice">'+mic+'<q>'+esc(a.voice)+'</q><button class="copy" data-v="'+esc(a.voice)+'">Copier</button></div>':'')+
+      '<label class="donebox"><input type="checkbox" id="done-'+a.id+'" '+(d?"checked":"")+'> Fait de mon côté</label></div></article>'}).join("")+'</div></div>').join("");
+  applyFilter();
+}
+function openAxe(id){
+  if(filter!=="all"){filter="all";renderChips();applyFilter()}
+  const el=$("#axe-"+id);el.classList.add("open");el.querySelector(".head").setAttribute("aria-expanded","true");
+  el.scrollIntoView({block:"center"});el.classList.add("flash");setTimeout(()=>el.classList.remove("flash"),1400);
+}
+$("#parts").addEventListener("click",e=>{
+  const h=e.target.closest(".head");
+  if(h){const a=h.parentElement;a.classList.toggle("open");h.setAttribute("aria-expanded",a.classList.contains("open"));return}
+  const c=e.target.closest(".copy");
+  if(c){const v=c.dataset.v;navigator.clipboard.writeText(v).then(()=>toast("Note vocale copiée")).catch(()=>{const r=document.createRange();r.selectNodeContents(c.previousElementSibling);const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Texte sélectionné")})}
+});
+$("#parts").addEventListener("change",e=>{
+  if(!e.target.id.startsWith("done-"))return;
+  const id=e.target.id.slice(5);done[id]=e.target.checked;store.set("sv-done",done);
+  $("#axe-"+id).classList.toggle("done",e.target.checked);updateProgress();
+  if(e.target.checked)toast("Axe validé ✓");
+});
+
+/* Filtres + progression */
+function renderChips(){
+  const opts=[{k:"all",label:"Tous",n:ALL.length}].concat(STATUS.map(s=>({k:String(s.k),label:s.label,n:ALL.filter(a=>a.s===s.k).length})));
+  $("#chips").innerHTML=opts.map(o=>'<button class="chip" data-f="'+o.k+'" aria-pressed="'+(filter===o.k)+'">'+o.label+'<span class="n">'+o.n+'</span></button>').join("");
+}
+$("#chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;filter=b.dataset.f;renderChips();applyFilter()});
+function applyFilter(){
+  document.querySelectorAll(".axe").forEach(a=>a.classList.toggle("hide",filter!=="all"&&a.dataset.s!==filter));
+  document.querySelectorAll(".part").forEach(p=>p.classList.toggle("hide",!p.querySelector(".axe:not(.hide)")));
+}
+function updateProgress(){
+  const n=ALL.length;
+  const seg=STATUS.map(s=>{const k=ALL.filter(a=>a.s===s.k||(done[a.id]&&s.k===0));return 0});
+  const doneN=ALL.filter(a=>a.s===0||done[a.id]).length;
+  const rest=STATUS.slice(1).map(s=>ALL.filter(a=>a.s===s.k&&!done[a.id]).length);
+  const parts=[{n:doneN,c:STATUS[0].c}].concat(rest.map((v,i)=>({n:v,c:STATUS[i+1].c})));
+  $("#bar").innerHTML=parts.map(p=>'<i style="width:'+(p.n/n*100)+'%;background:'+p.c+';opacity:'+(p.c===STATUS[0].c?1:.35)+'"></i>').join("");
+  $("#pct").textContent=Math.round(doneN/n*100)+" % en place";
+}
+
+/* Règle 2 min */
+let timer=null;
+document.querySelectorAll("[data-t]").forEach(b=>b.addEventListener("click",()=>{
+  const t=$("#tache").value.trim()||"Cette tâche";
+  if(b.dataset.t==="short"){$("#verdict").textContent="➜ « "+t+" » : on la fait tout de suite. Le chrono est lancé.";startClock()}
+  else{$("#verdict").textContent="➜ « "+t+" » : direction Todoist, avec une couleur de priorité.";stopClock()}
+}));
+function startClock(){
+  stopClock();let s=120;const arc=$("#arc"),L=326.7;
+  const tick=()=>{$("#clk").textContent=Math.floor(s/60)+":"+String(s%60).padStart(2,"0");arc.style.strokeDashoffset=L*(1-s/120);
+    if(s<=0){stopClock();toast("2 minutes écoulées");return}s--};
+  tick();timer=setInterval(tick,1000);
+}
+function stopClock(){clearInterval(timer);timer=null;$("#clk").textContent="2:00";$("#arc").style.strokeDashoffset=0}
+
+/* Quêtes */
+const PLAYERS=[
+ {id:"aboud",name:"Aboud",col:"#1f5872",role:"Com & développement commercial",q:[{t:"Redémarrer les réseaux de la maison",xp:50},{t:"Mettre en ligne la page de liens sur GitHub",xp:40}]},
+ {id:"lisa",name:"Lisa",col:"#578d9f",role:"Réseaux sociaux",q:[{t:"Mettre en place les bulles Instagram",xp:50},{t:"Tenir le planning de stories une semaine",xp:30}]},
+ {id:"adelie",name:"Adélie",col:"#3b7b6a",role:"Gestion PME",q:[{t:"Rédiger une procédure (faire une facture)",xp:40},{t:"Refaire les visuels de la façade",xp:50}]}
+];
+let qs=store.get("sv-quests",null)||PLAYERS.reduce((o,p)=>(o[p.id]=p.q.map(x=>({...x,ok:false})),o),{});
+function renderPlayers(){
+  $("#players").innerHTML=PLAYERS.map(p=>{
+    const list=qs[p.id]||[], xp=list.filter(q=>q.ok).reduce((s,q)=>s+q.xp,0), lvl=1+Math.floor(xp/100), into=xp%100;
+    return '<div class="player"><div class="who"><span class="avatar" style="background:'+p.col+'">'+p.name[0]+'</span><div><b>'+p.name+'</b><div class="lvl">'+p.role+'</div></div></div>'+
+    '<div class="lvl">Niveau '+lvl+' · <span style="font-family:var(--mono)">'+xp+' XP</span></div><div class="xp"><i style="width:'+into+'%"></i></div>'+
+    list.map((q,i)=>'<label class="quest'+(q.ok?" ok":"")+'"><input type="checkbox" data-p="'+p.id+'" data-i="'+i+'" '+(q.ok?"checked":"")+'><span class="q">'+esc(q.t)+'</span><span class="xpv">+'+q.xp+' XP</span></label>').join("")+
+    '<form class="addq" data-p="'+p.id+'"><input id="add-'+p.id+'" placeholder="Nouvelle quête" aria-label="Nouvelle quête pour '+p.name+'"><button class="btn" type="submit">+</button></form></div>'}).join("");
+}
+$("#players").addEventListener("change",e=>{const c=e.target;if(!c.dataset.p)return;const q=qs[c.dataset.p][+c.dataset.i];q.ok=c.checked;store.set("sv-quests",qs);renderPlayers();if(c.checked)toast("Quête validée : +"+q.xp+" XP")});
+$("#players").addEventListener("submit",e=>{e.preventDefault();const f=e.target,inp=f.querySelector("input"),t=inp.value.trim();if(!t)return;qs[f.dataset.p].push({t,xp:30,ok:false});store.set("sv-quests",qs);renderPlayers();toast("Quête ajoutée")});
+
+renderChips();renderAxes();updateProgress();renderPlayers();
+</script>
+</body>
+</html>
