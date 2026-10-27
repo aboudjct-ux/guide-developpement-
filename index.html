@@ -1,3 +1,4 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Servic'eau × Claude</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
@@ -128,6 +129,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .tab-t{font-weight:700;min-width:0}
 .marks{display:flex;gap:3px}
 .m{width:10px;height:10px;border-radius:3px;display:block}.m.sv{background:var(--sv)}.m.sp{background:var(--sp)}
+.tag.todo{background:#d9a72e;color:#2a1d00;margin:0;animation:pulse 1.8s ease-in-out infinite}
 .tab-p{font-family:var(--mono);font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums}
 .stamp{position:absolute;right:12px;top:50%;transform:translateY(-50%) scale(0) rotate(-12deg);background:var(--ok);color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:6px;pointer-events:none}
 .tab.complete{border-color:var(--ok);background:var(--ok-soft)}
@@ -184,6 +186,40 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .quest.ok .q{text-decoration:line-through;color:var(--ink-2)}
 .addq{display:flex;gap:6px}
 .addq input{flex:1;min-width:0;border:1px solid var(--line);border-radius:8px;padding:7px 9px;font:inherit;font-size:14px;background:var(--surface);color:var(--ink)}
+
+/* Encadrés d'info en haut */
+.notes{display:grid;gap:12px;padding-top:20px}
+.vio{position:relative;border-radius:16px;border:2px solid #7a4fc9;background:#f1eafc;color:#2b1655;padding:16px 16px 16px 64px;animation:vioGlow 2.4s ease-in-out infinite}
+.vio .finger{position:absolute;left:14px;top:14px;font-size:34px;line-height:1;animation:poke 1.1s ease-in-out infinite}
+.vio h3{font-size:20px;color:#5a2fa8}
+.vio p{margin-top:6px;font-size:15px}
+.ylw{border-radius:16px;border:2px solid #d9a72e;background:#fff6dc;color:#4a3500;padding:14px 16px;display:flex;gap:12px;align-items:flex-start}
+.ylw b{font-size:15px}.ylw p{font-size:14.5px;margin-top:2px}
+.ylw .sq{flex-shrink:0;width:22px;height:22px;border-radius:6px;border:3px solid #d9a72e;background:#fff0b8;margin-top:2px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .vio{background:#211437;color:#e9ddff}:root:not([data-theme="light"]) .vio h3{color:#c3a5ff}:root:not([data-theme="light"]) .ylw{background:#2e2408;color:#f6e3a6}}
+:root[data-theme="dark"] .vio{background:#211437;color:#e9ddff}:root[data-theme="dark"] .vio h3{color:#c3a5ff}:root[data-theme="dark"] .ylw{background:#2e2408;color:#f6e3a6}
+/* Tâches spéciales */
+.task.yel{border:2px solid #d9a72e;background:#fff6dc}
+.task.prep{border:2px dashed #d9a72e;background:#fff6dc}
+.task.soon{border:2px dashed #e07a2f;background:#fdeee2}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .task.yel,:root:not([data-theme="light"]) .task.prep{background:#2e2408}:root:not([data-theme="light"]) .task.soon{background:#33200f}}
+:root[data-theme="dark"] .task.yel,:root[data-theme="dark"] .task.prep{background:#2e2408}:root[data-theme="dark"] .task.soon{background:#33200f}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:99px;margin-top:6px}
+.tag.y{background:#d9a72e;color:#2a1d00}.tag.o{background:#e07a2f;color:#fff}
+.alert{margin-top:8px;font-weight:700;font-size:14px;color:#9a6a00;display:flex;gap:6px;align-items:center}
+.alert::before{content:"⚠";font-size:16px;animation:pulse 1.4s ease-in-out infinite}
+.tnote{margin-top:6px;font-size:13.5px;color:var(--ink-2)}
+.task.yel .tnote,.task.prep .tnote{color:inherit;font-weight:600}
+.cl label.yl{background:#ffe9a8;color:#4a3500;border-radius:5px;padding:1px 6px;outline:2px solid #d9a72e}
+.soonl{margin:8px 0 0;padding-left:18px;font-size:14px}
+.tab.open .tab-b.hb{display:grid;grid-template-columns:1fr 1fr minmax(180px,.7fr);align-items:stretch}
+.bridge{border-radius:12px;border:2px solid var(--ok);background:var(--ok-soft);padding:14px;display:flex;flex-direction:column;gap:8px;justify-content:center}
+.bridge .arr{font-size:26px;color:var(--ok);font-weight:700;animation:float 2.6s ease-in-out infinite}
+.bridge b{color:var(--ok);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.bridge p{font-size:14.5px;font-weight:600}
+@keyframes poke{0%,100%{transform:translateX(0)}50%{transform:translateX(9px)}}
+@keyframes vioGlow{0%,100%{box-shadow:0 0 0 0 rgba(122,79,201,0)}50%{box-shadow:0 0 0 8px rgba(122,79,201,.18)}}
+@media (max-width:820px){.tab.open .tab-b.hb{grid-template-columns:1fr}}
 
 footer{padding-block:40px 60px;color:var(--ink-2);font-size:13px;text-align:center}
 
@@ -248,14 +284,12 @@ footer{padding-block:40px 60px;color:var(--ink-2);font-size:13px;text-align:cent
 </div>
 
 <main class="wrap">
+  <section class="notes" aria-label="À lire">
+    <div class="vio" role="note"><span class="finger" aria-hidden="true">👉</span><h3>À lire avant tout</h3><p>Certaines choses ont déjà été mises en place, surtout pour Servic'eau Piscines. Elles sont déjà cochées ici pour montrer qu'on a déjà pas mal progressé. On n'a pas tout mis, sinon ce serait trop long : seulement les bases importantes, comme l'identité visuelle de l'entreprise, pour ne pas revenir dessus.</p></div>
+    <div class="ylw" role="note"><span class="sq" aria-hidden="true"></span><div><b>Encadré jaune = à reprendre par les autres</b><p>Tout ce qui est en jaune est à approfondir ou en préparation : Kevin, Adèle et l'équipe reprennent ces points.</p></div></div>
+  </section>
   <section class="prios" id="prio" aria-label="Priorités"></section>
   <div id="themes"></div>
-  <section class="qsec" id="quetes">
-    <div class="eyebrow">Bonus</div>
-    <h2>Système de quêtes</h2>
-    <p>Des objectifs de développement sous forme de quêtes, comme dans un jeu. Pour Aboud, Lisa et Adèle, pas pour les chantiers.</p>
-    <div class="players" id="players"></div>
-  </section>
 </main>
 
 <footer class="wrap">Servic'eau Piscines · 2 rue des Internautes, 37210 Rochecorbon — Solution pour Piscine · 43 rue Marcel Sembat, 37000 Tours<br>Ta progression est gardée sur ton appareil.</footer>
@@ -263,51 +297,47 @@ footer{padding-block:40px 60px;color:var(--ink-2);font-size:13px;text-align:cent
 <div class="mega" id="mega" hidden><canvas id="confetti"></canvas><div class="mt"><h2>Tout est validé</h2><p>L'entreprise est structurée de A à Z. Touchez pour fermer.</p></div></div>
 <script>
 /* Données du guide. Tâche = [titre, personnes (K Kevin, A Adèle, B Aboud, L Lisa, E Emeric), [cases]] ou objet {t,w,c,people,sw} */
-const PEOPLE={K:{n:"Kevin",c:"#1f3f6e"},A:{n:"Adèle",c:"#3b7b6a"},B:{n:"Aboud",c:"#1f5872"},L:{n:"Lisa",c:"#8a5a9e"},E:{n:"Emeric",c:"#9a6a2c"}};
+const PEOPLE={K:{n:"Kevin",c:"#1f3f6e"},A:{n:"Adèle",c:"#3b7b6a"},B:{n:"Aboud",c:"#1f5872"},L:{n:"Lisa",c:"#8a5a9e"},E:{n:"Emeric",c:"#9a6a2c"},M:{n:"Mathieu",c:"#5b6b7a"},P:{n:"Paul",c:"#6b5b7a"},F:{n:"Franck",c:"#7a6b5b"}};
 const FORM=["K","A","B","L"];
 const PROC=["Procédure rédigée","Vidéo explicative tournée","Relue et validée par Kevin","Rangée dans le Drive","Formation donnée à l'équipe"];
 
 const THEMES=[
-/* ───────────── T1 ───────────── */
+/* ───────────── T1 ─────────────
+   Clés de tâche : y = encadré jaune (à reprendre par les autres), prep = en préparation, soon = bientôt,
+   done = déjà fait (true ou liste d'index), note = petite ligne. Case qui commence par « ! » = case jaune. */
 {id:"struct",t:"Structuration d'entreprise",short:"Structuration",who:"AKB",
  desc:"Tout ce qui organise l'entreprise au quotidien. Porté par Adèle, Kevin et Aboud.",
  tabs:[
- {t:"Coordonnées de l'entreprise",
-  sv:[["Fiche d'identité Servic'eau Piscines","AK",["Adresse vérifiée : 2 rue des Internautes, 37210 Rochecorbon","SIRET et n° de TVA notés","Horaires d'ouverture fixés","Téléphone et mail de contact à jour","Mêmes coordonnées partout : site, Google, devis, factures"]]],
-  sp:[["Fiche d'identité Solution pour Piscine","B",["Adresse vérifiée : 43 rue Marcel Sembat, 37000 Tours","SIRET et n° de TVA notés","Mail et téléphone du service client","Mêmes coordonnées sur le site, les CGV et les factures"]]],
-  all:[["Annuaire interne","AK",["Numéros de toute l'équipe","Contacts fournisseurs (SCP, Fluidra)","Expert-comptable, banque, assurance","Annuaire rangé dans le Drive et partagé"]]]},
  {t:"Planning de la structuration",
-  all:[["Calendrier de mise en place","AKB",["Thèmes classés par priorité","Date cible fixée pour chaque thème","Responsable désigné pour chaque thème","Point d'avancement une fois par mois","Ce guide mis à jour après chaque point"]],
-       ["Ordre de passage","AKB",["1. Organisation : agenda, tâches, mails","2. Administratif : devis, factures, relances","3. Outils : Extrabat, Bitwarden, Drive","4. Commercial et communication"]]]},
+  sv:[["Ordre de passage Servic'eau","AKBL",["1. Administratif : devis, factures, relances","2. Prise en main des réseaux sociaux par Lisa","3. Organisation : agenda, tâches, mails","4. Installation d'Extrabat, etc."]]],
+  sp:[["Ordre de passage Solution","B",["1. Utiliser les derniers mois avec Link","2. Prendre la main sur la communication","3. Restructuration complète du site internet"]]]},
  {t:"Mise en place du calendrier",
-  sv:[["Agenda Servic'eau","AK",["Extrabat synchronisé avec Google Agenda","Un calendrier par équipe","Une couleur par type d'intervention","Notifications sur téléphone","Accès donné à chaque technicien"]]],
-  sp:[["Agenda Solution pour Piscine","B",["Calendrier des campagnes","Dates d'arrivage fournisseur","Rappels d'envoi des newsletters"]]]},
+  sv:[{t:"Calendrier Servic'eau",w:"KAB",note:"Programmation en fonction de tous les thèmes, personnels et professionnels.",c:["Calendrier professionnel de Kevin","Calendrier personnel de Kevin","Calendrier événementiel de Kevin","Connexion avec Extrabat","Claude au milieu de tout ça pour tout relier"]}]},
  {t:"Mise en place de la to-do list",
-  sv:[["Projet Todoist Servic'eau","AKB",["Projet créé","Sections : Chantiers, Administratif, Communication","4 priorités appliquées : rouge, violet, vert, bleu","Chaque membre invité","Tâches récurrentes créées"]]],
-  sp:[["Projet Todoist Solution","B",["Projet créé","Sections : Fiches produit, Pub, SAV, Site","Rappels datés","Tâches récurrentes créées"]]]},
+  sv:[{t:"À voir : appliquer à Servic'eau après la mise en place du calendrier",w:"KA",y:1,alert:"Pour l'instant, non",c:[]}],
+  sp:[["Projet Todoist Solution","B",["Projet créé","Sections : Fiches produit, Pub, SAV, Site","Tâches de 2 minutes","Rappels datés","Tâches récurrentes"]]]},
  {t:"Gestion des mails",
-  sv:[["Boîte mail Servic'eau","A",["Libellés : Devis, Factures, Fournisseurs, Clients, Administratif","Réponses types enregistrées","Signature à jour","Tri tous les matins","Boîte vide le soir"]]],
-  sp:[["Boîte mail Solution","B",["Libellés : Commandes, SAV, Retours, Fournisseurs","Réponses types SAV enregistrées","Signature à jour","Réponse sous 24 h","Tri tous les matins"]]]},
+  sv:[{t:"Boîte mail Servic'eau",w:"KA",y:1,note:"À approfondir par Kevin et Adèle : ce qu'on peut mettre en place dessus.",c:["Redirection des mails Servic'eau Piscines"]}],
+  sp:[["Boîte mail Solution","B",["Libellés : Commandes, SAV, Retours, Fournisseurs","Transfert des factures vers le mail facturation","Signature à jour","Réponse sous 24 h","Tri tous les matins","Règle des 2 minutes"]]]},
  {t:"Organigramme et rôles",
   all:[["Organigramme","AK",["Organigramme dessiné","Kevin : dirigeant","Rôle de chacun écrit en une phrase","Qui remplace qui en cas d'absence","Organigramme partagé à l'équipe"]]]},
  {t:"Missions de chacun",
   all:[["Fiches de mission","AK",["Kevin","Adèle","Aboud","Lisa","Emeric","Techniciens : Franck, Mathieu, Paul"]]]},
  {t:"Règle des 2 minutes",
-  all:[["Appliquer la règle","AKBL",["Expliquée à toute l'équipe","Appliquée aux mails","Appliquée aux appels et messages","Appliquée aux validations de visuels","Bilan après un mois"]]]},
- {t:"Point d'équipe hebdo",
-  all:[["Rituel du point","AKB",["Jour et heure fixés","Ordre du jour type","Compte rendu rangé dans le Drive","Actions créées dans Todoist"]]]},
+  all:[{t:"Appliquer la règle",w:"AKBL",done:[0,1],c:["Expliquer à toute l'équipe","Appliquer aux mails","Appliquer aux appels et messages","Appliquer à la validation des visuels","Appliquer aux petites tâches rapides","Bilan après un mois"]}]},
+ {t:"Point d'équipe du matin",
+  all:[["Compte rendu","AKB",["Compte rendu tous les jours, le matin","Compte rendu sur Extrabat","!Essayer de voir si on peut les ranger dans le Drive"]]]},
  {t:"Communication interne",
   all:[["WhatsApp, canal unique","AK",["Groupe équipe","Groupe chantiers","Groupe développement : Kevin, Adèle, Aboud, Lisa","Règles d'usage écrites"]]]},
  {t:"Arborescence Google Drive",
-  sv:[["Drive Servic'eau","AK",["Dossiers : Clients, Chantiers, Devis, Factures, Fournisseurs, Procédures","Règle de nommage des fichiers","Droits d'accès par personne"]]],
-  sp:[["Drive Solution","B",["Dossiers : Produits, Visuels, Pub, Commandes, Fournisseurs","Règle de nommage des fichiers","Droits d'accès par personne"]]]},
+  bridge:"Faire une vraie base de données commune Servic'eau + Solution, pour l'ensemble de l'arborescence de l'entreprise.",
+  sv:[["Drive Servic'eau","AKBL",["Dossiers : Clients, Chantiers, Devis, Factures, Fournisseurs, Procédures","Règle de nommage des fichiers","Droits d'accès par personne","Mettre en commun les photos","Mettre en commun les montages de Lisa","Mettre en commun les montages d'Aboud","Mettre en commun les photos de chantier","Mettre en commun les formations"]]],
+  sp:[["Drive Solution","B",["Dossiers : Produits, Visuels, Pub, Commandes, Fournisseurs","Règle de nommage des fichiers","Droits d'accès par personne","Formations"]]]},
  {t:"Mots de passe Bitwarden",
-  all:[["Coffre partagé","AKB",["Compte organisation créé","Collection Servic'eau","Collection Solution pour Piscine","Tous les accès importés","Double authentification activée","Anciens mots de passe faibles changés"]]]},
- {t:"Stockage photos et vidéos",
-  sv:[["Banque Servic'eau","KBL",["Cloud Insta360 rangé","Avant/après classés par type de réalisation","Un dossier par chantier","Photos sélectionnées pour les réseaux"]]],
-  sp:[["Banque Solution","B",["Photos produits classées par catégorie","Vidéos réseaux rangées","Visuels de campagne archivés"]]]},
- {t:"Système de quêtes",
-  all:[["Quêtes de l'équipe dev","AKBL",["Projet Todoist « Quêtes » créé","Premières quêtes par personne","Barème d'XP fixé","Bilan mensuel des quêtes"]]]},
+  all:[["Coffre partagé","AKB",["Kevin gère l'accès à tous les mots de passe","Compte organisation créé","Collection Servic'eau","Collection Solution pour Piscine","Tous les accès importés","Double authentification activée","Anciens mots de passe faibles changés"]]]},
+ {t:"Stockage photos et vidéos (Google Drive)",
+  sv:[["Banque Servic'eau sur Google Drive","KBL",["Tout stocké sur Google Drive","Avant/après classés par type de réalisation dans le Google Drive","Un dossier par chantier dans le Google Drive","Photos sélectionnées pour les réseaux"]]],
+  sp:[["Banque Solution sur Google Drive","B",["Photos produits classées par catégorie dans le Google Drive","Vidéos réseaux rangées dans le Google Drive","Visuels de campagne archivés dans le Google Drive"]]]},
  {t:"Archivage des documents",
   all:[["Conservation","AK",["Durées de conservation notées (factures : 10 ans)","Archive annuelle créée","Sauvegarde externe en place"]]]}
  ]},
@@ -321,67 +351,61 @@ const THEMES=[
       ["Devis rénovation (liner, PVC armé)","KA",["Méthode expliquée","Calcul des surfaces compris","Devis test réalisé","Validé par Kevin"]],
       ["Devis entretien","KA",["Forfaits compris","Devis test réalisé","Validé par Kevin"]],
       ["Devis dépannage","KA",["Déplacement et main-d'œuvre compris","Devis test réalisé","Validé par Kevin"]]],
-  sp:[["Devis professionnels et grosses commandes","KA",["Remises pro comprises","Devis test réalisé","Validé par Kevin"]]]},
+  sp:[["Devis professionnels et grosses commandes","KB",["Remise pro comprise","Devis test réalisé","Validé par Kevin"]]]},
  {t:"Apprentissage des factures",
   sv:[["Facture depuis un devis","KA",["Convertir un devis en facture","Mentions obligatoires vérifiées","Numérotation respectée","Envoi au client"]],
-      ["Facture d'acompte et de situation","KA",["Facture d'acompte","Facture de situation","Facture de solde"]]],
-  sp:[["Factures des commandes du site","KA",["Facture automatique WooCommerce vérifiée","Mentions obligatoires vérifiées","Coordonnées bancaires de Solution"]]]},
+      ["Facture d'acompte et de situation","KA",["Facture d'acompte","Facture de situation","Facture de solde"]]]},
  {t:"Apprentissage des relances",
-  sv:[["Relance devis non signé","KA",["Relance à J+7","Relance à J+15","Dernière relance à J+30","Modèles de mail et de SMS écrits"]],
-      ["Relance facture impayée","KA",["Rappel à l'échéance","Relance à J+8","Relance ferme à J+15","Mise en demeure"]]],
-  sp:[["Relance commandes non payées","KA",["Commandes par virement en attente suivies","Mail de rappel à J+3","Annulation à J+10"]]]},
- {t:"Acomptes et échéanciers",
-  sv:[["Règles d'acompte","KA",["Pourcentage d'acompte par type de chantier","Échéancier type écrit","Suivi des encaissements"]]]},
+  sv:[{t:"Relances devis (Kevin)",w:"KA",note:"Les relances sont faites par Kevin. Apprentissage d'Adèle à valider.",c:["Relance à J+7","Relance à J+15","Dernière relance à J+30","Modèles de mail et de SMS écrits","Apprentissage acquis par Adèle"]},
+      ["Relance facture impayée","K",["Rappel à l'échéance","Relance à J+8","Relance ferme à J+15","Mise en demeure"]]]},
+ {t:"Acomptes et échéanciers",sv:[{t:"À compléter par Kevin",w:"K",y:1,c:[]}]},
  {t:"Avoirs",
   sv:[["Faire un avoir","KA",["Cas d'usage listés","Avoir test réalisé"]]],
-  sp:[["Avoirs e-commerce","KA",["Avoir après retour produit","Remboursement partiel"]]]},
+  sp:[["Avoirs e-commerce","KB",["Avoir après retour produit","Remboursement partiel"]]]},
  {t:"Modèles de devis par prestation",
-  sv:[["Bibliothèque de modèles","KA",["Construction","Rénovation liner","Rénovation PVC armé","Entretien annuel","Ouverture et hivernage","Dépannage"]]]},
- {t:"Grille tarifaire",
-  sv:[["Tarifs Servic'eau","KA",["Taux horaire","Frais de déplacement par zone","Forfaits ouverture et hivernage","Grille révisée chaque année"]]],
-  sp:[["Prix Solution","KA",["Règle de marge par catégorie","Prix de vente vérifiés face à la concurrence"]]]},
- {t:"Suivi des impayés",
-  sv:[["Tableau des impayés","KA",["Tableau créé","Mis à jour chaque semaine","Point mensuel avec Kevin"]]]},
- {t:"Contrats d'entretien annuels",
-  sv:[["Contrats","KA",["Modèle de contrat écrit","Liste des clients sous contrat","Dates de renouvellement suivies","Facturation récurrente en place"]]]},
- {t:"Conditions générales de vente",
-  sv:[["CGV prestations","KA",["CGV rédigées","Jointes à chaque devis"]]],
-  sp:[["CGV vente en ligne","KA",["CGV relues","En ligne sur le site","Acceptées à la commande"]]]},
+  sv:[["Bibliothèque de modèles","KA",["Construction","Rénovation liner","Rénovation PVC armé","Entretien annuel","Mise en service et hivernage","Dépannage"]]]},
+ {t:"Grille tarifaire",sv:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}],sp:[["Prix Solution","KB",["Règle de marge par catégorie","Prix de vente vérifiés face à la concurrence"]]]},
+ {t:"Suivi des impayés",sv:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}]},
+ {t:"Contrats d'entretien annuels",sv:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}]},
+ {t:"Conditions générales de vente",sp:[{t:"CGV vente en ligne",w:"KB",done:true,c:["CGV relues","En ligne sur le site","Acceptées à la commande"]}]},
  {t:"Factures fournisseurs",
-  sv:[["Fournisseurs Servic'eau","KA",["Factures SCP rangées","Factures Fluidra rangées","Rapprochement avec les commandes"]]],
-  sp:[["Fournisseur Solution","KA",["Factures SCP rangées","Rapprochement avec les commandes du site"]]]},
- {t:"Pièces pour l'expert-comptable",
-  all:[["Envoi mensuel","KA",["Liste des pièces attendues","Dossier mensuel dans le Drive","Envoi à date fixe"]]]},
- {t:"Facture électronique",
-  all:[["Réforme 2026-2027","KA",["Réception des factures électroniques possible (obligatoire depuis septembre 2026)","Plateforme agréée choisie","Émission prête pour septembre 2027"]]]},
- {t:"Notes de frais",
-  all:[["Frais","KA",["Règle de remboursement écrite","Justificatifs photographiés","Saisie mensuelle"]]]}
+  sv:[{t:"Fournisseurs Servic'eau",w:"K",y:1,note:"À approfondir par Kevin.",c:["Factures SCP rangées","Factures Fluidra rangées","Rapprochement avec les commandes"]}],
+  sp:[["Fournisseur Solution","KB",["Factures SCP rangées","Rapprochement avec les commandes du site"]]]},
+ {t:"Pièces pour l'expert-comptable",all:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}]},
+ {t:"Factures et devis",
+  sv:[["Envoi Servic'eau","K",["Factures papier envoyées par lettre","Devis présentés par Kevin en main propre","Plateforme pour faire automatiquement les factures et devis"]]],
+  sp:[["Factures Solution","B",["Factures rédigées par Aboud"]]]},
+ {t:"Notes de frais",all:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}]},
+ {t:"Événements",
+  sv:[["Événements professionnels","K",["Afterbat","CCI Touraine","Événements professionnels de l'Arche","Événements basket","Autres événements"]],
+      {t:"Événements d'équipe pris en charge par Servic'eau",w:"K",note:"Gros événement un an sur deux, avec ou sans conjoints. Cette année : sans conjoints.",c:["Événements de l'Arche","Repas","Activités de temps en temps","Gros événement de l'année"]}]}
  ]},
 
 /* ───────────── T3 ───────────── */
 {id:"spp",t:"Solution pour Piscine : e-commerce",short:"Solution",who:"B",mode:"sp",
  desc:"Transformer le site vitrine en vrai site e-commerce. Porté par Aboud.",
  tabs:[
+ {t:"Création de la charte graphique Solution",sp:[{t:"Charte Solution pour Piscine",w:"B",done:true,c:["Couleurs","Police","Logo","Déclinaisons (turquoise, bleu nuit, blanc)"]}]},
  {t:"Refonte complète du site",sp:[["Passer de vitrine à e-commerce","B",["Audit du site actuel","Nouvelle arborescence des catégories","Page d'accueil refaite","Menu et recherche revus","Tunnel de commande simplifié","Version mobile soignée","Mise en ligne"]]]},
  {t:"Refonte visuelle des fiches produits",sp:[["Nouvelle fiche type","B",["Gabarit validé","Photos sur fond propre","Bandeaux (hivernage, déstockage)","Tableau de caractéristiques","Bloc conseil"]],["Déploiement","B",["Traitements de l'eau","Robots","Accessoires","Spa","Hivernage"]]]},
+ {t:"Refonte des catégories",sp:[["Nouvelle organisation","B",["Refaire toutes les catégories","Créer des catégories mères","Dans chaque catégorie mère : plusieurs familles de produits","Dans chaque famille : des sous-catégories","5 produits maximum par sous-catégorie"]]]},
  {t:"Fiches produits mieux référencées",sp:[["SEO produit","B",["Titres SEO renommés en langage client","Descriptions courtes et longues","Balises meta","Images avec texte alternatif","Liens produits complémentaires"]]]},
- {t:"Intégration du blog",sp:[["Blog","B",["Rubrique blog en place","Calendrier d'articles","Article hivernage","Article remise en route","Noms de produits liés à leurs fiches"]]]},
+ {t:"Intégration du blog",sp:[["Blog","B",["Rubrique blog en place","Calendrier d'articles","Article hivernage","Article mise en service","Noms de produits liés à leurs fiches"]]]},
  {t:"Pop-ups",sp:[["Pop-ups","B",["Pop-up de bienvenue avec code","Pop-up de sortie","Pop-up inscription newsletter","Pop-up saisonnière","Réglage de fréquence (pas trop souvent)"]]]},
  {t:"Intégration du mailing",sp:[["Newsletter","B",["Outil d'emailing branché","Liste d'abonnés importée","Modèle de newsletter à la charte","Calendrier d'envoi","Première newsletter envoyée"]]]},
  {t:"Relance paniers abandonnés",sp:[["Séquence","B",["Mail 1 à 1 h","Mail 2 à 24 h","Mail 3 à 72 h avec code","Statistiques suivies"]]]},
  {t:"Relance après achat",sp:[["Séquence","B",["Mail de remerciement","Conseils d'utilisation du produit","Demande d'avis à J+10","Relance de réachat (pastilles, chlore)"]]]},
  {t:"Avis clients",sp:[["Avis produits","B",["Avis activés sur les fiches","Avis vérifiés affichés","Réponse à chaque avis"]]]},
- {t:"Codes promo et fidélité",sp:[["Promotions","B",["Règles de codes promo","Code de bienvenue","Programme de fidélité","Ventes privées abonnés"]]]},
+ {t:"Codes promo et fidélité",sp:[["Promotions","B",["Règles de codes promo","Programme de fidélité"]]]},
  {t:"Ventes croisées",sp:[["Produits liés","B",["Produits complémentaires reliés","Produits similaires reliés","Bloc « souvent achetés ensemble »"]]]},
  {t:"Produit d'appel",sp:[["Stratégie produit d'appel","B",["Cubes robots Aquaneed","Pastilles pH moins","Choisir le suivant","Com dédiée à chaque produit"]]]},
  {t:"Calculateur de volume et dosage",sp:[["Outil","B",["Calcul du volume du bassin","Dosage conseillé","Produits recommandés","Intégré au site"]]]},
- {t:"Click & collect à Tours",sp:[["Retrait en boutique","B",["Option de retrait activée","Mail « commande prête »","Horaires de retrait affichés"]]]},
- {t:"Livraison et transporteurs",sp:[["Expédition","B",["Transporteurs choisis","Tarifs de livraison clairs","Seuil de livraison gratuite","Suivi de colis envoyé au client"]]]},
+ {t:"Livraison et transporteurs",sp:[{t:"Expédition",w:"B",done:[0,1],c:["Colissimo","Chronopost","Trouver un nouveau transporteur pour les gros produits","Trouver un nouveau transporteur moins cher"]}]},
  {t:"Retours et SAV en ligne",sp:[["Retours","B",["Formulaire de retour","Procédure de remboursement","Garanties fabricants listées"]]]},
- {t:"Paiement",sp:[["Moyens de paiement","B",["Carte bancaire","Paiement en plusieurs fois","Virement","PayPal"]]]},
- {t:"Pages saisonnières",sp:[["Saisons","B",["Page hivernage","Page remise en route","Page été et canicule","Page déstockage"]]]},
- {t:"Intégration de la publicité",sp:[["Tracking pub","B",["Pixel Meta installé","Balise Google Ads installée","Flux produits Google Shopping","Catalogue Meta synchronisé"]]]},
- {t:"TikTok Shop",sp:[["Boutique TikTok","B",["Intégration faite","Inscription TikTok Shop finalisée","Premiers produits en ligne"]]]},
+ {t:"Paiement",sp:[["Moyens de paiement","B",["Paiement en plusieurs fois","Carte bancaire","Google Pay","Apple Pay","Axepta BNP"]]]},
+ {t:"Pages saisonnières",sp:[["Saisons","B",["Page hivernage","Page mise en service","Page été et canicule","Page déstockage","Page événementielle"]]]},
+ {t:"Intégration de la publicité",sp:[["Tracking pub","B",["Pixel Meta installé","Balise Google Ads installée","YouTube relié","Flux produits Google Shopping","Catalogue Meta synchronisé"]]]},
+ {t:"TikTok Shop",sp:[{t:"Boutique TikTok",w:"B",done:[0],c:["Intégration faite","Inscription TikTok Shop finalisée","Premiers produits en ligne"]}]},
  {t:"Vitesse et mobile",sp:[["Performance","B",["Images compressées","Cache activé","Score mobile vérifié"]]]},
  {t:"Statistiques",sp:[["Mesure","B",["Google Analytics 4","Search Console","Suivi des ventes e-commerce","Rapport mensuel"]]]}
  ]},
@@ -390,20 +414,19 @@ const THEMES=[
 {id:"sva",t:"Servic'eau Piscines : l'entreprise",short:"Servic'eau",who:"KB",mode:"sv",
  desc:"Construction, rénovation, entretien, dépannage. Structurer l'entreprise et sa présence.",
  tabs:[
- {t:"Refonte du site vitrine",sv:[["Site vitrine","KB",["Audit du site actuel","Nouvelle structure des pages","Textes réécrits","Photos de réalisations","Mise en ligne"]]]},
- {t:"Pages par service",sv:[["Construction","KB",["Texte","Photos","Bouton devis"]],["Rénovation","KB",["Texte","Photos avant/après","Bouton devis"]],["Entretien","KB",["Texte","Forfaits présentés","Bouton devis"]],["Dépannage","KB",["Texte","Numéro d'urgence","Bouton devis"]]]},
- {t:"Réalisations avant/après",sv:[["Galerie","KBL",["Galerie en ligne","Classement par type de réalisation","Château Moncontour mis en avant","Mise à jour après chaque chantier"]]]},
- {t:"Demande de devis en ligne",sv:[["Formulaire","KB",["Formulaire créé","Photos jointes possibles","Arrivée dans la boîte Servic'eau","Réponse sous 48 h"]]]},
- {t:"Fiche Google Business",sv:[["Fiche","KB",["Infos vérifiées","Photos ajoutées","Services listés","Publications régulières"]]]},
- {t:"Référencement local",sv:[["SEO local","KB",["Pages Tours et Rochecorbon","Communes de l'Indre-et-Loire citées","Annuaires locaux"]]]},
- {t:"Offre de contrats d'entretien",sv:[["Offre","KB",["Formules définies","Page dédiée","Plaquette"]]]},
- {t:"Fiches d'intervention numériques",sv:[["Fiches","KA",["Modèle de fiche","Remplie sur téléphone","Photos jointes","Envoyée au bureau"]]]},
- {t:"Rapport d'intervention client",sv:[["Rapport","KB",["Modèle à la charte","Photos du travail fait","Envoyé au client le jour même"]]]},
- {t:"Campagnes ouverture et hivernage",sv:[["Saisons","KBL",["Campagne remise en route (mars)","Campagne hivernage (septembre)","Relance des clients de l'année passée"]]]},
- {t:"Fichier clients",sv:[["Base clients","KA",["Base clients centralisée","Type de bassin noté","Historique des interventions"]]]},
- {t:"Parrainage",sv:[["Programme","KB",["Règle de parrainage","Carte ou code parrain","Suivi des recommandations"]]]},
+ {t:"Refonte du site vitrine",sv:[{t:"Site vitrine",w:"KB",done:true,c:["Audit du site actuel","Nouvelle structure des pages","Textes réécrits","Photos de réalisations","Mise en ligne"]}]},
+ {t:"Création de la charte graphique Servic'eau",sv:[{t:"Charte Servic'eau Piscines",w:"BL",done:true,c:["Couleurs","Police","Logo","Déclinaisons du logo"]}]},
+ {t:"Identité de marque",sv:[{t:"Une vraie identité, bien à nous",w:"KBL",done:true,c:["Présentation de l'entreprise","Visuels bien à nous","Flyers","Cartes de visite"]}]},
+ {t:"Réalisations avant/après",sv:[{t:"Galerie",w:"KBL",done:[0,1,2],c:["Galerie en ligne","Classement par type de réalisation","Château Moncontour mis en avant","Réalisations avant/après mises sur le site","Ajouter les nouveaux avant/après"]}]},
+ {t:"Demande de devis sur le site vitrine",sv:[["Formulaire du site vitrine","KB",["Formulaire créé","Arrivée dans la boîte Servic'eau","Réponse sous 48 h"]]]},
+ {t:"Référencement local",sv:[{t:"SEO local géré par success.com",w:"KB",done:true,c:["Pages Tours et Rochecorbon","Communes de l'Indre-et-Loire citées","Annuaires locaux"]}]},
+ {t:"Offre de contrats d'entretien",sv:[["Offre","KB",["Formules définies","Page dédiée","Plaquette","Intégrer des formules d'entretien","Abonnements d'entretien"]]]},
+ {t:"Rapport d'intervention client via Extrabat",sv:[{t:"Rapport Extrabat",w:"KB",done:true,c:["Déjà présent dans Extrabat","Photos du travail fait","Intégré dans Extrabat"]}]},
+ {t:"Campagnes mise en service et hivernage",sv:[{t:"Saisons",w:"KBL",done:true,c:["Campagne mise en service (mars)","Campagne hivernage (septembre)","Relance des clients de l'année passée"]}]},
+ {t:"Fichier clients",sv:[{t:"Base clients",w:"KA",done:true,c:["Base clients centralisée","Type de bassin noté","Historique des interventions"]}]},
+ {t:"Parrainage",sv:[{t:"Programme",w:"KB",done:true,c:["Règle de parrainage","Mise en service ou hivernage offert au parrain","Suivi des recommandations"]}]},
  {t:"Page de liens",sv:[["Liens","B",["Page de liens sur GitHub","Remplacer paa.ge/serviceaupiscines","QR code mis à jour"]]]},
- {t:"Flocage véhicules et local",sv:[["Visibilité physique","KB",["Véhicules floqués","Enseigne et façade","Panneaux de chantier"]]]}
+ {t:"Flocage véhicules et local",sv:[{t:"Visibilité physique",w:"KB",done:true,c:["Véhicules floqués","Enseigne et façade","Panneaux de chantier"]}]}
  ]},
 
 /* ───────────── T5 ───────────── */
@@ -411,9 +434,10 @@ const THEMES=[
  desc:"Les procédures écrites et filmées de l'entreprise. Rédigées par nous, au fur et à mesure.",
  tabs:[
  {t:"Processus administratifs",sv:[{t:"Faire un devis",w:"KA",c:PROC},{t:"Faire une facture",w:"KA",c:PROC},{t:"Relancer un client",w:"KA",c:PROC}]},
- {t:"Processus chantier",sv:[{t:"Ouverture de piscine",w:"K",c:PROC},{t:"Hivernage",w:"K",c:PROC},{t:"Intervention de dépannage",w:"K",c:PROC}]},
- {t:"Processus accueil et logistique",sv:[{t:"Accueillir un client au local",w:"KA",c:PROC},{t:"Réceptionner une livraison fournisseur",w:"KA",c:PROC}],sp:[{t:"Préparer une commande e-commerce",w:"B",c:PROC}]},
- {t:"Processus e-commerce",sp:[{t:"Passer une commande sur Solution",w:"B",c:PROC},{t:"Ajouter un produit sur le site",w:"B",c:PROC},{t:"Traiter un retour SAV",w:"B",c:PROC}]},
+ {t:"Processus chantier",sv:[{t:"Mise en service de piscine",w:"K",c:PROC},{t:"Hivernage",w:"K",c:PROC},{t:"Intervention de dépannage",w:"K",c:PROC}]},
+ {t:"Processus accueil et logistique",sv:[{t:"Réceptionner une livraison fournisseur",w:"KA",c:PROC}],sp:[{t:"Préparer une commande e-commerce",w:"B",c:PROC}]},
+ {t:"Processus e-commerce",sp:[{t:"Passer une commande sur Solution",w:"B",c:PROC},{t:"Ajouter un produit sur le site",w:"B",c:PROC}]},
+ {t:"Processus site internet",sp:[{t:"Créer un article de blog",w:"B",c:PROC},{t:"Créer une fiche produit (petite et complète)",w:"B",c:PROC},{t:"Renommer un produit pour le SEO",w:"B",c:PROC},{t:"Relier produits complémentaires et similaires",w:"B",c:PROC},{t:"Créer un bloc d'avis clients",w:"B",c:PROC},{t:"Créer une page saisonnière",w:"B",c:PROC}]},
  {t:"Processus communication",sv:[{t:"Publier un post",w:"L",c:PROC},{t:"Tourner une vidéo de chantier",w:"LB",c:PROC}],sp:[{t:"Créer un visuel produit",w:"B",c:PROC}]}
  ]},
 
@@ -421,17 +445,16 @@ const THEMES=[
 {id:"rs",t:"Réseaux sociaux et contenu",short:"Réseaux",who:"LBK",
  desc:"Lisa sur tous les réseaux, avec Aboud et Kevin.",
  tabs:[
- {t:"Bulles Instagram",sv:[["Bulles à créer","LB",["PVC armé 3D","Revêtement (PVC armé + liner)","PVC Bali","Mini piscine","Piscine intérieure","Débordement","Couloir de nage","Château Moncontour (Wahou)"]]]},
- {t:"Planning éditorial",sv:[["Planning Servic'eau","LB",["Rythme de publication fixé","Planning du mois rempli","Validé par Kevin"]]],sp:[["Planning Solution","LB",["Rythme de publication fixé","Planning du mois rempli"]]]},
- {t:"Instagram",sv:[["Compte Servic'eau","LBK",["Bio et liens à jour","Bulles en place","3 posts par semaine"]]],sp:[["Compte Solution","LB",["Compte créé","Bio et lien boutique","Premiers posts"]]]},
- {t:"Facebook",sv:[["Page Servic'eau","LBK",["Relance de la page (~10 000 abonnés)","Publication régulière","Réponses aux messages"]]],sp:[["Page Solution","LB",["Page créée","Boutique Facebook reliée"]]]},
- {t:"TikTok",sv:[["Compte Servic'eau","LB",["Vidéos chantiers","Vidéos partenaires"]]],sp:[["Compte Solution","LB",["Compte créé","TikTok Shop relié"]]]},
- {t:"YouTube",sv:[["Chaîne Servic'eau","LB",["Vidéos longues de chantiers"]]],sp:[["Chaîne Solution","LB",["Chaîne créée","Tutos produits"]]]},
- {t:"LinkedIn",sv:[["Page entreprise","KB",["Page à jour","Posts réalisations"]]]},
- {t:"Stories",sv:[["Stories","L",["Story par chantier","Stories publiées puis épinglées"]]],sp:[["Stories","LB",["Story nouveautés","Story promos"]]]},
- {t:"Vidéos partenaires sur chantier",sv:[["Partenaires","LBK",["Maçons","Chercheurs de fuite","Formateurs","Moasure (programme ambassadeur)"]]]},
- {t:"Programme vidéo avec Sandy",all:[["Vidéos","LB",["Sujets choisis","Tournage","Montage CapCut","Publication"]]]},
- {t:"Montage et visuels",all:[["Outils","LB",["CapCut au nom de l'entreprise","Canva au nom de l'entreprise","Modèles à la charte"]]]},
+ {t:"Bulles Instagram",sv:[{t:"Bulles Servic'eau",w:"LBK",done:[0],c:["Faire le document avec la liste des bulles","Lire le document pour créer les bulles","Kevin trie son téléphone pour avoir les visuels qui correspondent aux bulles","Trier les visuels (super important)","Appliquer le plus rapidement possible","En faire une vraie vitrine : des bulles qui envoient du lourd"]}]},
+ {t:"Planning éditorial",sv:[{t:"Planning Servic'eau",w:"LB",done:true,c:["Rythme de publication fixé","Planning du mois rempli","Validé par Kevin"]}],sp:[["Planning Solution","LB",["Rythme de publication fixé","Planning du mois rempli"]]]},
+ {t:"Instagram",sv:[{t:"Compte Servic'eau",w:"LBK",done:[0],c:["Bio et liens à jour","Bulles en place","4 posts par semaine","Filtre de contenu mis à jour","Faire vivre les réseaux sociaux"]}],sp:[["Compte Solution","LB",["Compte créé","Bio et lien boutique","Premiers posts","Faire vivre les réseaux sociaux"]]]},
+ {t:"Facebook",sv:[["Page Servic'eau","LBK",["Relance de la page (~10 000 abonnés)","Publication régulière","Réponses aux messages","Filtre de contenu mis à jour","Faire vivre les réseaux sociaux"]]],sp:[["Page Solution","LB",["Page créée","Boutique Facebook reliée","Liens vers les articles de blog","Faire vivre les réseaux sociaux"]]]},
+ {t:"TikTok",sv:[["Compte Servic'eau","LB",["Filtre de contenu mis à jour","Faire vivre les réseaux sociaux"]]],sp:[{t:"Compte Solution",w:"LB",done:[1],c:["Compte créé","Intégration TikTok Shop","Faire vivre les réseaux sociaux"]}]},
+ {t:"YouTube",sv:[{t:"Chaîne Servic'eau",w:"LB",soon:1,note:"Pas pour l'instant : ça va arriver.",c:["Vidéos longues de chantier"]}]},
+ {t:"LinkedIn",sv:[["Page entreprise","KB",["Page à jour","Posts réalisations","Posts blog","Faire vivre les réseaux sociaux"]]]},
+ {t:"Stories",sv:[["Stories","L",["Story par chantier","Stories publiées puis épinglées","Stories en rapport avec les posts","Une story tous les jours","Faire vivre les réseaux sociaux"]]],sp:[["Stories","LB",["Stories en rapport avec les posts","Une story tous les jours","Story promos","Faire vivre les réseaux sociaux"]]]},
+ {t:"Vidéos partenaires sur chantier",sv:[["Partenaires","LBK",["Maçons","Chercheurs de fuite","Formateurs","Moasure (programme ambassadeur)","Autres"]]]},
+ {t:"Montage et visuels",all:[["Outils","LB",["CapCut au nom de l'entreprise","Canva au nom de l'entreprise"]]]},
  {t:"Statistiques des réseaux",sv:[["Bilan mensuel","LB",["Abonnés","Vues","Messages reçus"]]],sp:[["Bilan mensuel","LB",["Abonnés","Clics vers la boutique","Ventes issues des réseaux"]]]}
  ]},
 
@@ -439,48 +462,55 @@ const THEMES=[
 {id:"pub",t:"Publicité et acquisition",short:"Publicité",who:"KB",
  desc:"Servic'eau : réseaux, événements, bouche à oreille. Solution : publicité en ligne.",
  tabs:[
- {t:"Canaux d'acquisition",sv:[["Publicité réseaux sociaux","KBL",["Posts sponsorisés en local","Ciblage Tours et 37","Budget défini"]],["Présence aux événements","KB",["Liste des événements locaux","Stand et supports","Fichier contacts récoltés"]],["Si on ne fait pas de com","KB",["Bouche à oreille entretenu","Avis Google demandés"]]],
+ {t:"Canaux d'acquisition",sv:[["Réseaux sociaux","KBL",["Posts sur les réseaux sociaux","Investissement dans du matériel professionnel pour filmer"]],["Présence aux événements","KB",["Ne pas louper les événements, en faire le plus possible","Stand et supports : le plus de visuels possible","Fichier contacts récoltés"]],["Si on ne fait pas de com","KB",["Bouche à oreille entretenu","Avis Google demandés","Site vitrine"]]],
   sp:[["Google Ads","BE",["Compte repris en interne","Campagnes Shopping","Campagnes recherche"]],["Meta Ads","BE",["Campagnes catalogue","Retargeting visiteurs"]],["YouTube Ads","BE",["Vidéo pub produit","Campagne test"]]]},
- {t:"Budget publicitaire",sv:[["Budget Servic'eau","KB",["Budget annuel fixé","Réparti par saison"]]],sp:[["Budget Solution","KB",["Budget mensuel fixé","Plafond par campagne"]]]},
- {t:"Campagnes saisonnières",sv:[["Saisons","KB",["Remise en route","Hivernage"]]],sp:[["Saisons","BE",["Remise en route","Canicule","Hivernage","Déstockage"]]]},
- {t:"Reprise en interne",sp:[["Après Link","BEK",["Accès aux comptes récupérés","Point avec Cédric","Campagnes gérées par Emeric et Aboud"]]]},
- {t:"Suivi des résultats",sv:[["Résultats","KB",["Demandes de devis par canal"]]],sp:[["Résultats","BE",["Coût par vente","Retour sur dépense pub","Rapport mensuel"]]]}
+ {t:"Campagnes saisonnières",sv:[["Saisons","KB",["Mise en service","En cours de saison (piscines ouvertes)","Hivernage"]]],sp:[["Saisons","BE",["Mise en service","En cours de saison (piscines ouvertes)","Hivernage","Déstockage"]]]},
+ {t:"Suivi des résultats",sv:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}],sp:[["Résultats","BE",["Coût par vente","Retour sur dépense pub","Rapport mensuel"]]]}
  ]},
 
 /* ───────────── T8 ───────────── */
 {id:"sav",t:"Relation client et SAV",short:"Client & SAV",who:"KB",
  desc:"Kevin gère lui-même les relances Servic'eau. Solution passe par les mails automatiques.",
  tabs:[
- {t:"Relances clients",sv:[["Relances par Kevin","K",["Liste des clients à relancer","Relance téléphone","Suivi noté dans le fichier clients"]]],sp:[["Mails de relance","B",["Paniers abandonnés","Réachat de consommables","Clients inactifs"]]]},
+ {t:"Relances clients",sv:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}],sp:[["Mails de relance","B",["Paniers abandonnés","Réachat de consommables","Clients inactifs"]]]},
  {t:"Demande d'avis",sv:[["Nouveau système à trouver (on se creuse la tête)","KB",["Idées listées : QR code, SMS, carte remise en main propre","Lien d'avis dans le rapport d'intervention","Test sur 10 clients","Système choisi"]]],sp:[["Demande automatique","B",["Mail à J+10 après livraison","Avis affichés sur la fiche"]]]},
- {t:"Réponses aux avis",sv:[["Avis Google","KB",["Réponse à chaque avis","Modèles de réponse"]]],sp:[["Avis produits","B",["Réponse à chaque avis"]]]},
- {t:"SAV",sv:[["SAV chantier","K",["Procédure réclamation","Garanties expliquées au client"]]],sp:[["SAV produits","B",["Procédure retour","Garanties fabricants","Délai de traitement"]]]},
- {t:"Modèles de réponses",sv:[["Servic'eau","AK",["Demande de devis","Retard de chantier","Réclamation"]]],sp:[["Solution","B",["Où est ma commande ?","Produit abîmé","Conseil produit"]]]},
+ {t:"Réponses aux avis",sv:[["Avis Google","K",["Réponse à chaque avis"]]],sp:[["Avis produits","B",["Réponse à chaque avis"]]]},
+ {t:"SAV",sv:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}],sp:[["SAV produits","B",["Procédure retour","Garanties fabricants","Délai de traitement"]]]},
  {t:"FAQ et conseils",sp:[["FAQ","B",["Page FAQ","Livraison","Retours","Dosages"]]]},
- {t:"Satisfaction client",sv:[["Enquête","KB",["Questionnaire court","Envoyé après chantier"]]],sp:[["Enquête","B",["Questionnaire après commande"]]]}
+ {t:"Satisfaction client",sv:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}],sp:[["Enquête","B",["Questionnaire après commande"]]]}
  ]},
 
 /* ───────────── T9 ───────────── */
 {id:"com",t:"Commercial et prospection",short:"Commercial",who:"KB",
  desc:"Servic'eau vit du bouche à oreille depuis des années. Solution se développe par la pub en ligne.",
  tabs:[
- {t:"Sources de clients",sv:[["Bouche à oreille depuis des années","K",["Demander à chaque client d'où il vient","Remercier les clients qui recommandent","Parrainage en place"]],["Site vitrine","KB",["Formulaire de devis visible","Réalisations à jour"]],["Présence aux événements","KB",["Calendrier des événements","Stand préparé"]],["Recommandations","KB",["Partenaires qui recommandent","Prescripteurs suivis"]]],
-  sp:[["Google Ads","BE",["Campagnes en place"]],["Meta Ads","BE",["Campagnes en place"]],["YouTube Ads","BE",["Campagne test"]]]},
- {t:"Fichier prospects",sv:[["Prospects","KA",["Fichier créé","Statut de chaque prospect"]]],sp:[["Clients pros","B",["Paysagistes","Pisciniers","Campings et gîtes"]]]},
- {t:"Relance des devis",sv:[["Suivi","KA",["Devis en attente listés","Relances faites"]]]},
- {t:"Argumentaires",sv:[["Argumentaire","KB",["Construction","Rénovation","Entretien"]]],sp:[["Argumentaire","B",["Robots","Traitements"]]]},
- {t:"Offres saisonnières",sv:[["Offres","KB",["Forfait remise en route","Forfait hivernage"]]],sp:[["Offres","B",["Kits saisonniers","Packs produits"]]]}
+ {t:"Sources de clients",sv:[{t:"Sources Servic'eau",w:"KB",done:true,c:["Bouche à oreille","Site vitrine","Présence aux événements","Recommandations"]}],sp:[["Google Ads","BE",["Campagnes en place"]],["Meta Ads","BE",["Campagnes en place"]],["YouTube Ads","BE",["Campagne test"]]]},
+ {t:"Fichier prospects",sv:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}],sp:[{t:"Clients pros",w:"B",prep:1}]},
+ {t:"Relance des devis",sv:[{t:"Suivi",w:"KA",done:[0],c:["Relance des devis (gérée par Kevin)","Apprentissage par Adèle"]}]},
+ {t:"Argumentaires",sp:[{t:"Argumentaire Solution",w:"B",prep:1}]},
+ {t:"Offres saisonnières",sv:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}],sp:[["Offres","B",["Kits saisonniers","Packs produits (voir l'onglet Packs)","Abonnement aux kits d'hivernage et de mise en service"]]]},
+ {t:"Packs produits",sp:[
+   ["Pack local technique","B",["Manomètre de filtre","Vanne 6 voies (joint et couvercle)","Cartouche ou sable de filtration","Colle et décapant PVC","Pack créé sur le site"]],
+   ["Pack plomberie","B",["Raccords PVC (coudes, tés, manchons)","Vannes à boisseau","Colle et décapant PVC","Téflon et collier de prise en charge","Pack créé sur le site"]],
+   ["Pack entretien de piscine","B",["Épuisette de fond","Brosse de paroi","Manche télescopique","Balai aspirateur et tuyau flottant","Pack créé sur le site"]],
+   ["Pack chimie de piscine","B",["Chlore lent (galets)","Chlore choc","pH moins","Anti-algues","Trousse d'analyse ou bandelettes","Pack créé sur le site"]],
+   ["Pack mise en service","B",["Chlore choc","pH moins","Anti-algues","Clarifiant","Bandelettes d'analyse","Pack créé sur le site"]],
+   ["Pack hivernage","B",["Produit d'hivernage","Flotteurs d'hivernage","Gizzmo","Bouchons d'hivernage","Pack créé sur le site"]],
+   ["Pack robot","B",["Robot","Cubes robots Aquaneed","Filtres de rechange","Pack créé sur le site"]],
+   ["Pack analyse de l'eau","B",["Trousse d'analyse","Bandelettes","Thermomètre","Pack créé sur le site"]],
+   ["Pack spa","B",["Brome ou chlore spa","pH spa","Nettoyant cartouche","Cartouche filtrante","Pack créé sur le site"]]
+ ]}
  ]},
 
 /* ───────────── T10 ───────────── */
 {id:"achat",t:"Achats, stock et fournisseurs",short:"Achats",who:"KB",
  desc:"Servic'eau : SCP et Fluidra. Solution : SCP, et d'autres à trouver au salon de Lyon.",
  tabs:[
- {t:"Fournisseurs",sv:[["SCP Tours","K",["Contact commercial noté","Conditions tarifaires notées"]],["Fluidra Tours","K",["Contact commercial noté","Conditions tarifaires notées"]]],sp:[["SCP","KB",["Catalogue récupéré","Conditions tarifaires notées"]]]},
+ {t:"Fournisseurs",sv:[["SCP Tours","K",["Contact commercial noté","Conditions tarifaires notées"]],["Fluidra Tours","K",["Contact commercial noté","Conditions tarifaires notées"]],{t:"À approfondir par Kevin",w:"K",y:1,note:"D'autres fournisseurs à ajouter : Kevin précisera lesquels.",c:[]}],sp:[["SCP","KB",["Catalogue e-commerce","Ouverture sur de nombreux autres produits","Livraison depuis l'entrepôt SCP"]]]},
  {t:"Nouveaux fournisseurs",sp:[["Salon de Lyon","KB",["Dates notées","Liste de fournisseurs à rencontrer","Visite du salon","Fournisseurs retenus"]]]},
- {t:"Commandes fournisseurs",sv:[["Commandes","KA",["Bon de commande type","Suivi des commandes en cours"]]],sp:[["Commandes","B",["Réassort selon les ventes","Suivi des délais"]]]},
- {t:"Stock",sv:[["Stock local","KA",["Inventaire du local","Seuils de réassort"]]],sp:[["Stock du site","B",["Stock synchronisé avec le site","Produits en rupture masqués ou signalés"]]]},
- {t:"Inventaire annuel",all:[["Inventaire","KA",["Date fixée","Inventaire compté","Transmis au comptable"]]]},
+ {t:"Commandes fournisseurs",sv:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}],sp:[["Commandes","B",["Réassort selon les ventes","Suivi des délais"]]]},
+ {t:"Stock",sv:[["Stock","K",["Départ depuis notre fournisseur à Tours","Pas dispo : départ chez notre fournisseur, depuis une autre ville"]]],sp:[["Stock du site","B",["Produits repérés sur le site du fournisseur","Les faire partir d'une autre ville que notre fournisseur de Tours","Vérification du stock en ligne sur le site fournisseur","Stock pas dispo directement : aller voir s'il n'y en a pas ailleurs"]]]},
+ {t:"Inventaire annuel",all:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}]},
  {t:"Réception et contrôle",all:[["Réception","KA",["Contrôle des colis","Litiges signalés au fournisseur"]]]}
  ]},
 
@@ -488,12 +518,12 @@ const THEMES=[
 {id:"plan",t:"Planning chantiers et interventions",short:"Planning",who:"KA",mode:"sv",
  desc:"Tout passe par Extrabat.",
  tabs:[
- {t:"Mise en place d'Extrabat",sv:[["Extrabat","KA",["Comptes créés pour chacun","Fiches clients importées","Modèles de devis importés","Agenda configuré","Synchronisation Google Agenda","Application installée sur les téléphones","Équipe formée"]]]},
- {t:"Planning des équipes",sv:[["Équipes","KA",["Planning de Franck","Planning de Mathieu","Planning de Paul","Planning visible la veille"]]]},
+ {t:"Mise en place d'Extrabat",sv:[{t:"Extrabat",w:"KA",done:[0,1],c:["Comptes créés pour chacun","Fiches clients importées","Modèles de devis importés","Agenda configuré","Synchronisation Google Agenda","Application installée sur les téléphones","Équipe formée"]}]},
+ {t:"Planning des équipes",sv:[["Équipes","KA",["Planning de Franck","Planning de Mathieu","Planning de Paul","Planning visible la veille","Former Adèle au planning des gars"]]]},
  {t:"Tournées d'entretien",sv:[["Tournées","KA",["Clients groupés par secteur","Fréquence par client","Tournées dans Extrabat"]]]},
  {t:"Urgences et dépannages",sv:[["Urgences","KA",["Créneaux réservés","Règle de priorité"]]]},
- {t:"Pics de saison",sv:[["Saisons","KA",["Planning remise en route","Planning hivernage"]]]},
- {t:"Matériel et véhicules",sv:[["Matériel","KA",["Liste du matériel","Entretien des véhicules","Contrôles techniques"]]]},
+ {t:"Pics de saison",sv:[["Saisons","KA",["Planning mise en service","Planning hivernage"]]]},
+ {t:"Matériel et véhicules",sv:[["Matériel","K",["Faire la liste du matériel","Faire l'entretien des véhicules","Contrôle technique"]],{t:"À approfondir par Kevin",w:"K",y:1,note:"Commentaires à ajouter si besoin.",c:[]}]},
  {t:"Suivi des chantiers",sv:[["Suivi","KA",["Étapes de chantier dans Extrabat","Photos à chaque étape","Clôture du chantier"]]]}
  ]},
 
@@ -501,51 +531,49 @@ const THEMES=[
 {id:"kpi",t:"Pilotage et indicateurs",short:"KPI",who:"KB",
  desc:"Servic'eau : chiffres gérés par Kevin et sa comptabilité. Solution : KPI e-commerce à mettre en place.",
  tabs:[
- {t:"Chiffre d'affaires",sv:[["Mise en place des chiffres","K",["CA mensuel suivi par Kevin","Lien avec la comptabilité","CA par activité : construction, rénovation, entretien, dépannage"]]],sp:[["CA e-commerce","B",["CA mensuel","Nombre de commandes","Panier moyen"]]]},
- {t:"Marge",sv:[["Marge chantier","K",["Marge par chantier","Marge par activité"]]],sp:[["Marge produit","B",["Marge par produit","Marge par catégorie"]]]},
+ {t:"Chiffre d'affaires",sv:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}],sp:[["CA e-commerce","B",["CA mensuel","Nombre de commandes","Panier moyen"]]]},
+ {t:"Marge",sv:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}],sp:[["Marge produit","B",["Marge par produit"]]]},
  {t:"Trafic et conversion",sp:[["KPI e-commerce","B",["Visiteurs","Taux de conversion","Taux d'abandon de panier","Pages les plus vues"]]]},
- {t:"Clients",sv:[["Indicateurs","K",["Taux de transformation des devis","Clients sous contrat"]]],sp:[["Indicateurs","B",["Clients qui recommandent","Taux de retour produit","Nouveaux abonnés newsletter"]]]},
+ {t:"Clients",sv:[{t:"À approfondir par Kevin",w:"K",y:1,c:[]}],sp:[["Indicateurs","B",["Nombre d'avis","Retours positifs","Clients qui recommandent sur le site"]]]},
  {t:"Publicité",sp:[["KPI pub","BE",["Coût d'acquisition","Retour sur dépense pub"]]]},
- {t:"Tableau de bord",sv:[["Tableau Servic'eau","KA",["Tableau créé","Mis à jour chaque mois"]]],sp:[["Tableau Solution","B",["Tableau créé","Mis à jour chaque mois"]]]},
- {t:"Objectifs",sv:[["Objectifs","K",["Objectif annuel","Objectifs mensuels"]]],sp:[["Objectifs","B",["Objectif annuel","Objectifs mensuels"]]]}
+ {t:"Tableau de chantier",sv:[{t:"Tableau de chantier",w:"KA",done:[0],c:["Tableau créé","Mis à jour chaque mois"]}]},
+ {t:"Objectifs",sv:[["Objectifs Servic'eau","K",["Structuration de notre entreprise","Apprentissage de Lisa","Intégration complète de Lisa","Intégration complète d'Adèle","Acheter une boutique à la place de notre entrepôt"]]],sp:[["Objectif Solution","B",["Faire marcher le site"]]]}
  ]},
 
 /* ───────────── T13 ───────────── */
 {id:"form",t:"Formation interne",short:"Formation",who:"KABL",
  desc:"C'est nous qui rédigeons les formations et qui les donnons : Kevin, Adèle, Aboud et Lisa. Coche quand la formation est faite pour chacun.",
+ foot:"Les formations doivent être réalisées pour que tout le monde puisse tout prendre en main.",
  tabs:[
- {t:"Outils de l'entreprise",all:[{t:"Todoist",w:"KABL",people:1},{t:"Google Agenda",w:"KABL",people:1},{t:"Google Drive",w:"KABL",people:1},{t:"Bitwarden",w:"KABL",people:1},{t:"Claude et les notes vocales",w:"KABL",people:1}]},
- {t:"Extrabat",sv:[{t:"Agenda et planning",w:"KABL",people:1},{t:"Fiches clients",w:"KABL",people:1}]},
- {t:"Administratif",sv:[{t:"Faire un devis",w:"KABL",people:1},{t:"Faire une facture",w:"KABL",people:1},{t:"Relancer un client",w:"KABL",people:1}]},
- {t:"E-commerce",sp:[{t:"Ajouter un produit",w:"KABL",people:1},{t:"Passer une commande",w:"KABL",people:1},{t:"Traiter un SAV",w:"KABL",people:1}]},
- {t:"Réseaux sociaux",all:[{t:"Publier un post et une story",w:"KABL",people:1},{t:"Monter une vidéo sur CapCut",w:"KABL",people:1},{t:"Créer un visuel sur Canva",w:"KABL",people:1}]},
- {t:"Accueil des nouveaux",all:[["Parcours d'arrivée","KA",["Livret d'accueil","Accès aux outils donnés","Présentation de l'équipe","Point à un mois"]]]}
+ {t:"Outils de l'entreprise",all:[{t:"Todoist",people:1,pw:"ABL"},{t:"Google Agenda",people:1,pw:"KABL"},{t:"Google Drive",people:1,pw:"KABLMPF",pre:["Groupe créé"],y:1,note:"Clé de l'entreprise chez Aboud : tout doit absolument être transféré sur Google Drive."},{t:"WhatsApp",people:1,pw:"KABLMPF",pre:["Groupe créé"],done:true},{t:"Bitwarden",people:1,pw:"KABL"},{t:"Claude et les notes vocales",people:1,pw:"KABL"},{t:"CapCut",people:1,pw:"L"},{t:"Canva",people:1,pw:"BL"},{t:"Insta360",people:1,pw:"KBL"},{t:"Cloud Servic'eau",people:1,pw:"KL"}]},
+ {t:"Extrabat",sv:[{t:"Agenda et planning",people:1,pw:"KA"},{t:"Fiches clients",people:1,pw:"KA"}]},
+ {t:"Administratif",sv:[{t:"Faire un devis",people:1,pw:"KA"},{t:"Faire une facture",people:1,pw:"KA"},{t:"Relancer un client",people:1,pw:"KA"},{t:"Autres tâches à définir par Kevin et Adèle",w:"KA",y:1,note:"Aboud peut prendre le relais si besoin.",c:[]}]},
+ {t:"E-commerce",sp:[{t:"Ajouter un produit",people:1,pw:"KB",done:[1]},{t:"Passer une commande",people:1,pw:"KB",done:[1]},{t:"Traiter un SAV",people:1,pw:"KB",done:[1]}]},
+ {t:"Réseaux sociaux",all:[{t:"Publier un post et une story",people:1,pw:"KBL",done:true},{t:"Monter une vidéo sur CapCut",people:1,pw:"L",done:true},{t:"Créer un visuel sur Canva",people:1,pw:"BL",done:[0]}]}
  ]},
 
 /* ───────────── T14 ───────────── */
 {id:"part",t:"Partenariats",short:"Partenariats",who:"KB",
  desc:"Chaque partenariat est une chose à valider.",
  tabs:[
- {t:"Jardinerie Fleurs 37",sp:[["Faire vivre le partenariat","KB",["Guide vendeur livré","Vendeurs formés","Réassort organisé","Portes ouvertes faites"]]]},
- {t:"Acquérir d'autres jardineries",sp:[["Nouvelles jardineries","KB",["Liste des jardineries du 37","Premiers contacts","Rendez-vous","Partenariat signé"]]]},
- {t:"Acquérir de nouveaux fournisseurs partenaires",sv:[["Fournisseurs","K",["Besoins listés","Fournisseurs contactés","Partenariat signé"]]],sp:[["Fournisseurs","KB",["Salon de Lyon","Fournisseurs contactés","Partenariat signé"]]]},
- {t:"Partenaires de chantier",sv:[["Artisans","KBL",["Maçons","Chercheurs de fuite","Formateurs","Moasure ambassadeur"]]]},
- {t:"Acquérir des prescripteurs",sv:[["Prescripteurs","KB",["Paysagistes","Architectes","Agences immobilières"]]]},
- {t:"Régler les problèmes de partenariat",all:[["Résolution","K",["Problèmes listés","Rendez-vous avec chaque partenaire","Solution trouvée"]]]}
+ {t:"Jardinerie Fleurs 37",sp:[{t:"Faire vivre le partenariat",w:"KB",done:[0,1],c:["Guide vendeur livré","Vendeurs formés","Réassort organisé","Portes ouvertes faites"]}]},
+ {t:"Acquérir de nouveaux fournisseurs partenaires",sv:[["Fournisseurs et partenaires","K",["Besoins listés","Fournisseurs contactés","Partenariat signé","Moasure (programme ambassadeur)"]]],sp:[["Fournisseurs","KB",["Salon de Lyon","Fournisseurs contactés","Partenariat signé"]]]},
+ {t:"Partenaires de chantier",sv:[{t:"Artisans",w:"KBL",done:[0,2],c:["Maçons","Chercheurs de fuite","Formateurs"]}]},
+ {t:"Acquérir des prescripteurs",sv:[["Prescripteurs","KB",["Paysagistes","Architectes","Agences immobilières","Maîtres d'œuvre"]]]}
  ]},
 
 /* ───────────── T15 ───────────── */
 {id:"conf",t:"Conformité et sécurité",short:"Conformité",who:"KB",
  desc:"Les lois à régler côté e-commerce, et la sécurité des comptes.",
  tabs:[
- {t:"Mentions légales",sv:[["Site Servic'eau","KB",["Mentions légales en ligne","Assurance décennale citée sur les devis"]]],sp:[["Site Solution","B",["Mentions légales complètes","Hébergeur cité","SIRET et TVA"]]]},
+ {t:"Mentions légales",sp:[["Site Solution","B",["Mentions légales complètes","Hébergeur cité","SIRET et TVA"]]]},
  {t:"Droit de rétractation",sp:[["14 jours","B",["Délai de 14 jours écrit dans les CGV","Formulaire de rétractation","Remboursement sous 14 jours"]]]},
  {t:"Garanties légales",sp:[["Garanties","B",["Garantie légale de conformité (2 ans) affichée","Garantie des vices cachés citée"]]]},
  {t:"Médiateur de la consommation",sp:[["Médiation","B",["Médiateur choisi","Coordonnées sur le site"]]]},
  {t:"RGPD et cookies",sv:[["Données clients","KA",["Fichier clients protégé","Mentions RGPD sur les devis"]]],sp:[["Site","B",["Bandeau cookies conforme","Politique de confidentialité","Consentement newsletter"]]]},
  {t:"Prix et livraison",sp:[["Affichage","B",["Prix TTC affichés","Frais de livraison avant paiement","Délais de livraison indiqués"]]]},
  {t:"Produits chimiques",sp:[["Traitements de l'eau","B",["Fiches de données de sécurité en ligne","Pictogrammes de danger sur les fiches","Mentions biocides vérifiées"]]]},
- {t:"Éco-participation",sp:[["Équipements électriques","B",["Éco-participation sur robots et pompes","Affichée sur les fiches"]]]},
+ {t:"Site créé en France",sp:[["Made in France","B",["Mettre en avant : site créé en France","Mention sur la page d'accueil","Mention dans le pied de page"]]]},
  {t:"Sécurité des comptes",all:[["Sécurité","KB",["Double authentification partout","Sauvegardes du site","Mises à jour WordPress"]]]}
  ]},
 
@@ -554,12 +582,12 @@ const THEMES=[
  desc:"Deux chartes séparées, une par entreprise.",
  tabs:[
  {t:"Charte graphique",
-  sv:[{t:"Palette Servic'eau (à confirmer)",w:"BL",sw:[["Bleu marine","#173a6b"],["Bleu piscine","#2a73b8"],["Bleu ciel","#9fd0ec"],["Blanc","#ffffff"]],c:["Couleurs officielles confirmées (envoie-moi la charte)","Police des titres notée","Logo en versions couleur, blanc et noir"]}],
-  sp:[{t:"Palette Solution pour Piscine",w:"B",sw:[["Écume","#f9fbfb"],["Lagon","#578d9f"],["Profondeur","#1f5872"],["Bleu nuit","#09242f"]],c:["Police des titres : Bree Serif","Logo script « Solution pour » + « PISCINE » avec vagues","Versions turquoise, bleu nuit et blanc"]}]},
+  sv:[{t:"Palette Servic'eau",w:"BL",done:true,sw:[["Bleu marine","#173a6b"],["Bleu piscine","#2a73b8"],["Bleu ciel","#9fd0ec"],["Blanc","#ffffff"]],c:["Polices : Bree Serif et Dosis","Logo en versions couleur, blanc et noir"]}],
+  sp:[{t:"Palette Solution pour Piscine",w:"B",done:true,sw:[["Écume","#f9fbfb"],["Lagon","#578d9f"],["Profondeur","#1f5872"],["Bleu nuit","#09242f"]],c:["Polices : Bree Serif et Dosis","Logo script « Solution pour » + « PISCINE » avec vagues","Versions turquoise, bleu nuit et blanc"]}]},
  {t:"Modèles Canva",sv:[["Modèles","LB",["Post","Story","Couverture de vidéo"]]],sp:[["Modèles","B",["Visuel produit","Bandeaux promo","Story"]]]},
- {t:"Signatures mail",sv:[["Signature","A",["Modèle à la charte"]]],sp:[["Signature","B",["Modèle à la charte"]]]},
- {t:"Documents à la charte",sv:[["Documents","KA",["Devis","Factures","Rapports d'intervention"]]],sp:[["Documents","B",["Factures","Bons de livraison"]]]},
- {t:"Supports physiques",sv:[["Physique","KB",["Façade","Véhicules","Cartes de visite","Panneaux de chantier"]]],sp:[["Physique","B",["Flyers colis","Supports en jardinerie"]]]}
+ {t:"Signatures mail",sv:[{t:"Signature",w:"A",done:true,c:["Modèle à la charte"]}],sp:[{t:"Signature",w:"B",done:true,c:["Modèle à la charte"]}]},
+ {t:"Documents à la charte",sv:[{t:"Documents",w:"KAB",done:true,c:["Présentation d'entreprise","Devis","Factures","Flyers","Cartes de visite","Rapports d'intervention"]}],sp:[{t:"Documents",w:"B",done:true,c:["Factures","Bons de livraison"]}]},
+ {t:"Supports physiques",sv:[{t:"Physique",w:"KB",done:true,c:["Façade","Véhicules","Cartes de visite","Panneaux de chantier"]}],sp:[["Physique","B",["Supports en jardinerie"]]]}
  ]},
 
 /* ───────────── T17 ───────────── */
@@ -567,23 +595,27 @@ const THEMES=[
  desc:"Claude au centre, et tous les outils qu'on utilise.",
  tabs:[
  {t:"Claude",all:[["Claude au centre","KB",["Compte entreprise","Connecté à Gmail","Connecté à Todoist","Connecté à l'agenda","Notes vocales utilisées au quotidien"]]]},
- {t:"Organisation",sv:[["Extrabat","KA",["En place","Équipe formée"]]],all:[["Google Agenda","KAB",["En place"]],["Todoist","KAB",["En place"]],["Gmail","AB",["En place"]],["Google Drive","KAB",["En place"]],["WhatsApp","KABL",["En place"]],["Bitwarden","KAB",["En place"]]]},
+ {t:"Organisation",sv:[["Extrabat","KA",["En place","Équipe formée"]]],all:[["Google Agenda","KAB",["En place"]],["Todoist","KAB",["En place"]],{t:"Gmail",w:"AB",done:true,c:["En place"]},{t:"Google Drive",w:"KAB",done:true,c:["En place"]},{t:"WhatsApp",w:"KABL",done:true,c:["En place"]},["Bitwarden","KAB",["En place"]]]},
  {t:"Création",all:[["Canva","BL",["Compte entreprise"]],["CapCut","BL",["Compte entreprise"]],["Insta360","KBL",["Cloud en place"]]]},
  {t:"Publicité",sp:[["Meta Ads","BE",["Accès récupérés"]],["Google Ads","BE",["Accès récupérés"]],["Google Analytics","B",["En place"]],["Search Console","B",["En place"]]]},
- {t:"Site",sp:[["WooCommerce","B",["À jour"]],["Bricks","B",["À jour"]],["TikTok Shop","B",["Finalisé"]]]},
- {t:"Pages et liens",all:[["GitHub","B",["Pages hébergées","Ce guide en ligne"]]]}
+ {t:"Site",sp:[{t:"WooCommerce",w:"B",done:true,c:["À jour"]},{t:"Bricks",w:"B",done:true,c:["À jour"]},{t:"TikTok Shop",w:"B",done:true,c:["Finalisé"]}]},
+ {t:"Pages et liens",all:[["GitHub","B",["Tout hébergé à notre nom","Notre propre système de liens","Pages hébergées","Ce guide en ligne"]]]}
  ]}
 ];
 
 /* Priorités en rouge */
 const PRIORITIES=[
  {k:"Priorité 1",t:"Règle des 2 minutes",p:"Toute tâche de moins de 2 minutes est traitée tout de suite. Elle ne va pas dans Todoist.",go:null,timer:true},
- {k:"Priorité 2",t:"Restructuration générale du site e-commerce",p:"Transformer Solution pour Piscine de site vitrine en vrai site e-commerce.",go:"spp"},
- {k:"Priorité 3",t:"Structuration de l'entreprise Servic'eau",p:"Organisation, administratif, outils : mettre l'entreprise en ordre de marche.",go:"struct"}
+ {k:"Priorité 2",t:"Structuration de l'entreprise",p:"Organisation, administratif, outils : mettre l'entreprise en ordre de marche.",go:"struct"},
+ {k:"Priorité 3",t:"Restructuration générale du site",p:"Transformer Solution pour Piscine de site vitrine en vrai site e-commerce.",go:"spp"},
+ {k:"Priorité 4",t:"Tout héberger nous-mêmes",p:"Tout héberger à notre nom, avec notre propre système de liens.",go:"tools"},
+ {k:"Priorité 5",t:"Regrouper tous nos contenus",p:"Contenus, codes, accès : tout regroupé au même endroit. Kevin a accès partout, chacun a accès à ce qui le concerne.",go:null},
+ {k:"Priorité 6",t:"Garder l'identité de l'entreprise",p:"Garder l'identité familiale de l'entreprise dans tout ce qu'on fait.",go:"brand"}
 ];
 
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-let CH=store.get("sv2-checks",{});
+const DEF=[];
+let CH=store.get("sv4-checks",null);
 let personFilter="all";
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -594,10 +626,15 @@ const SIDES=[["sv","Servic'eau Piscines"],["sp","Solution pour Piscine"],["all",
 THEMES.forEach((th,ti)=>{th.tabs.forEach((tab,bi)=>{tab.id=th.id+"-"+bi;SIDES.forEach(([s])=>{
   if(!tab[s])return;tab[s]=tab[s].map((x,ki)=>{
     let o=Array.isArray(x)?{t:x[0],w:x[1],c:x[2]}:{...x};
-    if(o.people)o.c=FORM.map(k=>PEOPLE[k].n);
-    o.key=tab.id+"-"+s+"-"+ki;return o;});
+    if(o.people){o.pk=(o.pw||FORM.join("")).split("");o.c=o.pk.map(k=>PEOPLE[k].n);o.w=o.pw||o.w||FORM.join("");if(o.pre){o.c=o.pre.concat(o.c);o.pk=o.pre.map(()=>null).concat(o.pk)}}
+    if(!o.c||o.prep)o.c=[];
+    if(o.soon){o.list=o.c;o.c=[]}
+    o.key=tab.id+"-"+s+"-"+ki;
+    if(o.done){const ix=o.done===true?o.c.map((_,i)=>i):o.done;ix.forEach(i=>DEF.push(o.key+"-"+i))}
+    return o;});
 });});});
 
+{if(!CH)CH={};const seen=store.get("sv4-seeded",[]);let ch=0;DEF.forEach(k=>{if(!seen.includes(k)){CH[k]=1;seen.push(k);ch=1}});if(ch){store.set("sv4-checks",CH);store.set("sv4-seeded",seen)}}
 const tasksOf=tab=>SIDES.flatMap(([s])=>tab[s]||[]);
 const ck=(task,i)=>task.key+"-"+i;
 const cnt=tasks=>{let d=0,n=0;tasks.forEach(t=>t.c.forEach((_,i)=>{n++;if(CH[ck(t,i)])d++}));return{d,n}};
@@ -628,7 +665,7 @@ function buildPriorities(){
     (p.timer?'<div class="clock"><svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"></circle><circle class="fg" id="arc" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="0"></circle></svg><span id="clk">2:00</span></div>':'<div class="prio-n">'+(i+1)+'</div>')+
     '<div class="prio-b"><div class="eyebrow red">'+p.k+'</div><h3>'+esc(p.t)+'</h3><p>'+esc(p.p)+'</p>'+
     (p.timer?'<div class="tri"><input id="tache" placeholder="Ex. : répondre au mail de M. Martin" aria-label="Tâche à trier"><button class="btn red" data-t="short">Moins de 2 min</button><button class="btn ghost" data-t="long">Plus long</button></div><p class="verdict" id="verdict" aria-live="polite"></p>':
-      '<div class="prio-bar"><div class="bar"><i id="pb-'+p.go+'"></i></div><strong id="pp-'+p.go+'">0 %</strong></div><button class="btn red" data-go="'+p.go+'">Ouvrir le thème</button>')+
+      (p.go?'<div class="prio-bar"><div class="bar"><i id="pb-'+p.go+'"></i></div><strong id="pp-'+p.go+'">0 %</strong></div><button class="btn red" data-go="'+p.go+'">Ouvrir le thème</button>':''))+
     '</div></article>').join("");
   $("#prio").addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g)goTheme(g.dataset.go)});
   let timer=null;
@@ -644,22 +681,31 @@ function buildPriorities(){
 /* ───── Thèmes ───── */
 function taskHTML(t){
   const s=cnt([t]);
-  return '<div class="task" data-w="'+t.w+'" id="task-'+t.key+'"><div class="task-h"><b>'+esc(t.t)+'</b><span class="tc">'+s.d+'/'+s.n+'</span></div>'+chips(t.w)+
+  const cls=t.prep?" prep":t.soon?" soon":t.y?" yel":"";
+  return '<div class="task'+cls+'" data-w="'+t.w+'" id="task-'+t.key+'"><div class="task-h"><b>'+esc(t.t)+'</b><span class="tc">'+(s.n?s.d+'/'+s.n:'')+'</span></div>'+chips(t.w)+
+   (t.prep?'<span class="tag y">En préparation</span><p class="tnote">Contenu en cours de retravail, il arrive bientôt.</p>':'')+
+   (t.y?'<span class="tag y">À reprendre par les autres</span>':'')+
+   (t.soon?'<span class="tag o">Bientôt · pas pour l\'instant</span>':'')+
+   (t.alert?'<p class="alert">'+esc(t.alert)+'</p>':'')+
+   (t.note?'<p class="tnote">'+esc(t.note)+'</p>':'')+
+   (t.list?'<ul class="soonl">'+t.list.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>':'')+
    (t.sw?'<div class="sw">'+t.sw.map(([n,h])=>'<div class="swc"><i style="background:'+h+'"></i><b>'+esc(n)+'</b><code>'+h+'</code></div>').join("")+'</div>':'')+
-   '<ul class="cl">'+t.c.map((c,i)=>{const id="c-"+ck(t,i);return '<li><input type="checkbox" id="'+id+'" data-k="'+ck(t,i)+'"'+(CH[ck(t,i)]?" checked":"")+'><label for="'+id+'">'+
-     (t.people?'<span class="pp" style="--pc:'+PEOPLE[FORM[i]].c+'">'+esc(c)+'</span> formation réalisée':esc(c))+'</label></li>'}).join("")+'</ul></div>';
+   (t.c.length?'<ul class="cl">'+t.c.map((c,i)=>{const id="c-"+ck(t,i),yl=c[0]==="!";return '<li><input type="checkbox" id="'+id+'" data-k="'+ck(t,i)+'"'+(CH[ck(t,i)]?" checked":"")+'><label for="'+id+'"'+(yl?' class="yl"':'')+'>'+
+     (t.people&&t.pk[i]?'<span class="pp" style="--pc:'+PEOPLE[t.pk[i]].c+'">'+esc(c)+'</span> formation réalisée':esc(yl?c.slice(1):c))+'</label></li>'}).join("")+'</ul>':'')+'</div>';
 }
 function sideHTML(tab,s,label){
   if(!tab[s])return"";
   return '<div class="side side-'+s+'"><div class="side-band"><span>'+label+'</span><div class="bar mini"><i id="sb-'+tab.id+'-'+s+'"></i></div></div><div class="tasks">'+tab[s].map(taskHTML).join("")+'</div></div>';
 }
+function thin(tab){const ts=tasksOf(tab);if(ts.some(t=>t.prep||t.y||t.soon))return false;const c=cnt(ts);return c.n<=2&&c.d<c.n}
 function buildThemes(){
   $("#themes").innerHTML=THEMES.map((th,i)=>'<section class="theme'+(th.mode?" mode-"+th.mode:"")+'" id="th-'+th.id+'">'+
    '<header class="th-h"><span class="th-n">'+String(i+1).padStart(2,"0")+'</span><div class="th-t"><h2>'+esc(th.t)+(th.badge?' <span class="badge">'+esc(th.badge)+'</span>':'')+'</h2><p>'+esc(th.desc)+'</p>'+chips(th.who)+'</div>'+
    '<div class="th-p"><div class="bar big"><i id="tb-'+th.id+'"></i></div><strong id="tp-'+th.id+'">0 %</strong><span class="th-c" id="tc-'+th.id+'"></span></div></header>'+
-   '<div class="tabs">'+th.tabs.map(tab=>'<article class="tab" id="tab-'+tab.id+'"><button class="tab-h" aria-expanded="false"><span class="chev">›</span><span class="tab-t">'+esc(tab.t)+'</span>'+
+   '<div class="tabs">'+th.tabs.map(tab=>'<article class="tab" id="tab-'+tab.id+'"><button class="tab-h" aria-expanded="false"><span class="chev">›</span><span class="tab-t">'+esc(tab.t)+(thin(tab)?' <span class="tag todo">À compléter</span>':'')+'</span>'+
      '<span class="marks">'+(tab.sv?'<i class="m sv"></i>':'')+(tab.sp?'<i class="m sp"></i>':'')+'</span><span class="bar tabbar"><i id="xb-'+tab.id+'"></i></span><span class="tab-p" id="xp-'+tab.id+'">0 %</span><span class="stamp">Validé</span></button>'+
-     '<div class="tab-b">'+sideHTML(tab,"sv","Servic'eau Piscines")+sideHTML(tab,"sp","Solution pour Piscine")+sideHTML(tab,"all","Commun aux deux entreprises")+'</div></article>').join("")+'</div></section>').join("");
+     '<div class="tab-b'+(tab.bridge?' hb':'')+'">'+sideHTML(tab,"sv","Servic'eau Piscines")+sideHTML(tab,"sp","Solution pour Piscine")+sideHTML(tab,"all","Commun aux deux entreprises")+
+     (tab.bridge?'<div class="bridge"><span class="arr" aria-hidden="true">⟷</span><b>Relie les deux</b><p>'+esc(tab.bridge)+'</p></div>':'')+'</div></article>').join("")+'</div>'+(th.foot?'<div class="ylw" style="margin-top:10px"><span class="sq" aria-hidden="true"></span><div><b>À retenir</b><p>'+esc(th.foot)+'</p></div></div>':'')+'</section>').join("");
 }
 
 function goTheme(id){const el=$("#th-"+id);if(!el)return;el.scrollIntoView({behavior:RM?"auto":"smooth",block:"start"});el.classList.add("flash");setTimeout(()=>el.classList.remove("flash"),1500)}
@@ -672,10 +718,10 @@ function refresh(){
       const s=tabStat(tab),p=pc(s);setBar("xb-"+tab.id,p);$("#xp-"+tab.id).textContent=p+" %";
       $("#tab-"+tab.id).classList.toggle("complete",s.n>0&&s.d===s.n);
       SIDES.forEach(([sd])=>{if(tab[sd])setBar("sb-"+tab.id+"-"+sd,pc(cnt(tab[sd])))});
-      tasksOf(tab).forEach(t=>{const c=cnt([t]),el=document.getElementById("task-"+t.key);el.querySelector(".tc").textContent=c.d+"/"+c.n;el.classList.toggle("done",c.d===c.n)});
+      tasksOf(tab).forEach(t=>{const c=cnt([t]),el=document.getElementById("task-"+t.key);el.querySelector(".tc").textContent=c.n?c.d+"/"+c.n:"";el.classList.toggle("done",c.n>0&&c.d===c.n)});
     });
     const s=themeStat(th),p=pc(s);setBar("tb-"+th.id,p);$("#tp-"+th.id).textContent=p+" %";
-    const doneTabs=th.tabs.filter(t=>{const x=tabStat(t);return x.d===x.n}).length;
+    const doneTabs=th.tabs.filter(t=>{const x=tabStat(t);return x.n>0&&x.d===x.n}).length;
     $("#tc-"+th.id).textContent=doneTabs+"/"+th.tabs.length+" onglets validés · "+s.d+"/"+s.n+" cases";
     $("#th-"+th.id).classList.toggle("complete",s.d===s.n);
     const node=$("#node-"+th.id);node.style.setProperty("--p",p);node.querySelector(".np").textContent=p+" %";node.classList.toggle("full",p===100);
@@ -715,12 +761,12 @@ $("#themes").addEventListener("change",e=>{
   const k=e.target.dataset.k;if(!k)return;
   const tabId=k.split("-").slice(0,2).join("-"),thId=tabId.split("-")[0];
   const th=THEMES.find(x=>x.id===thId),tab=th.tabs.find(x=>x.id===tabId);
-  const wasTab=(s=>s.d===s.n)(tabStat(tab)),wasTh=(s=>s.d===s.n)(themeStat(th)),wasAll=(s=>s.d===s.n)(allStat());
-  if(e.target.checked)CH[k]=1;else delete CH[k];store.set("sv2-checks",CH);
+  const wasTab=(s=>s.n>0&&s.d===s.n)(tabStat(tab)),wasTh=(s=>s.d===s.n)(themeStat(th)),wasAll=(s=>s.d===s.n)(allStat());
+  if(e.target.checked)CH[k]=1;else delete CH[k];store.set("sv4-checks",CH);
   refresh();
   if(!e.target.checked)return;
   const task=e.target.closest(".task");if(task.classList.contains("done"))burst(task,8,false);
-  const nowTab=(s=>s.d===s.n)(tabStat(tab)),nowTh=(s=>s.d===s.n)(themeStat(th)),nowAll=(s=>s.d===s.n)(allStat());
+  const nowTab=(s=>s.n>0&&s.d===s.n)(tabStat(tab)),nowTh=(s=>s.d===s.n)(themeStat(th)),nowAll=(s=>s.d===s.n)(allStat());
   if(nowAll&&!wasAll){mega();return}
   if(nowTh&&!wasTh){const el=$("#th-"+th.id);el.classList.remove("celebrate");void el.offsetWidth;el.classList.add("celebrate");burst(el.querySelector(".th-h"),40,true);toast("Thème validé : "+th.t);return}
   if(nowTab&&!wasTab){const el=$("#tab-"+tab.id);el.classList.remove("pop");void el.offsetWidth;el.classList.add("pop");burst(el.querySelector(".tab-h"),18,false);toast("Onglet validé : "+tab.t)}
@@ -742,27 +788,12 @@ function applyFilter(){
 function buildNav(){$("#tnav").innerHTML=THEMES.map((th,i)=>'<a href="#th-'+th.id+'" class="tn'+(th.mode?" "+th.mode:"")+'">'+String(i+1).padStart(2,"0")+' '+esc(th.short)+'</a>').join("")}
 $("#tnav").addEventListener("click",e=>{const a=e.target.closest("a");if(!a)return;e.preventDefault();goTheme(a.getAttribute("href").slice(4))});
 
-/* ───── Quêtes ───── */
-const PLAYERS=[
- {id:"aboud",name:"Aboud",col:"#1f5872",role:"Com et développement commercial",q:[{t:"Lancer la refonte du site e-commerce",xp:80},{t:"Mettre en ligne la page de liens sur GitHub",xp:40}]},
- {id:"lisa",name:"Lisa",col:"#8a5a9e",role:"Réseaux sociaux",q:[{t:"Mettre en place les bulles Instagram",xp:50},{t:"Tenir le planning de stories une semaine",xp:30}]},
- {id:"adele",name:"Adèle",col:"#3b7b6a",role:"Structuration d'entreprise (GPME)",q:[{t:"Faire un devis validé par Kevin",xp:50},{t:"Mettre en place les libellés de la boîte Servic'eau",xp:40}]}
-];
-let qs=store.get("sv2-quests",null)||PLAYERS.reduce((o,p)=>(o[p.id]=p.q.map(x=>({...x,ok:false})),o),{});
-function renderPlayers(){
-  $("#players").innerHTML=PLAYERS.map(p=>{const list=qs[p.id]||[],xp=list.filter(q=>q.ok).reduce((s,q)=>s+q.xp,0),lvl=1+Math.floor(xp/100);
-    return '<div class="player"><div class="pwho"><span class="avatar" style="background:'+p.col+'">'+p.name[0]+'</span><div><b>'+p.name+'</b><div class="lvl">'+p.role+'</div></div></div>'+
-    '<div class="lvl">Niveau '+lvl+' · <span class="mono">'+xp+' XP</span></div><div class="bar"><i style="width:'+(xp%100)+'%"></i></div>'+
-    list.map((q,i)=>'<label class="quest'+(q.ok?" ok":"")+'"><input type="checkbox" data-p="'+p.id+'" data-i="'+i+'"'+(q.ok?" checked":"")+'><span class="q">'+esc(q.t)+'</span><span class="xpv">+'+q.xp+' XP</span></label>').join("")+
-    '<form class="addq" data-p="'+p.id+'"><input id="add-'+p.id+'" placeholder="Nouvelle quête" aria-label="Nouvelle quête pour '+p.name+'"><button class="btn" type="submit">+</button></form></div>'}).join("");
-}
-$("#players").addEventListener("change",e=>{const c=e.target;if(!c.dataset.p)return;const q=qs[c.dataset.p][+c.dataset.i];q.ok=c.checked;store.set("sv2-quests",qs);renderPlayers();if(c.checked)toast("Quête validée : +"+q.xp+" XP")});
-$("#players").addEventListener("submit",e=>{e.preventDefault();const f=e.target,inp=f.querySelector("input"),t=inp.value.trim();if(!t)return;qs[f.dataset.p].push({t,xp:30,ok:false});store.set("sv2-quests",qs);renderPlayers();toast("Quête ajoutée")});
-
 /* Init */
-buildHub();buildPriorities();buildThemes();buildNav();buildFilter();renderPlayers();refresh();
+buildHub();buildPriorities();buildThemes();buildNav();buildFilter();refresh();
 $("#mThemes").textContent=THEMES.length+" thèmes";
 $("#mTabs").textContent=THEMES.reduce((s,t)=>s+t.tabs.length,0)+" onglets";
 $("#mChecks").textContent=allStat().n+" cases à cocher";
 
 </script>
+
+</body></html>
