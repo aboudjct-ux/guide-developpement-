@@ -1,417 +1,768 @@
-<!doctype html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Servic'eau × Claude</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Guide interactif : développer Servic'eau Piscines et Solution pour Piscine avec Claude au centre.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bree+Serif&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
 <style>
-/* Layout : hub radial en ouverture (Claude au centre), puis règle des 2 min, puis axes filtrables en 3 parties, puis quêtes */
+/* Layout : araignée + priorités en rouge, barre de progression collante, puis 17 thèmes en accordéons coupés Servic'eau (bleu foncé) / Solution (bleu clair) */
 :root{
-  --ground:#f9fbfb; --surface:#ffffff; --sunk:#eaf1f3;
-  --ink:#09242f; --ink-2:#3d5a66; --line:#d4e1e6;
-  --deep:#1f5872; --sea:#578d9f; --foam:#d9ecf1;
-  --red:#c7372f; --red-soft:#fbe7e5;
-  --ok:#2f8a5b; --ok-soft:#e1f3e9; --amber:#b9770e; --amber-soft:#fbf0dc; --grey-soft:#eceff1;
+  --ground:#f6f9fa; --surface:#ffffff; --sunk:#e9f0f3; --ink:#09242f; --ink-2:#46616c; --line:#d3e0e5;
+  --sv:#173a6b; --sv-soft:#e3eaf4; --sv-ink:#ffffff;
+  --sp:#4fa8d4; --sp-soft:#e2f2fa; --sp-ink:#062330;
+  --red:#c7372f; --red-soft:#fbe8e6; --ok:#2f8a5b; --ok-soft:#e0f3e8; --gold:#d9a72e;
   --display:"Bree Serif",Georgia,serif; --body:Figtree,system-ui,-apple-system,sans-serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --ground:#071b23; --surface:#0d2833; --sunk:#0a222b; --ink:#eef6f8; --ink-2:#a9c3cc; --line:#1d3f4c;
-    --deep:#7fb6c9; --sea:#5f9cb0; --foam:#123744; --red:#f0756b; --red-soft:#3a1715;
-    --ok:#5cc58c; --ok-soft:#10301f; --amber:#e8b04f; --amber-soft:#33260c; --grey-soft:#16313b; color-scheme:dark }
-}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ground:#06161d; --surface:#0c2530; --sunk:#0a1e27; --ink:#eaf4f7; --ink-2:#a3bdc6; --line:#1d3d4a;
+  --sv:#2c5a99; --sv-soft:#11253d; --sv-ink:#ffffff; --sp:#5fb9e2; --sp-soft:#0e2c3a; --sp-ink:#04161e;
+  --red:#f0756b; --red-soft:#341613; --ok:#5cc58c; --ok-soft:#0f2e1e; --gold:#e8bf55; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --ground:#071b23; --surface:#0d2833; --sunk:#0a222b; --ink:#eef6f8; --ink-2:#a9c3cc; --line:#1d3f4c;
-  --deep:#7fb6c9; --sea:#5f9cb0; --foam:#123744; --red:#f0756b; --red-soft:#3a1715;
-  --ok:#5cc58c; --ok-soft:#10301f; --amber:#e8b04f; --amber-soft:#33260c; --grey-soft:#16313b; color-scheme:dark }
+  --ground:#06161d; --surface:#0c2530; --sunk:#0a1e27; --ink:#eaf4f7; --ink-2:#a3bdc6; --line:#1d3d4a;
+  --sv:#2c5a99; --sv-soft:#11253d; --sv-ink:#ffffff; --sp:#5fb9e2; --sp-soft:#0e2c3a; --sp-ink:#04161e;
+  --red:#f0756b; --red-soft:#341613; --ok:#5cc58c; --ok-soft:#0f2e1e; --gold:#e8bf55; color-scheme:dark}
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
-.wrap{max-width:980px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0;line-height:1.15}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0;line-height:1.15;text-wrap:balance}
 p{margin:0}
 button{font:inherit;color:inherit;cursor:pointer}
-:focus-visible{outline:3px solid var(--sea);outline-offset:2px;border-radius:6px}
-.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sea)}
-
-/* Hero */
-.hero{padding-block:36px 28px;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
-.hero h1{font-size:clamp(32px,6vw,52px);margin-top:10px}
-.hero h1 em{font-style:normal;color:var(--deep)}
-.hero .lead{margin-top:14px;font-size:17px;color:var(--ink-2);max-width:46ch}
-.meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--ink-2)}
-.meta span{padding:4px 10px;border:1px solid var(--line);border-radius:99px;background:var(--surface)}
-.hub{position:relative;width:100%;max-width:440px;aspect-ratio:1;margin:0 auto}
-.hub svg{position:absolute;inset:0;width:100%;height:100%}
-.hub svg line{stroke:var(--line);stroke-width:1.5}
-.hub svg circle.ring{fill:none;stroke:var(--line);stroke-dasharray:3 5}
-.core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:27%;aspect-ratio:1;border-radius:50%;
-  background:var(--deep);color:var(--ground);display:grid;place-items:center;text-align:center;font-family:var(--display);font-size:clamp(15px,3.4vw,20px);
-  box-shadow:0 0 0 8px var(--foam)}
-.core small{display:block;font-family:var(--body);font-size:11px;opacity:.8;margin-top:2px}
-.node{position:absolute;transform:translate(-50%,-50%);border:1px solid var(--line);background:var(--surface);border-radius:12px;
-  padding:6px 9px;font-size:12px;font-weight:600;line-height:1.2;text-align:center;max-width:31%;transition:transform .15s,border-color .15s,background .15s}
-.node:hover{transform:translate(-50%,-50%) scale(1.06);border-color:var(--sea)}
-.node .d{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:1px}
-.hub-hint{text-align:center;font-size:13px;color:var(--ink-2);margin-top:8px}
-
-/* Progress strip */
-.progress{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ground);border-bottom:1px solid var(--line)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ground)}
-.progress .wrap{padding-block:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.bar{flex:1 1 180px;height:10px;border-radius:99px;background:var(--sunk);overflow:hidden;display:flex}
-.bar i{display:block;height:100%;transition:width .4s}
-.progress strong{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
-.chips{display:flex;gap:6px;flex-wrap:wrap}
-.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:5px 11px;font-size:13px;font-weight:600}
-.chip[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
-.chip .n{font-family:var(--mono);font-size:11px;opacity:.7;margin-left:4px}
-
-section.block{padding-block:44px 8px}
-.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;flex-wrap:wrap}
-.sec-head h2{font-size:clamp(24px,4vw,32px)}
-.sec-head .num{font-family:var(--mono);color:var(--sea);font-size:14px}
-.sec-head p{flex-basis:100%;color:var(--ink-2);max-width:62ch}
-
-/* 2-minute rule */
-.rule{border-radius:18px;background:var(--red-soft);border:1.5px solid var(--red);padding:22px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center}
-.clock{width:120px;height:120px;position:relative}
-.clock svg{width:100%;height:100%;transform:rotate(-90deg)}
-.clock circle{fill:none;stroke-width:9}
-.clock .bg{stroke:var(--surface)}
-.clock .fg{stroke:var(--red);stroke-linecap:round;transition:stroke-dashoffset 1s linear}
-.clock span{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:22px;color:var(--red);font-variant-numeric:tabular-nums}
-.rule h3{font-size:22px;color:var(--red)}
-.rule p{margin-top:6px}
-.rule .tri{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.rule input{flex:1 1 200px;min-width:0;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font:inherit;background:var(--surface);color:var(--ink)}
-.btn{border:0;border-radius:10px;padding:9px 14px;font-weight:700;background:var(--ink);color:var(--ground)}
-.btn.red{background:var(--red);color:#fff}
-.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
-.verdict{margin-top:10px;font-weight:600;min-height:1.5em}
-
-/* Axes */
-.part{margin-top:30px}
-.part h3.p{font-size:20px;color:var(--deep);margin-bottom:12px;display:flex;align-items:center;gap:10px}
-.part h3.p::after{content:"";flex:1;height:1px;background:var(--line)}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.axe{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;scroll-margin-top:80px;transition:border-color .2s,box-shadow .2s}
-.axe.flash{border-color:var(--sea);box-shadow:0 0 0 4px var(--foam)}
-.axe.done{background:var(--sunk)}
-.axe>button.head{width:100%;border:0;background:none;text-align:left;padding:14px 16px;display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:start}
-.axe .t{font-weight:700;font-size:16px}
-.axe.done .t{text-decoration:line-through;text-decoration-color:var(--sea)}
-.axe .tools{grid-column:1/-1;font-size:13px;color:var(--ink-2)}
-.pill{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap}
-.s0{background:var(--ok-soft);color:var(--ok)} .s1{background:var(--foam);color:var(--deep)} .s2{background:var(--amber-soft);color:var(--amber)} .s3{background:var(--grey-soft);color:var(--ink-2)}
-.chev{transition:transform .2s;display:inline-block;margin-left:6px;color:var(--sea)}
-.axe.open .chev{transform:rotate(90deg)}
-.body{padding:0 16px 16px;display:none;flex-direction:column;gap:12px}
-.axe.open .body{display:flex}
-.body ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:15px}
-.claude{border-radius:10px;background:var(--foam);padding:10px 12px;font-size:14px}
-.claude b{color:var(--deep)}
-.voice{display:flex;gap:8px;align-items:flex-start;font-size:14px;border:1px dashed var(--sea);border-radius:10px;padding:9px 11px}
-.voice .mic{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--deep);display:grid;place-items:center}
-.voice q{font-style:italic}
-.copy{margin-left:auto;flex-shrink:0;border:0;background:none;color:var(--sea);font-size:12px;font-weight:700}
-.donebox{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600}
-.donebox input{width:18px;height:18px;accent-color:var(--sea)}
+:focus-visible{outline:3px solid var(--sp);outline-offset:2px;border-radius:6px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sp)}
+.eyebrow.red{color:var(--red)}
+.mono{font-family:var(--mono)}
 .hide{display:none!important}
 
-/* Quests */
-.players{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+/* Hero + araignée */
+.hero{padding-block:32px 20px;display:grid;grid-template-columns:1fr 1.1fr;gap:28px;align-items:center}
+.hero h1{font-size:clamp(30px,5.5vw,50px);margin-top:10px}
+.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--sv),var(--sp),var(--sv));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 6s linear infinite}
+.lead{margin-top:14px;font-size:17px;color:var(--ink-2);max-width:46ch}
+.meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--ink-2)}
+.meta span{padding:4px 10px;border:1px solid var(--line);border-radius:99px;background:var(--surface)}
+.legend{margin-top:14px;display:flex;gap:14px;flex-wrap:wrap;font-size:13px;font-weight:600}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:4px;display:inline-block}
+.hub{position:relative;width:100%;max-width:480px;aspect-ratio:1;margin:0 auto}
+.hub svg{position:absolute;inset:0;width:100%;height:100%}
+.hub svg line{stroke:var(--line);stroke-width:.4;stroke-dasharray:1.2 1.2;animation:flow 1.4s linear infinite}
+.hub svg circle{fill:none;stroke:var(--line);stroke-width:.3;stroke-dasharray:1 1.6;transform-origin:50px 50px;animation:spin 80s linear infinite}
+.core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:24%;aspect-ratio:1;border-radius:50%;background:var(--sv);color:#fff;display:grid;place-content:center;text-align:center;font-family:var(--display);font-size:clamp(14px,3.2vw,20px);animation:halo 2.8s ease-out infinite}
+.core small{display:block;font-family:var(--mono);font-size:12px;opacity:.85;margin-top:2px}
+.node{--p:0;position:absolute;transform:translate(-50%,-50%);border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:2px;width:19%;animation:float 3.4s ease-in-out infinite;animation-delay:var(--fd,0s)}
+.node .ring{width:clamp(22px,5vw,34px);aspect-ratio:1;border-radius:50%;background:conic-gradient(var(--ok) calc(var(--p)*1%),var(--sunk) 0);display:grid;place-items:center;transition:transform .2s}
+.node .ring::after{content:"";width:62%;aspect-ratio:1;border-radius:50%;background:var(--surface);border:2px solid var(--ink-2)}
+.node[data-mode="sv"] .ring::after{border-color:var(--sv);background:var(--sv)}
+.node[data-mode="sp"] .ring::after{border-color:var(--sp);background:var(--sp)}
+.node.full .ring{animation:glow 1.6s ease-in-out infinite}
+.node:hover .ring{transform:scale(1.15)}
+.node .lab{font-size:clamp(9.5px,1.9vw,12px);font-weight:700;line-height:1.1;text-align:center}
+.node .np{font-family:var(--mono);font-size:clamp(8.5px,1.6vw,10.5px);color:var(--ink-2)}
+
+/* Barre collante */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:8;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:0 6px 18px -14px rgba(9,36,47,.5)}
+.sticky .wrap{padding-block:10px;display:grid;gap:8px}
+.grow{display:flex;align-items:center;gap:12px}
+.grow .lbl{font-size:13px;font-weight:700;white-space:nowrap}
+.grow strong{font-family:var(--mono);font-size:14px;font-variant-numeric:tabular-nums}
+.grow .cnt{font-size:12px;color:var(--ink-2);font-family:var(--mono);white-space:nowrap}
+.tnav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.tnav::-webkit-scrollbar{display:none}
+.tn{flex-shrink:0;font-size:12px;font-weight:700;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:99px;padding:4px 10px;background:var(--ground)}
+.tn.sv{border-color:var(--sv)} .tn.sp{border-color:var(--sp)}
+.pfilter{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.pfilter .chip{flex-shrink:0}
+.chip{border:1px solid var(--line);background:var(--ground);border-radius:99px;padding:4px 11px;font-size:13px;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+
+/* Barres */
+.bar{flex:1;height:8px;border-radius:99px;background:var(--sunk);overflow:hidden;position:relative;min-width:40px}
+.bar i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--sv),var(--sp));transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.bar::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);background-size:40% 100%;background-repeat:no-repeat;animation:shimmer 3s linear infinite}
+.bar.big{height:12px}
+
+/* Priorités en rouge */
+.prios{padding-block:24px 8px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.prio{border-radius:16px;background:var(--red-soft);border:2px solid var(--red);padding:16px;display:flex;flex-direction:column;gap:12px;animation:ring 2.4s ease-in-out infinite;min-width:0}
+.prio:nth-child(2){animation-delay:.8s}.prio:nth-child(3){animation-delay:1.6s}
+.prio h3{font-size:20px;color:var(--red);margin-top:2px}
+.prio p{font-size:14.5px}
+.prio-b{display:flex;flex-direction:column;gap:8px;min-width:0}
+.prio-n{width:44px;height:44px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:22px}
+.prio-bar{display:flex;align-items:center;gap:10px}
+.prio-bar .bar i{background:var(--red)}
+.prio-bar strong{font-family:var(--mono);font-size:13px;color:var(--red)}
+.clock{width:84px;height:84px;position:relative}
+.clock svg{width:100%;height:100%;transform:rotate(-90deg)}
+.clock circle{fill:none;stroke-width:9}.clock .bg{stroke:var(--surface)}.clock .fg{stroke:var(--red);stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.clock span{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:17px;color:var(--red)}
+.tri{display:flex;flex-wrap:wrap;gap:6px}
+.tri input{flex:1 1 100%;min-width:0;border:1px solid var(--line);border-radius:10px;padding:8px 11px;font:inherit;font-size:14px;background:var(--surface);color:var(--ink)}
+.btn{border:0;border-radius:10px;padding:8px 13px;font-weight:700;font-size:14px;background:var(--ink);color:var(--ground);align-self:flex-start}
+.btn.red{background:var(--red);color:#fff}
+.btn.ghost{background:transparent;border:1px solid var(--red);color:var(--red)}
+.verdict{font-weight:600;font-size:14px;min-height:1.4em}
+
+/* Thèmes */
+.theme{margin-top:34px;scroll-margin-top:130px;border-radius:20px;transition:box-shadow .3s}
+.theme.flash{box-shadow:0 0 0 4px var(--sp-soft)}
+.th-h{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;padding-bottom:14px;border-bottom:2px solid var(--ink);position:relative;overflow:hidden}
+.mode-sv .th-h{border-color:var(--sv)} .mode-sp .th-h{border-color:var(--sp)}
+.th-n{font-family:var(--mono);font-size:14px;color:var(--ink-2);padding-top:8px}
+.th-t h2{font-size:clamp(23px,4vw,32px)}
+.th-t p{color:var(--ink-2);margin-top:4px;max-width:64ch}
+.th-p{grid-column:1/-1;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.th-p strong{font-family:var(--mono);font-size:15px}
+.th-c{font-size:12px;color:var(--ink-2);font-family:var(--mono)}
+.badge{display:inline-block;vertical-align:middle;font-family:var(--body);font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--gold);color:#2a1d00;animation:pulse 1.8s ease-in-out infinite}
+.theme.complete .th-h::after{content:"Thème validé";position:absolute;right:0;top:4px;font-size:12px;font-weight:700;background:var(--ok);color:#fff;padding:3px 10px;border-radius:99px}
+.theme.celebrate .th-h{animation:themeWin 1.4s ease}
+.theme.celebrate .th-h::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.6) 50%,transparent 70%);animation:sweep 1.2s ease;pointer-events:none}
+.who{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.pp{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:2px 8px 2px 6px;border-radius:99px;background:color-mix(in srgb,var(--pc) 14%,transparent);color:var(--ink)}
+.pp::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pc)}
+
+.tabs{display:grid;gap:8px;margin-top:14px}
+.tab{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .3s,background .3s}
+.tab-h{width:100%;border:0;background:none;text-align:left;padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto minmax(60px,140px) 46px;gap:10px;align-items:center;position:relative}
+.chev{color:var(--sp);font-size:20px;line-height:1;transition:transform .2s}
+.tab.open .chev{transform:rotate(90deg)}
+.tab-t{font-weight:700;min-width:0}
+.marks{display:flex;gap:3px}
+.m{width:10px;height:10px;border-radius:3px;display:block}.m.sv{background:var(--sv)}.m.sp{background:var(--sp)}
+.tab-p{font-family:var(--mono);font-size:12.5px;text-align:right;font-variant-numeric:tabular-nums}
+.stamp{position:absolute;right:12px;top:50%;transform:translateY(-50%) scale(0) rotate(-12deg);background:var(--ok);color:#fff;font-size:12px;font-weight:700;padding:3px 10px;border-radius:6px;pointer-events:none}
+.tab.complete{border-color:var(--ok);background:var(--ok-soft)}
+.tab.complete .tab-p{opacity:0}
+.tab.complete .stamp{transform:translateY(-50%) scale(1) rotate(-6deg)}
+.tab.complete .tabbar i{background:var(--ok)}
+.tab.pop{animation:tabPop .7s ease}
+.tab.pop .stamp{animation:stampIn .6s cubic-bezier(.3,1.6,.5,1)}
+.tab-b{display:none;padding:0 14px 14px;gap:12px;flex-direction:column}
+.tab.open .tab-b{display:flex;animation:open .3s ease}
+
+.side{border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.side-band{display:flex;align-items:center;gap:12px;padding:8px 12px;font-size:13px;font-weight:700;letter-spacing:.02em}
+.side-band span{white-space:nowrap}
+.side-band .bar{height:6px;background:rgba(255,255,255,.25)}
+.side-band .bar i{background:currentColor}
+.side-sv .side-band{background:var(--sv);color:var(--sv-ink)}
+.side-sp .side-band{background:var(--sp);color:var(--sp-ink)}
+.side-all .side-band{background:var(--sunk);color:var(--ink)}
+.side-all .side-band .bar{background:var(--line)}
+.side-sv{background:var(--sv-soft)}.side-sp{background:var(--sp-soft)}.side-all{background:var(--surface)}
+.tasks{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;padding:10px}
+.task{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:11px 12px;min-width:0;transition:border-color .3s}
+.task.done{border-color:var(--ok)}
+.task-h{display:flex;gap:8px;align-items:baseline;justify-content:space-between}
+.task-h b{font-size:15px}
+.tc{font-family:var(--mono);font-size:11.5px;color:var(--ink-2);flex-shrink:0}
+.task.done .tc{color:var(--ok)}
+.cl{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:2px}
+.cl li{display:flex;gap:8px;align-items:flex-start;font-size:14px}
+.cl input{appearance:none;flex-shrink:0;width:18px;height:18px;margin:2px 0 0;border:2px solid var(--ink-2);border-radius:5px;display:grid;place-items:center;cursor:pointer;transition:background .15s,border-color .15s}
+.cl input::after{content:"";width:5px;height:9px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) scale(0);margin-top:-2px;transition:transform .2s cubic-bezier(.3,1.8,.5,1)}
+.cl input:checked{background:var(--ok);border-color:var(--ok);animation:tick .3s ease}
+.cl input:checked::after{transform:rotate(45deg) scale(1)}
+.cl input:checked+label{color:var(--ink-2);text-decoration:line-through;text-decoration-color:var(--ok)}
+.cl label{cursor:pointer;padding:1px 0}
+.sw{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:10px}
+.swc{display:grid;grid-template-columns:28px 1fr;gap:0 8px;align-items:center;font-size:12.5px}
+.swc i{grid-row:span 2;width:28px;height:28px;border-radius:7px;border:1px solid var(--line)}
+.swc code{font-family:var(--mono);font-size:11px;color:var(--ink-2)}
+
+/* Quêtes */
+.qsec{margin-top:44px}
+.qsec h2{font-size:clamp(23px,4vw,32px)}
+.qsec>p{color:var(--ink-2);margin-top:6px;max-width:64ch}
+.players{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
 .player{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.player .who{display:flex;align-items:center;gap:10px}
-.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:18px;color:#fff;flex-shrink:0}
-.player .lvl{font-size:12px;color:var(--ink-2)}
-.xp{height:8px;border-radius:99px;background:var(--sunk);overflow:hidden}
-.xp i{display:block;height:100%;background:var(--sea);transition:width .4s}
+.pwho{display:flex;align-items:center;gap:10px}
+.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:18px;color:#fff;flex-shrink:0;animation:float 3.6s ease-in-out infinite}
+.lvl{font-size:12px;color:var(--ink-2)}
 .quest{display:flex;gap:8px;align-items:flex-start;font-size:14px;padding:8px;border-radius:10px;background:var(--sunk)}
-.quest input{margin-top:3px;accent-color:var(--sea)}
-.quest .xpv{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--sea);white-space:nowrap}
-.quest.ok span.q{text-decoration:line-through;color:var(--ink-2)}
+.quest input{margin-top:3px;accent-color:var(--ok)}
+.quest .xpv{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--sp);white-space:nowrap}
+.quest.ok .q{text-decoration:line-through;color:var(--ink-2)}
 .addq{display:flex;gap:6px}
 .addq input{flex:1;min-width:0;border:1px solid var(--line);border-radius:8px;padding:7px 9px;font:inherit;font-size:14px;background:var(--surface);color:var(--ink)}
-.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);opacity:0;background:var(--ink);color:var(--ground);
-  padding:10px 16px;border-radius:12px;font-weight:600;transition:all .3s;z-index:20;pointer-events:none}
+
+footer{padding-block:40px 60px;color:var(--ink-2);font-size:13px;text-align:center}
+
+/* Effets */
+.spark{position:fixed;width:8px;height:8px;border-radius:2px;z-index:30;pointer-events:none;animation:spark .9s cubic-bezier(.1,.7,.3,1) forwards}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);opacity:0;background:var(--ink);color:var(--ground);padding:10px 16px;border-radius:12px;font-weight:600;transition:all .3s;z-index:40;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
 .toast.on{transform:translate(-50%,0);opacity:1}
-footer{padding-block:40px 50px;color:var(--ink-2);font-size:13px;text-align:center}
+.mega{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:color-mix(in srgb,var(--sv) 82%,transparent);cursor:pointer;padding:24px}
+.mega[hidden]{display:none}
+.mega canvas{position:absolute;inset:0;width:100%;height:100%}
+.mega .mt{position:relative;text-align:center;color:#fff;animation:megaIn 1s cubic-bezier(.3,1.5,.5,1)}
+.mega h2{font-size:clamp(34px,8vw,72px)}
+.mega p{margin-top:10px;font-size:17px;opacity:.9}
 
-/* Animations continues */
-@keyframes flow{to{stroke-dashoffset:-20}}
+@keyframes flow{to{stroke-dashoffset:-4.8}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes halo{0%,100%{box-shadow:0 0 0 8px var(--foam),0 0 0 8px rgba(87,141,159,.35)}50%{box-shadow:0 0 0 8px var(--foam),0 0 0 22px rgba(87,141,159,0)}}
-@keyframes float{0%,100%{translate:0 0}50%{translate:0 -5px}}
-@keyframes dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(1.5)}}
-@keyframes shimmer{from{background-position:-200% 0}to{background-position:200% 0}}
-@keyframes wave{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-@keyframes ring{0%,100%{box-shadow:0 0 0 0 rgba(199,55,47,0)}50%{box-shadow:0 0 0 6px rgba(199,55,47,.15)}}
-.hub svg line{stroke-dasharray:4 4;animation:flow 1.4s linear infinite}
-.hub svg circle.ring{transform-origin:50px 50px;animation:spin 60s linear infinite}
-.core{animation:halo 2.8s ease-out infinite}
-.node{animation:float 3.2s ease-in-out infinite;animation-delay:var(--fd,0s)}
-.node .d{animation:dot 2s ease-in-out infinite;animation-delay:var(--fd,0s)}
-.bar{position:relative}
-.bar::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);background-size:50% 100%;background-repeat:no-repeat;animation:shimmer 3s linear infinite}
-.rule{animation:ring 2.4s ease-in-out infinite}
-.pill.s0{animation:wave 2.6s ease-in-out infinite}
-.hero h1 em{background:linear-gradient(90deg,var(--deep),var(--sea),var(--deep));background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 6s linear infinite}
-.avatar{animation:float 3.6s ease-in-out infinite}
-@media (prefers-reduced-motion: reduce){.hub svg line,.hub svg circle.ring,.core,.node,.node .d,.bar::after,.rule,.pill.s0,.hero h1 em,.avatar{animation:none}}
+@keyframes halo{0%,100%{box-shadow:0 0 0 7px var(--sv-soft),0 0 0 7px rgba(79,168,212,.4)}50%{box-shadow:0 0 0 7px var(--sv-soft),0 0 0 22px rgba(79,168,212,0)}}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -4px}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(47,138,91,.5)}50%{box-shadow:0 0 0 8px rgba(47,138,91,0)}}
+@keyframes shimmer{from{background-position:-200% 0}to{background-position:300% 0}}
+@keyframes ring{0%,100%{box-shadow:0 0 0 0 rgba(199,55,47,0)}50%{box-shadow:0 0 0 6px rgba(199,55,47,.16)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+@keyframes tick{0%{transform:scale(1)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes tabPop{0%{transform:scale(1)}35%{transform:scale(1.025)}100%{transform:scale(1)}}
+@keyframes stampIn{0%{transform:translateY(-50%) scale(2.4) rotate(-20deg);opacity:0}100%{transform:translateY(-50%) scale(1) rotate(-6deg);opacity:1}}
+@keyframes themeWin{0%{transform:none}20%{transform:translateY(-4px)}40%{transform:none}60%{transform:translateY(-2px)}100%{transform:none}}
+@keyframes sweep{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes spark{to{transform:translate(var(--dx),var(--dy)) rotate(260deg);opacity:0}}
+@keyframes open{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@keyframes megaIn{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
-@media (max-width:760px){
+@media (max-width:820px){
   .hero{grid-template-columns:1fr}
-  .grid,.players{grid-template-columns:1fr}
-  .rule{grid-template-columns:1fr;justify-items:start}
-  .node{font-size:10.5px;padding:4px 6px}
+  .prios,.players{grid-template-columns:1fr}
+  .tab-h{grid-template-columns:auto 1fr auto 46px}
+  .tab-h .tabbar{grid-column:2/-1;grid-row:2}
+  .tasks{grid-template-columns:1fr}
 }
 </style>
-</head>
-<body>
 
 <header class="wrap hero">
   <div>
     <div class="eyebrow">Servic'eau Piscines · Solution pour Piscine</div>
-    <h1>Développer l'entreprise avec <em>Claude au centre</em></h1>
-    <p class="lead">Claude relie l'agenda, les tâches, les réseaux, le site et les outils internes. On le pilote directement par notes vocales. Clique sur un axe pour l'ouvrir, coche ce qui est fait.</p>
-    <div class="meta"><span>Mis à jour le 19/10/2026</span><span>Aboud Boulberhane</span><span id="metaCount">17 axes</span></div>
+    <h1>Guide processus : développer l'entreprise avec <em>Claude au centre</em></h1>
+    <p class="lead">Chaque thème s'ouvre en onglets, chaque onglet en tâches à cocher. Un onglet complet se valide, un thème complet aussi, et quand tout est fini, toute la page le fête.</p>
+    <div class="meta"><span>Mis à jour le 27/10/2026</span><span id="mThemes"></span><span id="mTabs"></span><span id="mChecks"></span></div>
+    <div class="legend"><span><i style="background:var(--sv)"></i>Servic'eau Piscines</span><span><i style="background:var(--sp)"></i>Solution pour Piscine</span><span><i style="background:var(--sunk);border:1px solid var(--line)"></i>Commun</span></div>
   </div>
-  <div>
-    <div class="hub" id="hub">
-      <svg viewBox="0 0 100 100" aria-hidden="true" id="hubSvg"><circle class="ring" cx="50" cy="50" r="38"></circle></svg>
-      <div class="core">Claude<small>notes vocales</small></div>
-    </div>
-    <p class="hub-hint">Les points de couleur donnent le statut de chaque axe.</p>
+  <div class="hub" id="hub">
+    <svg viewBox="0 0 100 100" aria-hidden="true" id="hubSvg"><circle cx="50" cy="50" r="40"></circle></svg>
+    <div class="core">Claude<small id="coreP">0 %</small></div>
   </div>
 </header>
 
-<div class="progress">
+<div class="sticky">
   <div class="wrap">
-    <div class="bar" id="bar" role="img" aria-label="Avancement"></div>
-    <strong id="pct">0 %</strong>
-    <div class="chips" id="chips" role="group" aria-label="Filtrer par statut"></div>
+    <div class="grow"><span class="lbl">Avancement global</span><div class="bar big"><i id="gbar"></i></div><strong id="gpct">0 %</strong><span class="cnt" id="gcount"></span></div>
+    <nav class="tnav" id="tnav" aria-label="Thèmes"></nav>
+    <div class="pfilter" id="pfilter" role="group" aria-label="Filtrer par personne"></div>
   </div>
 </div>
 
 <main class="wrap">
-  <section class="block" id="regle">
-    <div class="rule">
-      <div class="clock"><svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"></circle><circle class="fg" id="arc" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="0"></circle></svg><span id="clk">2:00</span></div>
-      <div>
-        <div class="eyebrow" style="color:var(--red)">La règle d'or</div>
-        <h3>Règle des 2 minutes</h3>
-        <p><b>Toute tâche qui prend moins de 2 minutes est traitée tout de suite.</b> Elle ne va pas dans Todoist, elle ne s'accumule pas. Un mail court, un rappel client, une validation de visuel : on le fait dans la seconde.</p>
-        <div class="tri">
-          <input id="tache" placeholder="Ex. : répondre au mail de M. Martin" aria-label="Tâche à trier">
-          <button class="btn red" data-t="short">Moins de 2 min</button>
-          <button class="btn ghost" data-t="long">Plus long</button>
-        </div>
-        <p class="verdict" id="verdict" aria-live="polite"></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="axes">
-    <div class="sec-head"><span class="num">17 axes</span><h2>Le plan, axe par axe</h2><p>Chaque carte donne les outils, ce que Claude y apporte et un exemple de note vocale à dicter. Ta progression est gardée sur ton appareil.</p></div>
-    <div id="parts"></div>
-  </section>
-
-  <section class="block" id="quetes">
-    <div class="sec-head"><span class="num">Plus tard</span><h2>Système de quêtes</h2><p>Des objectifs sous forme de quêtes, comme dans un jeu : chaque objectif atteint valide une quête et donne de l'XP. Pour la partie développement (Adélie, Lisa, Aboud), pas pour les chantiers. Les quêtes vivront ensuite dans un projet Todoist « Quêtes ».</p></div>
+  <section class="prios" id="prio" aria-label="Priorités"></section>
+  <div id="themes"></div>
+  <section class="qsec" id="quetes">
+    <div class="eyebrow">Bonus</div>
+    <h2>Système de quêtes</h2>
+    <p>Des objectifs de développement sous forme de quêtes, comme dans un jeu. Pour Aboud, Lisa et Adèle, pas pour les chantiers.</p>
     <div class="players" id="players"></div>
   </section>
 </main>
 
-<footer class="wrap">Servic'eau Piscines · 2 rue des Internautes, 37210 Rochecorbon — Solution pour Piscine · 43 rue Marcel Sembat, 37000 Tours</footer>
+<footer class="wrap">Servic'eau Piscines · 2 rue des Internautes, 37210 Rochecorbon — Solution pour Piscine · 43 rue Marcel Sembat, 37000 Tours<br>Ta progression est gardée sur ton appareil.</footer>
 <div class="toast" id="toast" role="status"></div>
-
+<div class="mega" id="mega" hidden><canvas id="confetti"></canvas><div class="mt"><h2>Tout est validé</h2><p>L'entreprise est structurée de A à Z. Touchez pour fermer.</p></div></div>
 <script>
-const STATUS=[
-  {k:0,label:"En place",c:"var(--ok)"},
-  {k:1,label:"À appliquer",c:"var(--sea)"},
-  {k:2,label:"À mettre en place",c:"var(--amber)"},
-  {k:3,label:"Plus tard",c:"var(--ink-2)"}
-];
-const PARTS=[
- {name:"1. Organisation : agenda, tâches, rappels",axes:[
-  {id:"agenda",t:"Agenda partagé",short:"Agenda",s:2,tools:"Extrabat, Google Agenda",
-   pts:["Synchronisation du calendrier Extrabat avec Google Agenda.","Notifications sur téléphone pour chaque rendez-vous."],
-   claude:"On dicte une note vocale et Claude l'inscrit directement dans l'agenda. Tout est lié, plus besoin d'ouvrir chaque application.",
-   voice:"Ajoute un rendez-vous jeudi 14 h chez M. Martin pour un devis liner."},
-  {id:"taches",t:"Tâches, rappels, urgences",short:"Tâches",s:1,tools:"Todoist",
-   pts:["Toutes les tâches boulot dans Todoist : un projet Servic'eau Piscines, un projet Solution pour Piscine.","4 niveaux de priorité : rouge = les plus urgentes, violet = très urgent, vert = urgent, bleu = moins urgent.","Rappels datés pour ne rien oublier."],
-   claude:"Une note vocale suffit pour créer, prioriser ou décaler une tâche.",
-   voice:"Mets en rouge la fiche produit du robot Aquaneed pour demain matin."}
+/* Données du guide. Tâche = [titre, personnes (K Kevin, A Adèle, B Aboud, L Lisa, E Emeric), [cases]] ou objet {t,w,c,people,sw} */
+const PEOPLE={K:{n:"Kevin",c:"#1f3f6e"},A:{n:"Adèle",c:"#3b7b6a"},B:{n:"Aboud",c:"#1f5872"},L:{n:"Lisa",c:"#8a5a9e"},E:{n:"Emeric",c:"#9a6a2c"}};
+const FORM=["K","A","B","L"];
+const PROC=["Procédure rédigée","Vidéo explicative tournée","Relue et validée par Kevin","Rangée dans le Drive","Formation donnée à l'équipe"];
+
+const THEMES=[
+/* ───────────── T1 ───────────── */
+{id:"struct",t:"Structuration d'entreprise",short:"Structuration",who:"AKB",
+ desc:"Tout ce qui organise l'entreprise au quotidien. Porté par Adèle, Kevin et Aboud.",
+ tabs:[
+ {t:"Coordonnées de l'entreprise",
+  sv:[["Fiche d'identité Servic'eau Piscines","AK",["Adresse vérifiée : 2 rue des Internautes, 37210 Rochecorbon","SIRET et n° de TVA notés","Horaires d'ouverture fixés","Téléphone et mail de contact à jour","Mêmes coordonnées partout : site, Google, devis, factures"]]],
+  sp:[["Fiche d'identité Solution pour Piscine","B",["Adresse vérifiée : 43 rue Marcel Sembat, 37000 Tours","SIRET et n° de TVA notés","Mail et téléphone du service client","Mêmes coordonnées sur le site, les CGV et les factures"]]],
+  all:[["Annuaire interne","AK",["Numéros de toute l'équipe","Contacts fournisseurs (SCP, Fluidra)","Expert-comptable, banque, assurance","Annuaire rangé dans le Drive et partagé"]]]},
+ {t:"Planning de la structuration",
+  all:[["Calendrier de mise en place","AKB",["Thèmes classés par priorité","Date cible fixée pour chaque thème","Responsable désigné pour chaque thème","Point d'avancement une fois par mois","Ce guide mis à jour après chaque point"]],
+       ["Ordre de passage","AKB",["1. Organisation : agenda, tâches, mails","2. Administratif : devis, factures, relances","3. Outils : Extrabat, Bitwarden, Drive","4. Commercial et communication"]]]},
+ {t:"Mise en place du calendrier",
+  sv:[["Agenda Servic'eau","AK",["Extrabat synchronisé avec Google Agenda","Un calendrier par équipe","Une couleur par type d'intervention","Notifications sur téléphone","Accès donné à chaque technicien"]]],
+  sp:[["Agenda Solution pour Piscine","B",["Calendrier des campagnes","Dates d'arrivage fournisseur","Rappels d'envoi des newsletters"]]]},
+ {t:"Mise en place de la to-do list",
+  sv:[["Projet Todoist Servic'eau","AKB",["Projet créé","Sections : Chantiers, Administratif, Communication","4 priorités appliquées : rouge, violet, vert, bleu","Chaque membre invité","Tâches récurrentes créées"]]],
+  sp:[["Projet Todoist Solution","B",["Projet créé","Sections : Fiches produit, Pub, SAV, Site","Rappels datés","Tâches récurrentes créées"]]]},
+ {t:"Gestion des mails",
+  sv:[["Boîte mail Servic'eau","A",["Libellés : Devis, Factures, Fournisseurs, Clients, Administratif","Réponses types enregistrées","Signature à jour","Tri tous les matins","Boîte vide le soir"]]],
+  sp:[["Boîte mail Solution","B",["Libellés : Commandes, SAV, Retours, Fournisseurs","Réponses types SAV enregistrées","Signature à jour","Réponse sous 24 h","Tri tous les matins"]]]},
+ {t:"Organigramme et rôles",
+  all:[["Organigramme","AK",["Organigramme dessiné","Kevin : dirigeant","Rôle de chacun écrit en une phrase","Qui remplace qui en cas d'absence","Organigramme partagé à l'équipe"]]]},
+ {t:"Missions de chacun",
+  all:[["Fiches de mission","AK",["Kevin","Adèle","Aboud","Lisa","Emeric","Techniciens : Franck, Mathieu, Paul"]]]},
+ {t:"Règle des 2 minutes",
+  all:[["Appliquer la règle","AKBL",["Expliquée à toute l'équipe","Appliquée aux mails","Appliquée aux appels et messages","Appliquée aux validations de visuels","Bilan après un mois"]]]},
+ {t:"Point d'équipe hebdo",
+  all:[["Rituel du point","AKB",["Jour et heure fixés","Ordre du jour type","Compte rendu rangé dans le Drive","Actions créées dans Todoist"]]]},
+ {t:"Communication interne",
+  all:[["WhatsApp, canal unique","AK",["Groupe équipe","Groupe chantiers","Groupe développement : Kevin, Adèle, Aboud, Lisa","Règles d'usage écrites"]]]},
+ {t:"Arborescence Google Drive",
+  sv:[["Drive Servic'eau","AK",["Dossiers : Clients, Chantiers, Devis, Factures, Fournisseurs, Procédures","Règle de nommage des fichiers","Droits d'accès par personne"]]],
+  sp:[["Drive Solution","B",["Dossiers : Produits, Visuels, Pub, Commandes, Fournisseurs","Règle de nommage des fichiers","Droits d'accès par personne"]]]},
+ {t:"Mots de passe Bitwarden",
+  all:[["Coffre partagé","AKB",["Compte organisation créé","Collection Servic'eau","Collection Solution pour Piscine","Tous les accès importés","Double authentification activée","Anciens mots de passe faibles changés"]]]},
+ {t:"Stockage photos et vidéos",
+  sv:[["Banque Servic'eau","KBL",["Cloud Insta360 rangé","Avant/après classés par type de réalisation","Un dossier par chantier","Photos sélectionnées pour les réseaux"]]],
+  sp:[["Banque Solution","B",["Photos produits classées par catégorie","Vidéos réseaux rangées","Visuels de campagne archivés"]]]},
+ {t:"Système de quêtes",
+  all:[["Quêtes de l'équipe dev","AKBL",["Projet Todoist « Quêtes » créé","Premières quêtes par personne","Barème d'XP fixé","Bilan mensuel des quêtes"]]]},
+ {t:"Archivage des documents",
+  all:[["Conservation","AK",["Durées de conservation notées (factures : 10 ans)","Archive annuelle créée","Sauvegarde externe en place"]]]}
  ]},
- {name:"2. Digital et communication",axes:[
-  {id:"liens",t:"Nos propres liens",short:"Liens GitHub",s:2,tools:"GitHub",
-   pts:["Hébergement de nos pages et liens sur GitHub, sous le nom Servic'eau.","Liens pour les campagnes de com, les pages Google, les QR codes.","Objectif : ne plus dépendre de pages ou de services tiers."],
-   claude:"Il code et met à jour les pages directement. Ce guide en fait partie.",
-   voice:"Crée une page de liens Servic'eau avec Instagram, Facebook, TikTok et le site."},
-  {id:"reseaux",t:"Réseaux Servic'eau",short:"Réseaux",s:1,tools:"TikTok, Facebook, Instagram, LinkedIn, CapCut, Canva",
-   pts:["La patte et l'univers ont été trouvés. Il reste à les appliquer et à les régler.","Développement des bulles Instagram.","CapCut : montage des vidéos. Canva : visuels de l'entreprise en général.","Comptes : réseaux et CapCut au nom de l'entreprise. Canva et Claude pas encore."],
-   claude:"Légendes, descriptions, planning de publication. Sur Canva, il décline les visuels à la charte en plusieurs formats d'un coup (post, story, bannière).",
-   voice:"Écris la légende du chantier PVC armé de Montlouis, avant/après."},
-  {id:"spp-reseaux",t:"Réseaux Solution pour Piscine",short:"Réseaux SPP",s:2,tools:"YouTube, Facebook, Instagram, TikTok",
-   pts:["Création d'une chaîne YouTube et de comptes Facebook, Instagram et TikTok."],
-   claude:"Contenus et descriptions des publications.",
-   voice:"Propose 5 idées de vidéos courtes sur l'hivernage."},
-  {id:"site",t:"Site e-commerce",short:"Site",s:0,tools:"WooCommerce, Bricks",
-   pts:["Site sous WooCommerce.","Bricks permet de coder et de construire les pages."],
-   claude:"Claude est l'IA générative du site : fiches produit, descriptions, SEO, articles de blog.",
-   voice:"Fais la fiche produit simple des pastilles pH moins."},
-  {id:"avis",t:"Avis clients",short:"Avis",s:2,tools:"Google Business Profile",
-   pts:["Demande d'avis automatique après chaque commande sur le site."],
-   claude:"Rédaction des réponses aux avis.",
-   voice:"Réponds à l'avis 5 étoiles de Julie sur la rénovation."},
-  {id:"seo",t:"Mesure et SEO du site",short:"SEO",s:2,tools:"Google Analytics, Search Console",
-   pts:["Savoir d'où viennent les visiteurs et les commandes, grâce à des liens suivis depuis nos pages GitHub."],
-   claude:"Analyse des chiffres et pistes d'amélioration.",
-   voice:"Quelles pages ont le plus de visites ce mois-ci ?"},
-  {id:"pub",t:"Publicité en ligne",short:"Pub",s:2,tools:"Google Ads, Meta Ads",
-   pts:["Pour l'instant : gérée par l'entreprise Link.","Ensuite : reprise en interne avec Claude, Emeric et Aboud."],
-   claude:"Reprise et suivi des campagnes avec Emeric et Aboud.",
-   voice:"Prépare une annonce Google Ads pour les cubes robots."},
-  {id:"mail",t:"Emailing et newsletter",short:"Emailing",s:2,tools:"Brevo",
-   pts:["Relances saisonnières (remise en route, hivernage) et paniers abandonnés."],
-   claude:"Rédaction des mails.",
-   voice:"Écris le mail de relance remise en route pour mars."},
-  {id:"campagnes",t:"Calendrier de campagnes",short:"Campagnes",s:3,tools:"À définir",
-   pts:["À mettre en place quand ce sera bien structuré et que le site sera bien lancé.","Il fixera quand lancer chaque campagne de l'année."],
-   claude:"Planning annuel des campagnes.",
-   voice:"Fais le calendrier des campagnes 2027."}
+
+/* ───────────── T2 ───────────── */
+{id:"admin",t:"Administratif et facturation",short:"Administratif",who:"KA",
+ desc:"Apprentissage des devis, des factures et des relances. Kevin forme, Adèle apprend.",
+ tabs:[
+ {t:"Apprentissage des devis",
+  sv:[["Devis construction","KA",["Méthode expliquée par Kevin","Devis test réalisé","Devis réel préparé","Validé par Kevin"]],
+      ["Devis rénovation (liner, PVC armé)","KA",["Méthode expliquée","Calcul des surfaces compris","Devis test réalisé","Validé par Kevin"]],
+      ["Devis entretien","KA",["Forfaits compris","Devis test réalisé","Validé par Kevin"]],
+      ["Devis dépannage","KA",["Déplacement et main-d'œuvre compris","Devis test réalisé","Validé par Kevin"]]],
+  sp:[["Devis professionnels et grosses commandes","KA",["Remises pro comprises","Devis test réalisé","Validé par Kevin"]]]},
+ {t:"Apprentissage des factures",
+  sv:[["Facture depuis un devis","KA",["Convertir un devis en facture","Mentions obligatoires vérifiées","Numérotation respectée","Envoi au client"]],
+      ["Facture d'acompte et de situation","KA",["Facture d'acompte","Facture de situation","Facture de solde"]]],
+  sp:[["Factures des commandes du site","KA",["Facture automatique WooCommerce vérifiée","Mentions obligatoires vérifiées","Coordonnées bancaires de Solution"]]]},
+ {t:"Apprentissage des relances",
+  sv:[["Relance devis non signé","KA",["Relance à J+7","Relance à J+15","Dernière relance à J+30","Modèles de mail et de SMS écrits"]],
+      ["Relance facture impayée","KA",["Rappel à l'échéance","Relance à J+8","Relance ferme à J+15","Mise en demeure"]]],
+  sp:[["Relance commandes non payées","KA",["Commandes par virement en attente suivies","Mail de rappel à J+3","Annulation à J+10"]]]},
+ {t:"Acomptes et échéanciers",
+  sv:[["Règles d'acompte","KA",["Pourcentage d'acompte par type de chantier","Échéancier type écrit","Suivi des encaissements"]]]},
+ {t:"Avoirs",
+  sv:[["Faire un avoir","KA",["Cas d'usage listés","Avoir test réalisé"]]],
+  sp:[["Avoirs e-commerce","KA",["Avoir après retour produit","Remboursement partiel"]]]},
+ {t:"Modèles de devis par prestation",
+  sv:[["Bibliothèque de modèles","KA",["Construction","Rénovation liner","Rénovation PVC armé","Entretien annuel","Ouverture et hivernage","Dépannage"]]]},
+ {t:"Grille tarifaire",
+  sv:[["Tarifs Servic'eau","KA",["Taux horaire","Frais de déplacement par zone","Forfaits ouverture et hivernage","Grille révisée chaque année"]]],
+  sp:[["Prix Solution","KA",["Règle de marge par catégorie","Prix de vente vérifiés face à la concurrence"]]]},
+ {t:"Suivi des impayés",
+  sv:[["Tableau des impayés","KA",["Tableau créé","Mis à jour chaque semaine","Point mensuel avec Kevin"]]]},
+ {t:"Contrats d'entretien annuels",
+  sv:[["Contrats","KA",["Modèle de contrat écrit","Liste des clients sous contrat","Dates de renouvellement suivies","Facturation récurrente en place"]]]},
+ {t:"Conditions générales de vente",
+  sv:[["CGV prestations","KA",["CGV rédigées","Jointes à chaque devis"]]],
+  sp:[["CGV vente en ligne","KA",["CGV relues","En ligne sur le site","Acceptées à la commande"]]]},
+ {t:"Factures fournisseurs",
+  sv:[["Fournisseurs Servic'eau","KA",["Factures SCP rangées","Factures Fluidra rangées","Rapprochement avec les commandes"]]],
+  sp:[["Fournisseur Solution","KA",["Factures SCP rangées","Rapprochement avec les commandes du site"]]]},
+ {t:"Pièces pour l'expert-comptable",
+  all:[["Envoi mensuel","KA",["Liste des pièces attendues","Dossier mensuel dans le Drive","Envoi à date fixe"]]]},
+ {t:"Facture électronique",
+  all:[["Réforme 2026-2027","KA",["Réception des factures électroniques possible (obligatoire depuis septembre 2026)","Plateforme agréée choisie","Émission prête pour septembre 2027"]]]},
+ {t:"Notes de frais",
+  all:[["Frais","KA",["Règle de remboursement écrite","Justificatifs photographiés","Saisie mensuelle"]]]}
  ]},
- {name:"3. Fonctionnement interne",axes:[
-  {id:"banque",t:"Banque photos et vidéos",short:"Photos",s:2,tools:"Google Drive",
-   pts:["Toutes les photos et vidéos avant/après classées par type de réalisation, pour alimenter les réseaux et le site."],
-   claude:null,voice:null},
-  {id:"procedures",t:"Procédures et formation",short:"Procédures",s:2,tools:"Google Drive",
-   pts:["Procédures écrites et vidéos explicatives, par Aboud, Emeric et Kevin.","Exemples : poser un revêtement armé, faire une facture, passer une commande sur Solution pour Piscine, trouver des clients, ajouter un produit sur le site."],
-   claude:"Rédaction et mise en forme des procédures.",
-   voice:"Rédige la procédure pour ajouter un produit sur le site."},
-  {id:"stockage",t:"Stockage",short:"Stockage",s:0,tools:"Cloud Insta360, cloud Servic'eau, Google Drive",
-   pts:["Cloud Insta360 pour les images de la caméra.","Cloud Servic'eau.","Google Drive."],claude:null,voice:null},
-  {id:"whatsapp",t:"Communication interne",short:"WhatsApp",s:0,tools:"WhatsApp",
-   pts:["Un seul canal pour l'équipe."],claude:null,voice:null},
-  {id:"mdp",t:"Mots de passe en commun",short:"Mots de passe",s:2,tools:"Bitwarden",
-   pts:["Mettre les mots de passe en commun de façon sécurisée, pour que chacun accède aux outils dont il a besoin."],claude:null,voice:null},
-  {id:"quetes-axe",t:"Système de quêtes",short:"Quêtes",s:3,tools:"Todoist (projet « Quêtes »)",
-   pts:["Objectifs sous forme de quêtes pour la partie développement. Voir la section Quêtes plus bas."],
-   claude:"Propose et suit les quêtes.",voice:"Donne une nouvelle quête à Lisa pour cette semaine."}
+
+/* ───────────── T3 ───────────── */
+{id:"spp",t:"Solution pour Piscine : e-commerce",short:"Solution",who:"B",mode:"sp",
+ desc:"Transformer le site vitrine en vrai site e-commerce. Porté par Aboud.",
+ tabs:[
+ {t:"Refonte complète du site",sp:[["Passer de vitrine à e-commerce","B",["Audit du site actuel","Nouvelle arborescence des catégories","Page d'accueil refaite","Menu et recherche revus","Tunnel de commande simplifié","Version mobile soignée","Mise en ligne"]]]},
+ {t:"Refonte visuelle des fiches produits",sp:[["Nouvelle fiche type","B",["Gabarit validé","Photos sur fond propre","Bandeaux (hivernage, déstockage)","Tableau de caractéristiques","Bloc conseil"]],["Déploiement","B",["Traitements de l'eau","Robots","Accessoires","Spa","Hivernage"]]]},
+ {t:"Fiches produits mieux référencées",sp:[["SEO produit","B",["Titres SEO renommés en langage client","Descriptions courtes et longues","Balises meta","Images avec texte alternatif","Liens produits complémentaires"]]]},
+ {t:"Intégration du blog",sp:[["Blog","B",["Rubrique blog en place","Calendrier d'articles","Article hivernage","Article remise en route","Noms de produits liés à leurs fiches"]]]},
+ {t:"Pop-ups",sp:[["Pop-ups","B",["Pop-up de bienvenue avec code","Pop-up de sortie","Pop-up inscription newsletter","Pop-up saisonnière","Réglage de fréquence (pas trop souvent)"]]]},
+ {t:"Intégration du mailing",sp:[["Newsletter","B",["Outil d'emailing branché","Liste d'abonnés importée","Modèle de newsletter à la charte","Calendrier d'envoi","Première newsletter envoyée"]]]},
+ {t:"Relance paniers abandonnés",sp:[["Séquence","B",["Mail 1 à 1 h","Mail 2 à 24 h","Mail 3 à 72 h avec code","Statistiques suivies"]]]},
+ {t:"Relance après achat",sp:[["Séquence","B",["Mail de remerciement","Conseils d'utilisation du produit","Demande d'avis à J+10","Relance de réachat (pastilles, chlore)"]]]},
+ {t:"Avis clients",sp:[["Avis produits","B",["Avis activés sur les fiches","Avis vérifiés affichés","Réponse à chaque avis"]]]},
+ {t:"Codes promo et fidélité",sp:[["Promotions","B",["Règles de codes promo","Code de bienvenue","Programme de fidélité","Ventes privées abonnés"]]]},
+ {t:"Ventes croisées",sp:[["Produits liés","B",["Produits complémentaires reliés","Produits similaires reliés","Bloc « souvent achetés ensemble »"]]]},
+ {t:"Produit d'appel",sp:[["Stratégie produit d'appel","B",["Cubes robots Aquaneed","Pastilles pH moins","Choisir le suivant","Com dédiée à chaque produit"]]]},
+ {t:"Calculateur de volume et dosage",sp:[["Outil","B",["Calcul du volume du bassin","Dosage conseillé","Produits recommandés","Intégré au site"]]]},
+ {t:"Click & collect à Tours",sp:[["Retrait en boutique","B",["Option de retrait activée","Mail « commande prête »","Horaires de retrait affichés"]]]},
+ {t:"Livraison et transporteurs",sp:[["Expédition","B",["Transporteurs choisis","Tarifs de livraison clairs","Seuil de livraison gratuite","Suivi de colis envoyé au client"]]]},
+ {t:"Retours et SAV en ligne",sp:[["Retours","B",["Formulaire de retour","Procédure de remboursement","Garanties fabricants listées"]]]},
+ {t:"Paiement",sp:[["Moyens de paiement","B",["Carte bancaire","Paiement en plusieurs fois","Virement","PayPal"]]]},
+ {t:"Pages saisonnières",sp:[["Saisons","B",["Page hivernage","Page remise en route","Page été et canicule","Page déstockage"]]]},
+ {t:"Intégration de la publicité",sp:[["Tracking pub","B",["Pixel Meta installé","Balise Google Ads installée","Flux produits Google Shopping","Catalogue Meta synchronisé"]]]},
+ {t:"TikTok Shop",sp:[["Boutique TikTok","B",["Intégration faite","Inscription TikTok Shop finalisée","Premiers produits en ligne"]]]},
+ {t:"Vitesse et mobile",sp:[["Performance","B",["Images compressées","Cache activé","Score mobile vérifié"]]]},
+ {t:"Statistiques",sp:[["Mesure","B",["Google Analytics 4","Search Console","Suivi des ventes e-commerce","Rapport mensuel"]]]}
+ ]},
+
+/* ───────────── T4 ───────────── */
+{id:"sva",t:"Servic'eau Piscines : l'entreprise",short:"Servic'eau",who:"KB",mode:"sv",
+ desc:"Construction, rénovation, entretien, dépannage. Structurer l'entreprise et sa présence.",
+ tabs:[
+ {t:"Refonte du site vitrine",sv:[["Site vitrine","KB",["Audit du site actuel","Nouvelle structure des pages","Textes réécrits","Photos de réalisations","Mise en ligne"]]]},
+ {t:"Pages par service",sv:[["Construction","KB",["Texte","Photos","Bouton devis"]],["Rénovation","KB",["Texte","Photos avant/après","Bouton devis"]],["Entretien","KB",["Texte","Forfaits présentés","Bouton devis"]],["Dépannage","KB",["Texte","Numéro d'urgence","Bouton devis"]]]},
+ {t:"Réalisations avant/après",sv:[["Galerie","KBL",["Galerie en ligne","Classement par type de réalisation","Château Moncontour mis en avant","Mise à jour après chaque chantier"]]]},
+ {t:"Demande de devis en ligne",sv:[["Formulaire","KB",["Formulaire créé","Photos jointes possibles","Arrivée dans la boîte Servic'eau","Réponse sous 48 h"]]]},
+ {t:"Fiche Google Business",sv:[["Fiche","KB",["Infos vérifiées","Photos ajoutées","Services listés","Publications régulières"]]]},
+ {t:"Référencement local",sv:[["SEO local","KB",["Pages Tours et Rochecorbon","Communes de l'Indre-et-Loire citées","Annuaires locaux"]]]},
+ {t:"Offre de contrats d'entretien",sv:[["Offre","KB",["Formules définies","Page dédiée","Plaquette"]]]},
+ {t:"Fiches d'intervention numériques",sv:[["Fiches","KA",["Modèle de fiche","Remplie sur téléphone","Photos jointes","Envoyée au bureau"]]]},
+ {t:"Rapport d'intervention client",sv:[["Rapport","KB",["Modèle à la charte","Photos du travail fait","Envoyé au client le jour même"]]]},
+ {t:"Campagnes ouverture et hivernage",sv:[["Saisons","KBL",["Campagne remise en route (mars)","Campagne hivernage (septembre)","Relance des clients de l'année passée"]]]},
+ {t:"Fichier clients",sv:[["Base clients","KA",["Base clients centralisée","Type de bassin noté","Historique des interventions"]]]},
+ {t:"Parrainage",sv:[["Programme","KB",["Règle de parrainage","Carte ou code parrain","Suivi des recommandations"]]]},
+ {t:"Page de liens",sv:[["Liens","B",["Page de liens sur GitHub","Remplacer paa.ge/serviceaupiscines","QR code mis à jour"]]]},
+ {t:"Flocage véhicules et local",sv:[["Visibilité physique","KB",["Véhicules floqués","Enseigne et façade","Panneaux de chantier"]]]}
+ ]},
+
+/* ───────────── T5 ───────────── */
+{id:"proc",t:"Processus",short:"Processus",who:"KAB",badge:"En cours de création",
+ desc:"Les procédures écrites et filmées de l'entreprise. Rédigées par nous, au fur et à mesure.",
+ tabs:[
+ {t:"Processus administratifs",sv:[{t:"Faire un devis",w:"KA",c:PROC},{t:"Faire une facture",w:"KA",c:PROC},{t:"Relancer un client",w:"KA",c:PROC}]},
+ {t:"Processus chantier",sv:[{t:"Ouverture de piscine",w:"K",c:PROC},{t:"Hivernage",w:"K",c:PROC},{t:"Intervention de dépannage",w:"K",c:PROC}]},
+ {t:"Processus accueil et logistique",sv:[{t:"Accueillir un client au local",w:"KA",c:PROC},{t:"Réceptionner une livraison fournisseur",w:"KA",c:PROC}],sp:[{t:"Préparer une commande e-commerce",w:"B",c:PROC}]},
+ {t:"Processus e-commerce",sp:[{t:"Passer une commande sur Solution",w:"B",c:PROC},{t:"Ajouter un produit sur le site",w:"B",c:PROC},{t:"Traiter un retour SAV",w:"B",c:PROC}]},
+ {t:"Processus communication",sv:[{t:"Publier un post",w:"L",c:PROC},{t:"Tourner une vidéo de chantier",w:"LB",c:PROC}],sp:[{t:"Créer un visuel produit",w:"B",c:PROC}]}
+ ]},
+
+/* ───────────── T6 ───────────── */
+{id:"rs",t:"Réseaux sociaux et contenu",short:"Réseaux",who:"LBK",
+ desc:"Lisa sur tous les réseaux, avec Aboud et Kevin.",
+ tabs:[
+ {t:"Bulles Instagram",sv:[["Bulles à créer","LB",["PVC armé 3D","Revêtement (PVC armé + liner)","PVC Bali","Mini piscine","Piscine intérieure","Débordement","Couloir de nage","Château Moncontour (Wahou)"]]]},
+ {t:"Planning éditorial",sv:[["Planning Servic'eau","LB",["Rythme de publication fixé","Planning du mois rempli","Validé par Kevin"]]],sp:[["Planning Solution","LB",["Rythme de publication fixé","Planning du mois rempli"]]]},
+ {t:"Instagram",sv:[["Compte Servic'eau","LBK",["Bio et liens à jour","Bulles en place","3 posts par semaine"]]],sp:[["Compte Solution","LB",["Compte créé","Bio et lien boutique","Premiers posts"]]]},
+ {t:"Facebook",sv:[["Page Servic'eau","LBK",["Relance de la page (~10 000 abonnés)","Publication régulière","Réponses aux messages"]]],sp:[["Page Solution","LB",["Page créée","Boutique Facebook reliée"]]]},
+ {t:"TikTok",sv:[["Compte Servic'eau","LB",["Vidéos chantiers","Vidéos partenaires"]]],sp:[["Compte Solution","LB",["Compte créé","TikTok Shop relié"]]]},
+ {t:"YouTube",sv:[["Chaîne Servic'eau","LB",["Vidéos longues de chantiers"]]],sp:[["Chaîne Solution","LB",["Chaîne créée","Tutos produits"]]]},
+ {t:"LinkedIn",sv:[["Page entreprise","KB",["Page à jour","Posts réalisations"]]]},
+ {t:"Stories",sv:[["Stories","L",["Story par chantier","Stories publiées puis épinglées"]]],sp:[["Stories","LB",["Story nouveautés","Story promos"]]]},
+ {t:"Vidéos partenaires sur chantier",sv:[["Partenaires","LBK",["Maçons","Chercheurs de fuite","Formateurs","Moasure (programme ambassadeur)"]]]},
+ {t:"Programme vidéo avec Sandy",all:[["Vidéos","LB",["Sujets choisis","Tournage","Montage CapCut","Publication"]]]},
+ {t:"Montage et visuels",all:[["Outils","LB",["CapCut au nom de l'entreprise","Canva au nom de l'entreprise","Modèles à la charte"]]]},
+ {t:"Statistiques des réseaux",sv:[["Bilan mensuel","LB",["Abonnés","Vues","Messages reçus"]]],sp:[["Bilan mensuel","LB",["Abonnés","Clics vers la boutique","Ventes issues des réseaux"]]]}
+ ]},
+
+/* ───────────── T7 ───────────── */
+{id:"pub",t:"Publicité et acquisition",short:"Publicité",who:"KB",
+ desc:"Servic'eau : réseaux, événements, bouche à oreille. Solution : publicité en ligne.",
+ tabs:[
+ {t:"Canaux d'acquisition",sv:[["Publicité réseaux sociaux","KBL",["Posts sponsorisés en local","Ciblage Tours et 37","Budget défini"]],["Présence aux événements","KB",["Liste des événements locaux","Stand et supports","Fichier contacts récoltés"]],["Si on ne fait pas de com","KB",["Bouche à oreille entretenu","Avis Google demandés"]]],
+  sp:[["Google Ads","BE",["Compte repris en interne","Campagnes Shopping","Campagnes recherche"]],["Meta Ads","BE",["Campagnes catalogue","Retargeting visiteurs"]],["YouTube Ads","BE",["Vidéo pub produit","Campagne test"]]]},
+ {t:"Budget publicitaire",sv:[["Budget Servic'eau","KB",["Budget annuel fixé","Réparti par saison"]]],sp:[["Budget Solution","KB",["Budget mensuel fixé","Plafond par campagne"]]]},
+ {t:"Campagnes saisonnières",sv:[["Saisons","KB",["Remise en route","Hivernage"]]],sp:[["Saisons","BE",["Remise en route","Canicule","Hivernage","Déstockage"]]]},
+ {t:"Reprise en interne",sp:[["Après Link","BEK",["Accès aux comptes récupérés","Point avec Cédric","Campagnes gérées par Emeric et Aboud"]]]},
+ {t:"Suivi des résultats",sv:[["Résultats","KB",["Demandes de devis par canal"]]],sp:[["Résultats","BE",["Coût par vente","Retour sur dépense pub","Rapport mensuel"]]]}
+ ]},
+
+/* ───────────── T8 ───────────── */
+{id:"sav",t:"Relation client et SAV",short:"Client & SAV",who:"KB",
+ desc:"Kevin gère lui-même les relances Servic'eau. Solution passe par les mails automatiques.",
+ tabs:[
+ {t:"Relances clients",sv:[["Relances par Kevin","K",["Liste des clients à relancer","Relance téléphone","Suivi noté dans le fichier clients"]]],sp:[["Mails de relance","B",["Paniers abandonnés","Réachat de consommables","Clients inactifs"]]]},
+ {t:"Demande d'avis",sv:[["Nouveau système à trouver (on se creuse la tête)","KB",["Idées listées : QR code, SMS, carte remise en main propre","Lien d'avis dans le rapport d'intervention","Test sur 10 clients","Système choisi"]]],sp:[["Demande automatique","B",["Mail à J+10 après livraison","Avis affichés sur la fiche"]]]},
+ {t:"Réponses aux avis",sv:[["Avis Google","KB",["Réponse à chaque avis","Modèles de réponse"]]],sp:[["Avis produits","B",["Réponse à chaque avis"]]]},
+ {t:"SAV",sv:[["SAV chantier","K",["Procédure réclamation","Garanties expliquées au client"]]],sp:[["SAV produits","B",["Procédure retour","Garanties fabricants","Délai de traitement"]]]},
+ {t:"Modèles de réponses",sv:[["Servic'eau","AK",["Demande de devis","Retard de chantier","Réclamation"]]],sp:[["Solution","B",["Où est ma commande ?","Produit abîmé","Conseil produit"]]]},
+ {t:"FAQ et conseils",sp:[["FAQ","B",["Page FAQ","Livraison","Retours","Dosages"]]]},
+ {t:"Satisfaction client",sv:[["Enquête","KB",["Questionnaire court","Envoyé après chantier"]]],sp:[["Enquête","B",["Questionnaire après commande"]]]}
+ ]},
+
+/* ───────────── T9 ───────────── */
+{id:"com",t:"Commercial et prospection",short:"Commercial",who:"KB",
+ desc:"Servic'eau vit du bouche à oreille depuis des années. Solution se développe par la pub en ligne.",
+ tabs:[
+ {t:"Sources de clients",sv:[["Bouche à oreille depuis des années","K",["Demander à chaque client d'où il vient","Remercier les clients qui recommandent","Parrainage en place"]],["Site vitrine","KB",["Formulaire de devis visible","Réalisations à jour"]],["Présence aux événements","KB",["Calendrier des événements","Stand préparé"]],["Recommandations","KB",["Partenaires qui recommandent","Prescripteurs suivis"]]],
+  sp:[["Google Ads","BE",["Campagnes en place"]],["Meta Ads","BE",["Campagnes en place"]],["YouTube Ads","BE",["Campagne test"]]]},
+ {t:"Fichier prospects",sv:[["Prospects","KA",["Fichier créé","Statut de chaque prospect"]]],sp:[["Clients pros","B",["Paysagistes","Pisciniers","Campings et gîtes"]]]},
+ {t:"Relance des devis",sv:[["Suivi","KA",["Devis en attente listés","Relances faites"]]]},
+ {t:"Argumentaires",sv:[["Argumentaire","KB",["Construction","Rénovation","Entretien"]]],sp:[["Argumentaire","B",["Robots","Traitements"]]]},
+ {t:"Offres saisonnières",sv:[["Offres","KB",["Forfait remise en route","Forfait hivernage"]]],sp:[["Offres","B",["Kits saisonniers","Packs produits"]]]}
+ ]},
+
+/* ───────────── T10 ───────────── */
+{id:"achat",t:"Achats, stock et fournisseurs",short:"Achats",who:"KB",
+ desc:"Servic'eau : SCP et Fluidra. Solution : SCP, et d'autres à trouver au salon de Lyon.",
+ tabs:[
+ {t:"Fournisseurs",sv:[["SCP Tours","K",["Contact commercial noté","Conditions tarifaires notées"]],["Fluidra Tours","K",["Contact commercial noté","Conditions tarifaires notées"]]],sp:[["SCP","KB",["Catalogue récupéré","Conditions tarifaires notées"]]]},
+ {t:"Nouveaux fournisseurs",sp:[["Salon de Lyon","KB",["Dates notées","Liste de fournisseurs à rencontrer","Visite du salon","Fournisseurs retenus"]]]},
+ {t:"Commandes fournisseurs",sv:[["Commandes","KA",["Bon de commande type","Suivi des commandes en cours"]]],sp:[["Commandes","B",["Réassort selon les ventes","Suivi des délais"]]]},
+ {t:"Stock",sv:[["Stock local","KA",["Inventaire du local","Seuils de réassort"]]],sp:[["Stock du site","B",["Stock synchronisé avec le site","Produits en rupture masqués ou signalés"]]]},
+ {t:"Inventaire annuel",all:[["Inventaire","KA",["Date fixée","Inventaire compté","Transmis au comptable"]]]},
+ {t:"Réception et contrôle",all:[["Réception","KA",["Contrôle des colis","Litiges signalés au fournisseur"]]]}
+ ]},
+
+/* ───────────── T11 ───────────── */
+{id:"plan",t:"Planning chantiers et interventions",short:"Planning",who:"KA",mode:"sv",
+ desc:"Tout passe par Extrabat.",
+ tabs:[
+ {t:"Mise en place d'Extrabat",sv:[["Extrabat","KA",["Comptes créés pour chacun","Fiches clients importées","Modèles de devis importés","Agenda configuré","Synchronisation Google Agenda","Application installée sur les téléphones","Équipe formée"]]]},
+ {t:"Planning des équipes",sv:[["Équipes","KA",["Planning de Franck","Planning de Mathieu","Planning de Paul","Planning visible la veille"]]]},
+ {t:"Tournées d'entretien",sv:[["Tournées","KA",["Clients groupés par secteur","Fréquence par client","Tournées dans Extrabat"]]]},
+ {t:"Urgences et dépannages",sv:[["Urgences","KA",["Créneaux réservés","Règle de priorité"]]]},
+ {t:"Pics de saison",sv:[["Saisons","KA",["Planning remise en route","Planning hivernage"]]]},
+ {t:"Matériel et véhicules",sv:[["Matériel","KA",["Liste du matériel","Entretien des véhicules","Contrôles techniques"]]]},
+ {t:"Suivi des chantiers",sv:[["Suivi","KA",["Étapes de chantier dans Extrabat","Photos à chaque étape","Clôture du chantier"]]]}
+ ]},
+
+/* ───────────── T12 ───────────── */
+{id:"kpi",t:"Pilotage et indicateurs",short:"KPI",who:"KB",
+ desc:"Servic'eau : chiffres gérés par Kevin et sa comptabilité. Solution : KPI e-commerce à mettre en place.",
+ tabs:[
+ {t:"Chiffre d'affaires",sv:[["Mise en place des chiffres","K",["CA mensuel suivi par Kevin","Lien avec la comptabilité","CA par activité : construction, rénovation, entretien, dépannage"]]],sp:[["CA e-commerce","B",["CA mensuel","Nombre de commandes","Panier moyen"]]]},
+ {t:"Marge",sv:[["Marge chantier","K",["Marge par chantier","Marge par activité"]]],sp:[["Marge produit","B",["Marge par produit","Marge par catégorie"]]]},
+ {t:"Trafic et conversion",sp:[["KPI e-commerce","B",["Visiteurs","Taux de conversion","Taux d'abandon de panier","Pages les plus vues"]]]},
+ {t:"Clients",sv:[["Indicateurs","K",["Taux de transformation des devis","Clients sous contrat"]]],sp:[["Indicateurs","B",["Clients qui recommandent","Taux de retour produit","Nouveaux abonnés newsletter"]]]},
+ {t:"Publicité",sp:[["KPI pub","BE",["Coût d'acquisition","Retour sur dépense pub"]]]},
+ {t:"Tableau de bord",sv:[["Tableau Servic'eau","KA",["Tableau créé","Mis à jour chaque mois"]]],sp:[["Tableau Solution","B",["Tableau créé","Mis à jour chaque mois"]]]},
+ {t:"Objectifs",sv:[["Objectifs","K",["Objectif annuel","Objectifs mensuels"]]],sp:[["Objectifs","B",["Objectif annuel","Objectifs mensuels"]]]}
+ ]},
+
+/* ───────────── T13 ───────────── */
+{id:"form",t:"Formation interne",short:"Formation",who:"KABL",
+ desc:"C'est nous qui rédigeons les formations et qui les donnons : Kevin, Adèle, Aboud et Lisa. Coche quand la formation est faite pour chacun.",
+ tabs:[
+ {t:"Outils de l'entreprise",all:[{t:"Todoist",w:"KABL",people:1},{t:"Google Agenda",w:"KABL",people:1},{t:"Google Drive",w:"KABL",people:1},{t:"Bitwarden",w:"KABL",people:1},{t:"Claude et les notes vocales",w:"KABL",people:1}]},
+ {t:"Extrabat",sv:[{t:"Agenda et planning",w:"KABL",people:1},{t:"Fiches clients",w:"KABL",people:1}]},
+ {t:"Administratif",sv:[{t:"Faire un devis",w:"KABL",people:1},{t:"Faire une facture",w:"KABL",people:1},{t:"Relancer un client",w:"KABL",people:1}]},
+ {t:"E-commerce",sp:[{t:"Ajouter un produit",w:"KABL",people:1},{t:"Passer une commande",w:"KABL",people:1},{t:"Traiter un SAV",w:"KABL",people:1}]},
+ {t:"Réseaux sociaux",all:[{t:"Publier un post et une story",w:"KABL",people:1},{t:"Monter une vidéo sur CapCut",w:"KABL",people:1},{t:"Créer un visuel sur Canva",w:"KABL",people:1}]},
+ {t:"Accueil des nouveaux",all:[["Parcours d'arrivée","KA",["Livret d'accueil","Accès aux outils donnés","Présentation de l'équipe","Point à un mois"]]]}
+ ]},
+
+/* ───────────── T14 ───────────── */
+{id:"part",t:"Partenariats",short:"Partenariats",who:"KB",
+ desc:"Chaque partenariat est une chose à valider.",
+ tabs:[
+ {t:"Jardinerie Fleurs 37",sp:[["Faire vivre le partenariat","KB",["Guide vendeur livré","Vendeurs formés","Réassort organisé","Portes ouvertes faites"]]]},
+ {t:"Acquérir d'autres jardineries",sp:[["Nouvelles jardineries","KB",["Liste des jardineries du 37","Premiers contacts","Rendez-vous","Partenariat signé"]]]},
+ {t:"Acquérir de nouveaux fournisseurs partenaires",sv:[["Fournisseurs","K",["Besoins listés","Fournisseurs contactés","Partenariat signé"]]],sp:[["Fournisseurs","KB",["Salon de Lyon","Fournisseurs contactés","Partenariat signé"]]]},
+ {t:"Partenaires de chantier",sv:[["Artisans","KBL",["Maçons","Chercheurs de fuite","Formateurs","Moasure ambassadeur"]]]},
+ {t:"Acquérir des prescripteurs",sv:[["Prescripteurs","KB",["Paysagistes","Architectes","Agences immobilières"]]]},
+ {t:"Régler les problèmes de partenariat",all:[["Résolution","K",["Problèmes listés","Rendez-vous avec chaque partenaire","Solution trouvée"]]]}
+ ]},
+
+/* ───────────── T15 ───────────── */
+{id:"conf",t:"Conformité et sécurité",short:"Conformité",who:"KB",
+ desc:"Les lois à régler côté e-commerce, et la sécurité des comptes.",
+ tabs:[
+ {t:"Mentions légales",sv:[["Site Servic'eau","KB",["Mentions légales en ligne","Assurance décennale citée sur les devis"]]],sp:[["Site Solution","B",["Mentions légales complètes","Hébergeur cité","SIRET et TVA"]]]},
+ {t:"Droit de rétractation",sp:[["14 jours","B",["Délai de 14 jours écrit dans les CGV","Formulaire de rétractation","Remboursement sous 14 jours"]]]},
+ {t:"Garanties légales",sp:[["Garanties","B",["Garantie légale de conformité (2 ans) affichée","Garantie des vices cachés citée"]]]},
+ {t:"Médiateur de la consommation",sp:[["Médiation","B",["Médiateur choisi","Coordonnées sur le site"]]]},
+ {t:"RGPD et cookies",sv:[["Données clients","KA",["Fichier clients protégé","Mentions RGPD sur les devis"]]],sp:[["Site","B",["Bandeau cookies conforme","Politique de confidentialité","Consentement newsletter"]]]},
+ {t:"Prix et livraison",sp:[["Affichage","B",["Prix TTC affichés","Frais de livraison avant paiement","Délais de livraison indiqués"]]]},
+ {t:"Produits chimiques",sp:[["Traitements de l'eau","B",["Fiches de données de sécurité en ligne","Pictogrammes de danger sur les fiches","Mentions biocides vérifiées"]]]},
+ {t:"Éco-participation",sp:[["Équipements électriques","B",["Éco-participation sur robots et pompes","Affichée sur les fiches"]]]},
+ {t:"Sécurité des comptes",all:[["Sécurité","KB",["Double authentification partout","Sauvegardes du site","Mises à jour WordPress"]]]}
+ ]},
+
+/* ───────────── T16 ───────────── */
+{id:"brand",t:"Image de marque et charte graphique",short:"Charte",who:"BL",
+ desc:"Deux chartes séparées, une par entreprise.",
+ tabs:[
+ {t:"Charte graphique",
+  sv:[{t:"Palette Servic'eau (à confirmer)",w:"BL",sw:[["Bleu marine","#173a6b"],["Bleu piscine","#2a73b8"],["Bleu ciel","#9fd0ec"],["Blanc","#ffffff"]],c:["Couleurs officielles confirmées (envoie-moi la charte)","Police des titres notée","Logo en versions couleur, blanc et noir"]}],
+  sp:[{t:"Palette Solution pour Piscine",w:"B",sw:[["Écume","#f9fbfb"],["Lagon","#578d9f"],["Profondeur","#1f5872"],["Bleu nuit","#09242f"]],c:["Police des titres : Bree Serif","Logo script « Solution pour » + « PISCINE » avec vagues","Versions turquoise, bleu nuit et blanc"]}]},
+ {t:"Modèles Canva",sv:[["Modèles","LB",["Post","Story","Couverture de vidéo"]]],sp:[["Modèles","B",["Visuel produit","Bandeaux promo","Story"]]]},
+ {t:"Signatures mail",sv:[["Signature","A",["Modèle à la charte"]]],sp:[["Signature","B",["Modèle à la charte"]]]},
+ {t:"Documents à la charte",sv:[["Documents","KA",["Devis","Factures","Rapports d'intervention"]]],sp:[["Documents","B",["Factures","Bons de livraison"]]]},
+ {t:"Supports physiques",sv:[["Physique","KB",["Façade","Véhicules","Cartes de visite","Panneaux de chantier"]]],sp:[["Physique","B",["Flyers colis","Supports en jardinerie"]]]}
+ ]},
+
+/* ───────────── T17 ───────────── */
+{id:"tools",t:"Outils et IA",short:"Outils",who:"KB",
+ desc:"Claude au centre, et tous les outils qu'on utilise.",
+ tabs:[
+ {t:"Claude",all:[["Claude au centre","KB",["Compte entreprise","Connecté à Gmail","Connecté à Todoist","Connecté à l'agenda","Notes vocales utilisées au quotidien"]]]},
+ {t:"Organisation",sv:[["Extrabat","KA",["En place","Équipe formée"]]],all:[["Google Agenda","KAB",["En place"]],["Todoist","KAB",["En place"]],["Gmail","AB",["En place"]],["Google Drive","KAB",["En place"]],["WhatsApp","KABL",["En place"]],["Bitwarden","KAB",["En place"]]]},
+ {t:"Création",all:[["Canva","BL",["Compte entreprise"]],["CapCut","BL",["Compte entreprise"]],["Insta360","KBL",["Cloud en place"]]]},
+ {t:"Publicité",sp:[["Meta Ads","BE",["Accès récupérés"]],["Google Ads","BE",["Accès récupérés"]],["Google Analytics","B",["En place"]],["Search Console","B",["En place"]]]},
+ {t:"Site",sp:[["WooCommerce","B",["À jour"]],["Bricks","B",["À jour"]],["TikTok Shop","B",["Finalisé"]]]},
+ {t:"Pages et liens",all:[["GitHub","B",["Pages hébergées","Ce guide en ligne"]]]}
  ]}
 ];
-const ALL=PARTS.flatMap(p=>p.axes);
+
+/* Priorités en rouge */
+const PRIORITIES=[
+ {k:"Priorité 1",t:"Règle des 2 minutes",p:"Toute tâche de moins de 2 minutes est traitée tout de suite. Elle ne va pas dans Todoist.",go:null,timer:true},
+ {k:"Priorité 2",t:"Restructuration générale du site e-commerce",p:"Transformer Solution pour Piscine de site vitrine en vrai site e-commerce.",go:"spp"},
+ {k:"Priorité 3",t:"Structuration de l'entreprise Servic'eau",p:"Organisation, administratif, outils : mettre l'entreprise en ordre de marche.",go:"struct"}
+];
+
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-let done=store.get("sv-done",{});
-let filter="all";
+let CH=store.get("sv2-checks",{});
+let personFilter="all";
 const $=s=>document.querySelector(s);
-const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const mic='<span class="mic"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span>';
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>el.classList.remove("on"),1800)}
+/* Normalisation : chaque tâche devient {t,w,c[],people,sw,key} */
+const SIDES=[["sv","Servic'eau Piscines"],["sp","Solution pour Piscine"],["all","Commun aux deux"]];
+THEMES.forEach((th,ti)=>{th.tabs.forEach((tab,bi)=>{tab.id=th.id+"-"+bi;SIDES.forEach(([s])=>{
+  if(!tab[s])return;tab[s]=tab[s].map((x,ki)=>{
+    let o=Array.isArray(x)?{t:x[0],w:x[1],c:x[2]}:{...x};
+    if(o.people)o.c=FORM.map(k=>PEOPLE[k].n);
+    o.key=tab.id+"-"+s+"-"+ki;return o;});
+});});});
 
-/* Hub */
-(function(){
-  const hub=$("#hub"),svg=$("#hubSvg"),n=ALL.length;
-  ALL.forEach((a,i)=>{
-    const ang=-Math.PI/2+i*2*Math.PI/n, r=38, x=50+r*Math.cos(ang), y=50+r*Math.sin(ang);
+const tasksOf=tab=>SIDES.flatMap(([s])=>tab[s]||[]);
+const ck=(task,i)=>task.key+"-"+i;
+const cnt=tasks=>{let d=0,n=0;tasks.forEach(t=>t.c.forEach((_,i)=>{n++;if(CH[ck(t,i)])d++}));return{d,n}};
+const tabStat=tab=>cnt(tasksOf(tab));
+const themeStat=th=>cnt(th.tabs.flatMap(tasksOf));
+const allStat=()=>cnt(THEMES.flatMap(th=>th.tabs.flatMap(tasksOf)));
+const pc=s=>s.n?Math.round(s.d/s.n*100):0;
+
+function chips(w){return '<span class="who">'+w.split("").map(k=>PEOPLE[k]?'<span class="pp" style="--pc:'+PEOPLE[k].c+'">'+PEOPLE[k].n+'</span>':"").join("")+'</span>'}
+
+/* ───── Hub ───── */
+function buildHub(){
+  const hub=$("#hub"),svg=$("#hubSvg"),n=THEMES.length;
+  THEMES.forEach((th,i)=>{
+    const ang=-Math.PI/2+i*2*Math.PI/n,x=50+40*Math.cos(ang),y=50+40*Math.sin(ang);
     const ln=document.createElementNS("http://www.w3.org/2000/svg","line");
     ln.setAttribute("x1",50);ln.setAttribute("y1",50);ln.setAttribute("x2",x);ln.setAttribute("y2",y);svg.insertBefore(ln,svg.firstChild);
-    const b=document.createElement("button");b.className="node";b.style.left=x+"%";b.style.top=y+"%";b.id="node-"+a.id;b.style.setProperty("--fd",(-i*0.37).toFixed(2)+"s");
-    b.innerHTML='<span class="d" style="background:'+STATUS[a.s].c+'"></span>'+esc(a.short);
-    b.addEventListener("click",()=>openAxe(a.id));hub.appendChild(b);
+    const b=document.createElement("button");b.className="node";b.style.left=x+"%";b.style.top=y+"%";b.id="node-"+th.id;b.style.setProperty("--fd",(-i*.37).toFixed(2)+"s");
+    if(th.mode)b.dataset.mode=th.mode;
+    b.innerHTML='<span class="ring"></span><span class="lab">'+esc(th.short)+'</span><span class="np">0 %</span>';
+    b.addEventListener("click",()=>goTheme(th.id));hub.appendChild(b);
   });
-})();
+}
 
-/* Axes */
-function renderAxes(){
-  $("#parts").innerHTML=PARTS.map(p=>'<div class="part"><h3 class="p">'+esc(p.name)+'</h3><div class="grid">'+p.axes.map(a=>{
-    const d=!!done[a.id];
-    return '<article class="axe'+(d?" done":"")+'" id="axe-'+a.id+'" data-s="'+a.s+'">'+
-      '<button class="head" aria-expanded="false"><span class="t">'+esc(a.t)+'<span class="chev">›</span></span><span class="pill s'+a.s+'">'+STATUS[a.s].label+'</span><span class="tools">'+esc(a.tools)+'</span></button>'+
-      '<div class="body"><ul>'+a.pts.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>'+
-      (a.claude?'<div class="claude"><b>Avec Claude :</b> '+esc(a.claude)+'</div>':'')+
-      (a.voice?'<div class="voice">'+mic+'<q>'+esc(a.voice)+'</q><button class="copy" data-v="'+esc(a.voice)+'">Copier</button></div>':'')+
-      '<label class="donebox"><input type="checkbox" id="done-'+a.id+'" '+(d?"checked":"")+'> Fait de mon côté</label></div></article>'}).join("")+'</div></div>').join("");
-  applyFilter();
+/* ───── Priorités ───── */
+function buildPriorities(){
+  $("#prio").innerHTML=PRIORITIES.map((p,i)=>'<article class="prio'+(p.timer?" has-timer":"")+'">'+
+    (p.timer?'<div class="clock"><svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"></circle><circle class="fg" id="arc" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="0"></circle></svg><span id="clk">2:00</span></div>':'<div class="prio-n">'+(i+1)+'</div>')+
+    '<div class="prio-b"><div class="eyebrow red">'+p.k+'</div><h3>'+esc(p.t)+'</h3><p>'+esc(p.p)+'</p>'+
+    (p.timer?'<div class="tri"><input id="tache" placeholder="Ex. : répondre au mail de M. Martin" aria-label="Tâche à trier"><button class="btn red" data-t="short">Moins de 2 min</button><button class="btn ghost" data-t="long">Plus long</button></div><p class="verdict" id="verdict" aria-live="polite"></p>':
+      '<div class="prio-bar"><div class="bar"><i id="pb-'+p.go+'"></i></div><strong id="pp-'+p.go+'">0 %</strong></div><button class="btn red" data-go="'+p.go+'">Ouvrir le thème</button>')+
+    '</div></article>').join("");
+  $("#prio").addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g)goTheme(g.dataset.go)});
+  let timer=null;
+  document.querySelectorAll("[data-t]").forEach(b=>b.addEventListener("click",()=>{
+    const t=$("#tache").value.trim()||"Cette tâche";
+    if(b.dataset.t==="short"){$("#verdict").textContent="« "+t+" » : on la fait tout de suite. Chrono lancé.";start()}
+    else{$("#verdict").textContent="« "+t+" » : direction Todoist, avec une couleur de priorité.";stop()}
+  }));
+  function start(){stop();let s=120;const arc=$("#arc");const tick=()=>{$("#clk").textContent=Math.floor(s/60)+":"+String(s%60).padStart(2,"0");arc.style.strokeDashoffset=326.7*(1-s/120);if(s<=0){stop();toast("2 minutes écoulées");return}s--};tick();timer=setInterval(tick,1000)}
+  function stop(){clearInterval(timer);$("#clk").textContent="2:00";$("#arc").style.strokeDashoffset=0}
 }
-function openAxe(id){
-  if(filter!=="all"){filter="all";renderChips();applyFilter()}
-  const el=$("#axe-"+id);el.classList.add("open");el.querySelector(".head").setAttribute("aria-expanded","true");
-  el.scrollIntoView({block:"center"});el.classList.add("flash");setTimeout(()=>el.classList.remove("flash"),1400);
+
+/* ───── Thèmes ───── */
+function taskHTML(t){
+  const s=cnt([t]);
+  return '<div class="task" data-w="'+t.w+'" id="task-'+t.key+'"><div class="task-h"><b>'+esc(t.t)+'</b><span class="tc">'+s.d+'/'+s.n+'</span></div>'+chips(t.w)+
+   (t.sw?'<div class="sw">'+t.sw.map(([n,h])=>'<div class="swc"><i style="background:'+h+'"></i><b>'+esc(n)+'</b><code>'+h+'</code></div>').join("")+'</div>':'')+
+   '<ul class="cl">'+t.c.map((c,i)=>{const id="c-"+ck(t,i);return '<li><input type="checkbox" id="'+id+'" data-k="'+ck(t,i)+'"'+(CH[ck(t,i)]?" checked":"")+'><label for="'+id+'">'+
+     (t.people?'<span class="pp" style="--pc:'+PEOPLE[FORM[i]].c+'">'+esc(c)+'</span> formation réalisée':esc(c))+'</label></li>'}).join("")+'</ul></div>';
 }
-$("#parts").addEventListener("click",e=>{
-  const h=e.target.closest(".head");
-  if(h){const a=h.parentElement;a.classList.toggle("open");h.setAttribute("aria-expanded",a.classList.contains("open"));return}
-  const c=e.target.closest(".copy");
-  if(c){const v=c.dataset.v;navigator.clipboard.writeText(v).then(()=>toast("Note vocale copiée")).catch(()=>{const r=document.createRange();r.selectNodeContents(c.previousElementSibling);const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Texte sélectionné")})}
+function sideHTML(tab,s,label){
+  if(!tab[s])return"";
+  return '<div class="side side-'+s+'"><div class="side-band"><span>'+label+'</span><div class="bar mini"><i id="sb-'+tab.id+'-'+s+'"></i></div></div><div class="tasks">'+tab[s].map(taskHTML).join("")+'</div></div>';
+}
+function buildThemes(){
+  $("#themes").innerHTML=THEMES.map((th,i)=>'<section class="theme'+(th.mode?" mode-"+th.mode:"")+'" id="th-'+th.id+'">'+
+   '<header class="th-h"><span class="th-n">'+String(i+1).padStart(2,"0")+'</span><div class="th-t"><h2>'+esc(th.t)+(th.badge?' <span class="badge">'+esc(th.badge)+'</span>':'')+'</h2><p>'+esc(th.desc)+'</p>'+chips(th.who)+'</div>'+
+   '<div class="th-p"><div class="bar big"><i id="tb-'+th.id+'"></i></div><strong id="tp-'+th.id+'">0 %</strong><span class="th-c" id="tc-'+th.id+'"></span></div></header>'+
+   '<div class="tabs">'+th.tabs.map(tab=>'<article class="tab" id="tab-'+tab.id+'"><button class="tab-h" aria-expanded="false"><span class="chev">›</span><span class="tab-t">'+esc(tab.t)+'</span>'+
+     '<span class="marks">'+(tab.sv?'<i class="m sv"></i>':'')+(tab.sp?'<i class="m sp"></i>':'')+'</span><span class="bar tabbar"><i id="xb-'+tab.id+'"></i></span><span class="tab-p" id="xp-'+tab.id+'">0 %</span><span class="stamp">Validé</span></button>'+
+     '<div class="tab-b">'+sideHTML(tab,"sv","Servic'eau Piscines")+sideHTML(tab,"sp","Solution pour Piscine")+sideHTML(tab,"all","Commun aux deux entreprises")+'</div></article>').join("")+'</div></section>').join("");
+}
+
+function goTheme(id){const el=$("#th-"+id);if(!el)return;el.scrollIntoView({behavior:RM?"auto":"smooth",block:"start"});el.classList.add("flash");setTimeout(()=>el.classList.remove("flash"),1500)}
+
+/* ───── Progression ───── */
+function setBar(id,p){const b=document.getElementById(id);if(b)b.style.width=p+"%"}
+function refresh(){
+  THEMES.forEach(th=>{
+    th.tabs.forEach(tab=>{
+      const s=tabStat(tab),p=pc(s);setBar("xb-"+tab.id,p);$("#xp-"+tab.id).textContent=p+" %";
+      $("#tab-"+tab.id).classList.toggle("complete",s.n>0&&s.d===s.n);
+      SIDES.forEach(([sd])=>{if(tab[sd])setBar("sb-"+tab.id+"-"+sd,pc(cnt(tab[sd])))});
+      tasksOf(tab).forEach(t=>{const c=cnt([t]),el=document.getElementById("task-"+t.key);el.querySelector(".tc").textContent=c.d+"/"+c.n;el.classList.toggle("done",c.d===c.n)});
+    });
+    const s=themeStat(th),p=pc(s);setBar("tb-"+th.id,p);$("#tp-"+th.id).textContent=p+" %";
+    const doneTabs=th.tabs.filter(t=>{const x=tabStat(t);return x.d===x.n}).length;
+    $("#tc-"+th.id).textContent=doneTabs+"/"+th.tabs.length+" onglets validés · "+s.d+"/"+s.n+" cases";
+    $("#th-"+th.id).classList.toggle("complete",s.d===s.n);
+    const node=$("#node-"+th.id);node.style.setProperty("--p",p);node.querySelector(".np").textContent=p+" %";node.classList.toggle("full",p===100);
+    const pb=document.getElementById("pb-"+th.id);if(pb){pb.style.width=p+"%";$("#pp-"+th.id).textContent=p+" %"}
+  });
+  const a=allStat(),p=pc(a);setBar("gbar",p);$("#gpct").textContent=p+" %";$("#gcount").textContent=a.d+" / "+a.n+" cases";
+  $("#coreP").textContent=p+" %";
+}
+
+/* ───── Animations ───── */
+function burst(el,n,big){
+  if(RM)return;const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+Math.min(r.height/2,30);
+  const cols=["var(--sv)","var(--sp)","var(--ok)","var(--gold)"];
+  for(let i=0;i<n;i++){const s=document.createElement("span");s.className="spark";const a=Math.random()*Math.PI*2,d=(big?90:50)+Math.random()*(big?140:60);
+    s.style.left=cx+"px";s.style.top=cy+"px";s.style.setProperty("--dx",Math.cos(a)*d+"px");s.style.setProperty("--dy",Math.sin(a)*d+"px");s.style.background=cols[i%4];
+    document.body.appendChild(s);setTimeout(()=>s.remove(),1000)}
+}
+function mega(){
+  const ov=$("#mega");ov.hidden=false;ov.classList.add("on");
+  const cv=$("#confetti"),ctx=cv.getContext("2d");cv.width=innerWidth;cv.height=innerHeight;
+  if(RM)return;
+  const cols=["#173a6b","#4fa8d4","#2f8a5b","#e2b64a","#ffffff"];
+  const P=Array.from({length:220},()=>({x:Math.random()*cv.width,y:-20-Math.random()*cv.height,vx:-2+Math.random()*4,vy:2+Math.random()*4,r:4+Math.random()*6,a:Math.random()*6,c:cols[Math.floor(Math.random()*5)]}));
+  const t0=performance.now();
+  (function f(t){ctx.clearRect(0,0,cv.width,cv.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a+=.1;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a);ctx.fillStyle=p.c;ctx.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);ctx.restore();if(p.y>cv.height+20){p.y=-20;p.x=Math.random()*cv.width}});
+    if(t-t0<6000&&!ov.hidden)requestAnimationFrame(f);else ctx.clearRect(0,0,cv.width,cv.height)})(t0);
+}
+$("#mega").addEventListener("click",()=>{$("#mega").hidden=true});
+
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.h);toast.h=setTimeout(()=>el.classList.remove("on"),2000)}
+
+/* ───── Événements ───── */
+$("#themes").addEventListener("click",e=>{
+  const h=e.target.closest(".tab-h");if(!h)return;const tab=h.parentElement;tab.classList.toggle("open");h.setAttribute("aria-expanded",tab.classList.contains("open"));
 });
-$("#parts").addEventListener("change",e=>{
-  if(!e.target.id.startsWith("done-"))return;
-  const id=e.target.id.slice(5);done[id]=e.target.checked;store.set("sv-done",done);
-  $("#axe-"+id).classList.toggle("done",e.target.checked);updateProgress();
-  if(e.target.checked)toast("Axe validé ✓");
+$("#themes").addEventListener("change",e=>{
+  const k=e.target.dataset.k;if(!k)return;
+  const tabId=k.split("-").slice(0,2).join("-"),thId=tabId.split("-")[0];
+  const th=THEMES.find(x=>x.id===thId),tab=th.tabs.find(x=>x.id===tabId);
+  const wasTab=(s=>s.d===s.n)(tabStat(tab)),wasTh=(s=>s.d===s.n)(themeStat(th)),wasAll=(s=>s.d===s.n)(allStat());
+  if(e.target.checked)CH[k]=1;else delete CH[k];store.set("sv2-checks",CH);
+  refresh();
+  if(!e.target.checked)return;
+  const task=e.target.closest(".task");if(task.classList.contains("done"))burst(task,8,false);
+  const nowTab=(s=>s.d===s.n)(tabStat(tab)),nowTh=(s=>s.d===s.n)(themeStat(th)),nowAll=(s=>s.d===s.n)(allStat());
+  if(nowAll&&!wasAll){mega();return}
+  if(nowTh&&!wasTh){const el=$("#th-"+th.id);el.classList.remove("celebrate");void el.offsetWidth;el.classList.add("celebrate");burst(el.querySelector(".th-h"),40,true);toast("Thème validé : "+th.t);return}
+  if(nowTab&&!wasTab){const el=$("#tab-"+tab.id);el.classList.remove("pop");void el.offsetWidth;el.classList.add("pop");burst(el.querySelector(".tab-h"),18,false);toast("Onglet validé : "+tab.t)}
 });
 
-/* Filtres + progression */
-function renderChips(){
-  const opts=[{k:"all",label:"Tous",n:ALL.length}].concat(STATUS.map(s=>({k:String(s.k),label:s.label,n:ALL.filter(a=>a.s===s.k).length})));
-  $("#chips").innerHTML=opts.map(o=>'<button class="chip" data-f="'+o.k+'" aria-pressed="'+(filter===o.k)+'">'+o.label+'<span class="n">'+o.n+'</span></button>').join("");
+/* Filtre par personne */
+function buildFilter(){
+  const opts=[["all","Tout le monde"]].concat(Object.entries(PEOPLE).map(([k,v])=>[k,v.n]));
+  $("#pfilter").innerHTML=opts.map(([k,n])=>'<button class="chip" data-p="'+k+'" aria-pressed="'+(personFilter===k)+'">'+n+'</button>').join("");
 }
-$("#chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;filter=b.dataset.f;renderChips();applyFilter()});
+$("#pfilter").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;personFilter=b.dataset.p;buildFilter();applyFilter()});
 function applyFilter(){
-  document.querySelectorAll(".axe").forEach(a=>a.classList.toggle("hide",filter!=="all"&&a.dataset.s!==filter));
-  document.querySelectorAll(".part").forEach(p=>p.classList.toggle("hide",!p.querySelector(".axe:not(.hide)")));
+  document.querySelectorAll(".task").forEach(t=>t.classList.toggle("hide",personFilter!=="all"&&!t.dataset.w.includes(personFilter)));
+  document.querySelectorAll(".side").forEach(s=>s.classList.toggle("hide",!s.querySelector(".task:not(.hide)")));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("hide",!t.querySelector(".task:not(.hide)")));
+  document.querySelectorAll(".theme").forEach(t=>t.classList.toggle("hide",!t.querySelector(".tab:not(.hide)")));
 }
-function updateProgress(){
-  const n=ALL.length;
-  const seg=STATUS.map(s=>{const k=ALL.filter(a=>a.s===s.k||(done[a.id]&&s.k===0));return 0});
-  const doneN=ALL.filter(a=>a.s===0||done[a.id]).length;
-  const rest=STATUS.slice(1).map(s=>ALL.filter(a=>a.s===s.k&&!done[a.id]).length);
-  const parts=[{n:doneN,c:STATUS[0].c}].concat(rest.map((v,i)=>({n:v,c:STATUS[i+1].c})));
-  $("#bar").innerHTML=parts.map(p=>'<i style="width:'+(p.n/n*100)+'%;background:'+p.c+';opacity:'+(p.c===STATUS[0].c?1:.35)+'"></i>').join("");
-  $("#pct").textContent=Math.round(doneN/n*100)+" % en place";
-}
+/* Nav thèmes */
+function buildNav(){$("#tnav").innerHTML=THEMES.map((th,i)=>'<a href="#th-'+th.id+'" class="tn'+(th.mode?" "+th.mode:"")+'">'+String(i+1).padStart(2,"0")+' '+esc(th.short)+'</a>').join("")}
+$("#tnav").addEventListener("click",e=>{const a=e.target.closest("a");if(!a)return;e.preventDefault();goTheme(a.getAttribute("href").slice(4))});
 
-/* Règle 2 min */
-let timer=null;
-document.querySelectorAll("[data-t]").forEach(b=>b.addEventListener("click",()=>{
-  const t=$("#tache").value.trim()||"Cette tâche";
-  if(b.dataset.t==="short"){$("#verdict").textContent="➜ « "+t+" » : on la fait tout de suite. Le chrono est lancé.";startClock()}
-  else{$("#verdict").textContent="➜ « "+t+" » : direction Todoist, avec une couleur de priorité.";stopClock()}
-}));
-function startClock(){
-  stopClock();let s=120;const arc=$("#arc"),L=326.7;
-  const tick=()=>{$("#clk").textContent=Math.floor(s/60)+":"+String(s%60).padStart(2,"0");arc.style.strokeDashoffset=L*(1-s/120);
-    if(s<=0){stopClock();toast("2 minutes écoulées");return}s--};
-  tick();timer=setInterval(tick,1000);
-}
-function stopClock(){clearInterval(timer);timer=null;$("#clk").textContent="2:00";$("#arc").style.strokeDashoffset=0}
-
-/* Quêtes */
+/* ───── Quêtes ───── */
 const PLAYERS=[
- {id:"aboud",name:"Aboud",col:"#1f5872",role:"Com & développement commercial",q:[{t:"Redémarrer les réseaux de la maison",xp:50},{t:"Mettre en ligne la page de liens sur GitHub",xp:40}]},
- {id:"lisa",name:"Lisa",col:"#578d9f",role:"Réseaux sociaux",q:[{t:"Mettre en place les bulles Instagram",xp:50},{t:"Tenir le planning de stories une semaine",xp:30}]},
- {id:"adelie",name:"Adélie",col:"#3b7b6a",role:"Gestion PME",q:[{t:"Rédiger une procédure (faire une facture)",xp:40},{t:"Refaire les visuels de la façade",xp:50}]}
+ {id:"aboud",name:"Aboud",col:"#1f5872",role:"Com et développement commercial",q:[{t:"Lancer la refonte du site e-commerce",xp:80},{t:"Mettre en ligne la page de liens sur GitHub",xp:40}]},
+ {id:"lisa",name:"Lisa",col:"#8a5a9e",role:"Réseaux sociaux",q:[{t:"Mettre en place les bulles Instagram",xp:50},{t:"Tenir le planning de stories une semaine",xp:30}]},
+ {id:"adele",name:"Adèle",col:"#3b7b6a",role:"Structuration d'entreprise (GPME)",q:[{t:"Faire un devis validé par Kevin",xp:50},{t:"Mettre en place les libellés de la boîte Servic'eau",xp:40}]}
 ];
-let qs=store.get("sv-quests",null)||PLAYERS.reduce((o,p)=>(o[p.id]=p.q.map(x=>({...x,ok:false})),o),{});
+let qs=store.get("sv2-quests",null)||PLAYERS.reduce((o,p)=>(o[p.id]=p.q.map(x=>({...x,ok:false})),o),{});
 function renderPlayers(){
-  $("#players").innerHTML=PLAYERS.map(p=>{
-    const list=qs[p.id]||[], xp=list.filter(q=>q.ok).reduce((s,q)=>s+q.xp,0), lvl=1+Math.floor(xp/100), into=xp%100;
-    return '<div class="player"><div class="who"><span class="avatar" style="background:'+p.col+'">'+p.name[0]+'</span><div><b>'+p.name+'</b><div class="lvl">'+p.role+'</div></div></div>'+
-    '<div class="lvl">Niveau '+lvl+' · <span style="font-family:var(--mono)">'+xp+' XP</span></div><div class="xp"><i style="width:'+into+'%"></i></div>'+
-    list.map((q,i)=>'<label class="quest'+(q.ok?" ok":"")+'"><input type="checkbox" data-p="'+p.id+'" data-i="'+i+'" '+(q.ok?"checked":"")+'><span class="q">'+esc(q.t)+'</span><span class="xpv">+'+q.xp+' XP</span></label>').join("")+
+  $("#players").innerHTML=PLAYERS.map(p=>{const list=qs[p.id]||[],xp=list.filter(q=>q.ok).reduce((s,q)=>s+q.xp,0),lvl=1+Math.floor(xp/100);
+    return '<div class="player"><div class="pwho"><span class="avatar" style="background:'+p.col+'">'+p.name[0]+'</span><div><b>'+p.name+'</b><div class="lvl">'+p.role+'</div></div></div>'+
+    '<div class="lvl">Niveau '+lvl+' · <span class="mono">'+xp+' XP</span></div><div class="bar"><i style="width:'+(xp%100)+'%"></i></div>'+
+    list.map((q,i)=>'<label class="quest'+(q.ok?" ok":"")+'"><input type="checkbox" data-p="'+p.id+'" data-i="'+i+'"'+(q.ok?" checked":"")+'><span class="q">'+esc(q.t)+'</span><span class="xpv">+'+q.xp+' XP</span></label>').join("")+
     '<form class="addq" data-p="'+p.id+'"><input id="add-'+p.id+'" placeholder="Nouvelle quête" aria-label="Nouvelle quête pour '+p.name+'"><button class="btn" type="submit">+</button></form></div>'}).join("");
 }
-$("#players").addEventListener("change",e=>{const c=e.target;if(!c.dataset.p)return;const q=qs[c.dataset.p][+c.dataset.i];q.ok=c.checked;store.set("sv-quests",qs);renderPlayers();if(c.checked)toast("Quête validée : +"+q.xp+" XP")});
-$("#players").addEventListener("submit",e=>{e.preventDefault();const f=e.target,inp=f.querySelector("input"),t=inp.value.trim();if(!t)return;qs[f.dataset.p].push({t,xp:30,ok:false});store.set("sv-quests",qs);renderPlayers();toast("Quête ajoutée")});
+$("#players").addEventListener("change",e=>{const c=e.target;if(!c.dataset.p)return;const q=qs[c.dataset.p][+c.dataset.i];q.ok=c.checked;store.set("sv2-quests",qs);renderPlayers();if(c.checked)toast("Quête validée : +"+q.xp+" XP")});
+$("#players").addEventListener("submit",e=>{e.preventDefault();const f=e.target,inp=f.querySelector("input"),t=inp.value.trim();if(!t)return;qs[f.dataset.p].push({t,xp:30,ok:false});store.set("sv2-quests",qs);renderPlayers();toast("Quête ajoutée")});
 
-renderChips();renderAxes();updateProgress();renderPlayers();
+/* Init */
+buildHub();buildPriorities();buildThemes();buildNav();buildFilter();renderPlayers();refresh();
+$("#mThemes").textContent=THEMES.length+" thèmes";
+$("#mTabs").textContent=THEMES.reduce((s,t)=>s+t.tabs.length,0)+" onglets";
+$("#mChecks").textContent=allStat().n+" cases à cocher";
+
 </script>
-</body>
-</html>
