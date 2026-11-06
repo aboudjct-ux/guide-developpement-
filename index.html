@@ -259,6 +259,62 @@ footer{padding-block:40px 60px;color:var(--ink-2);font-size:13px;text-align:cent
   .tab-h .tabbar{grid-column:2/-1;grid-row:2}
   .tasks{grid-template-columns:1fr}
 }
+
+/* ───── Entretien annuel ───── */
+.chip.iv{background:var(--sv);color:var(--sv-ink);border-color:var(--sv);margin-left:6px}
+.chip.iv[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+#iv{display:none;padding-block:28px 40px}
+body.iv-on #iv{display:block}
+body.iv-on .hero,body.iv-on main,body.iv-on footer,body.iv-on .sticky .grow,body.iv-on #tnav{display:none!important}
+.iv-head h1{font-size:clamp(28px,5vw,42px);margin-top:8px}
+.iv-head .lead{max-width:60ch}
+.iv-back{margin-top:14px;background:none;border:1px solid var(--line);border-radius:99px;padding:5px 12px;font-size:13px;font-weight:600}
+.iv-card{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+.iv-card h3{font-size:19px}
+.iv-who{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.iv-who button{border:2px solid var(--pc);background:var(--surface);color:var(--ink);border-radius:99px;padding:6px 14px;font-weight:700}
+.iv-who button[aria-pressed="true"]{background:var(--pc);color:#fff}
+.iv-who small{display:block;font-size:11px;font-weight:600;opacity:.8}
+.iv-meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px;font-size:14px;color:var(--ink-2)}
+.iv-meta input{font:inherit;border:1px solid var(--line);border-radius:8px;padding:5px 8px;background:var(--ground);color:var(--ink)}
+.iv-prog{display:flex;align-items:center;gap:10px;margin-top:14px}
+.iv-prog .bar{flex:1;height:8px;background:var(--sunk);border-radius:99px;overflow:hidden}
+.iv-prog .bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+.iv-tabs{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.iv-tab{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.iv-tab>button{width:100%;border:0;background:none;text-align:left;padding:13px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+.iv-tab>button .n{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.iv-tab>button b{font-family:var(--display);font-weight:400;font-size:18px}
+.iv-tab>button .c{font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--sunk);color:var(--ink-2)}
+.iv-tab.full>button .c{background:var(--ok-soft);color:var(--ok)}
+.iv-tab .iv-b{display:none;padding:0 14px 16px;flex-direction:column;gap:16px}
+.iv-tab.open .iv-b{display:flex;animation:open .3s ease}
+.iv-tab.open>button .chev{transform:rotate(90deg)}
+.iv-b label.iv-q{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--ground);cursor:pointer}
+.iv-b label.iv-q input{width:20px;height:20px;accent-color:var(--ok)}
+.iv-b label.iv-q em{font-style:normal;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--sunk);color:var(--ink-2);white-space:nowrap}
+.iv-b label.iv-q:has(input:checked){background:var(--ok-soft);border-color:var(--ok)}
+.iv-b label.iv-q:has(input:checked) span{color:var(--ink-2);text-decoration:line-through}
+.iv-b label.iv-q:has(input:checked) em{background:var(--ok);color:#fff}
+.iv-b{gap:8px!important}
+.iv-q label.q{display:block;font-weight:700;margin-bottom:8px}
+.iv-q .opts{display:flex;flex-wrap:wrap;gap:6px}
+.iv-q .opts label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:99px;padding:5px 12px;font-size:14px;background:var(--ground);cursor:pointer}
+.iv-q .opts input{accent-color:var(--sv)}
+.iv-q .opts label:has(input:checked){background:var(--sv-soft);border-color:var(--sv);font-weight:700}
+.iv-q textarea{width:100%;min-height:70px;font:inherit;font-size:15px;border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--ground);color:var(--ink);resize:vertical}
+.iv-q .opts+textarea{margin-top:8px;min-height:44px}
+.iv-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.iv-tips{margin-top:16px;background:var(--sv-soft);border-left:4px solid var(--sv);border-radius:10px;padding:12px 14px;font-size:15px;max-width:68ch}
+.iv-tips ul{margin:6px 0 0;padding-left:18px}
+.iv-tip{font-size:14px;color:var(--ink-2);background:var(--sunk);border-radius:8px;padding:8px 10px}
+.iv-empty{margin-top:18px;color:var(--ink-2);font-style:italic}
+@media print{
+  .sticky,.iv-back,.iv-actions,.iv-who button:not([aria-pressed="true"]){display:none!important}
+  .iv-tab .iv-b{display:flex!important}
+  .iv-tab,.iv-card{break-inside:avoid;border-color:#bbb}
+  body{background:#fff}
+}
 </style>
 
 <header class="wrap hero">
@@ -266,7 +322,7 @@ footer{padding-block:40px 60px;color:var(--ink-2);font-size:13px;text-align:cent
     <div class="eyebrow">Servic'eau Piscines · Solution pour Piscine</div>
     <h1>Guide processus : développer l'entreprise avec <em>Claude au centre</em></h1>
     <p class="lead">Chaque thème s'ouvre en onglets, chaque onglet en tâches à cocher. Un onglet complet se valide, un thème complet aussi, et quand tout est fini, toute la page le fête.</p>
-    <div class="meta"><span>Mis à jour le 27/10/2026</span><span id="mThemes"></span><span id="mTabs"></span><span id="mChecks"></span></div>
+    <div class="meta"><span>Mis à jour le 06/11/2026</span><span id="mThemes"></span><span id="mTabs"></span><span id="mChecks"></span></div>
     <div class="legend"><span><i style="background:var(--sv)"></i>Servic'eau Piscines</span><span><i style="background:var(--sp)"></i>Solution pour Piscine</span><span><i style="background:var(--sunk);border:1px solid var(--line)"></i>Commun</span></div>
   </div>
   <div class="hub" id="hub">
@@ -291,6 +347,23 @@ footer{padding-block:40px 60px;color:var(--ink-2);font-size:13px;text-align:cent
   <section class="prios" id="prio" aria-label="Priorités"></section>
   <div id="themes"></div>
 </main>
+
+<section class="wrap" id="iv" aria-label="Entretien annuel">
+  <div class="iv-head">
+    <div class="eyebrow">Servic'eau Piscines · Guide d'entretien annuel</div>
+    <h1>Le guide de Kevin pour les entretiens</h1>
+    <p class="lead">Ce guide sert de fil rouge pendant l'entretien : tu poses les questions et tu coches au fur et à mesure celles qui sont faites, pour t'y retrouver. Ce n'est pas un formulaire à envoyer.</p>
+    <div class="iv-tips"><b>Pour que ça reste familial</b><ul><li>Fais-le autour d'un café, pas derrière un bureau.</li><li>Pas besoin de suivre l'ordre : laisse la discussion venir.</li><li>Écoute plus que tu ne parles et relance avec « c'est-à-dire ? » ou « tu as un exemple ? ».</li><li>Termine par une ou deux actions concrètes que tu t'engages à faire.</li></ul></div>
+    <button class="iv-back" id="ivBack">← Retour au guide</button>
+  </div>
+  <div class="iv-card">
+    <h3>Avec qui tu fais l'entretien ?</h3>
+    <div class="iv-who" id="ivWho"></div>
+    <div class="iv-prog" id="ivProg" hidden><div class="bar"><i id="ivBar"></i></div><strong id="ivCount">0 / 20</strong></div>
+  </div>
+  <p class="iv-empty" id="ivEmpty">Choisis la personne pour commencer.</p>
+  <div class="iv-tabs" id="ivTabs"></div>
+</section>
 
 <footer class="wrap">Servic'eau Piscines · 2 rue des Internautes, 37210 Rochecorbon — Solution pour Piscine · 43 rue Marcel Sembat, 37000 Tours<br>Ta progression est gardée sur ton appareil.</footer>
 <div class="toast" id="toast" role="status"></div>
@@ -775,9 +848,12 @@ $("#themes").addEventListener("change",e=>{
 /* Filtre par personne */
 function buildFilter(){
   const opts=[["all","Tout le monde"]].concat(Object.entries(PEOPLE).map(([k,v])=>[k,v.n]));
-  $("#pfilter").innerHTML=opts.map(([k,n])=>'<button class="chip" data-p="'+k+'" aria-pressed="'+(personFilter===k)+'">'+n+'</button>').join("");
+  const iv=document.body.classList.contains("iv-on");
+  $("#pfilter").innerHTML=opts.map(([k,n])=>'<button class="chip" data-p="'+k+'" aria-pressed="'+(!iv&&personFilter===k)+'">'+n+'</button>').join("")+
+    '<button class="chip iv" data-p="iv" aria-pressed="'+iv+'">Entretien</button>';
 }
-$("#pfilter").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;personFilter=b.dataset.p;buildFilter();applyFilter()});
+$("#pfilter").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;if(b.dataset.p==="iv"){ivMode(true);return}
+  if(document.body.classList.contains("iv-on"))document.body.classList.remove("iv-on");personFilter=b.dataset.p;buildFilter();applyFilter()});
 function applyFilter(){
   document.querySelectorAll(".task").forEach(t=>t.classList.toggle("hide",personFilter!=="all"&&!t.dataset.w.includes(personFilter)));
   document.querySelectorAll(".side").forEach(s=>s.classList.toggle("hide",!s.querySelector(".task:not(.hide)")));
@@ -787,6 +863,71 @@ function applyFilter(){
 /* Nav thèmes */
 function buildNav(){$("#tnav").innerHTML=THEMES.map((th,i)=>'<a href="#th-'+th.id+'" class="tn'+(th.mode?" "+th.mode:"")+'">'+String(i+1).padStart(2,"0")+' '+esc(th.short)+'</a>').join("")}
 $("#tnav").addEventListener("click",e=>{const a=e.target.closest("a");if(!a)return;e.preventDefault();goTheme(a.getAttribute("href").slice(4))});
+
+
+/* ───── Entretien annuel ─────
+   Questions : o = choix unique, m = choix multiple, t = réponse libre, x = champ libre en plus des choix */
+const IV_PEOPLE=["A","B","L","M","P","F"];
+const IV=[
+ {t:"Toi et Servic'eau",tip:"Commence léger, pour mettre à l'aise. Laisse la personne parler de ce qu'elle aime.",q:[
+  {q:"Qu'est-ce que tu aimes le plus chez Servic'eau Piscines ?"},
+  {q:"Quand tu proposes une idée, tu sens qu'on t'écoute ?",o:["Oui","Parfois","Pas assez"]}]},
+ {t:"Ton quotidien",tip:"Si la réponse est « bof », demande ce qui coince concrètement dans la journée.",q:[
+  {q:"Ton boulot de tous les jours, il te plaît ?",o:["Oui","Plutôt","Bof"]},
+  {q:"Qu'est-ce qui te fatigue ou te prend la tête en ce moment ?"},
+  {q:"Il te manque du matériel ou des outils ?",o:["Non, c'est bon","Oui"],x:"Si oui, quoi ?"},
+  {q:"Il y a un truc dont tu aimerais t'occuper davantage ?"}]},
+ {t:"Comment on s'organise",tip:"Note les irritants précis (planning, consignes, infos qui arrivent tard), c'est là qu'on peut agir vite.",q:[
+  {q:"Le planning de la semaine, ça te va ?",o:["Oui","À revoir","Non"]},
+  {q:"Tu sais toujours qui fait quoi ?",o:["Oui","Pas toujours","Non"]},
+  {q:"Les infos circulent bien entre nous ?",o:["Oui","Moyen","Non"]},
+  {q:"Si tu pouvais changer une chose dès demain, ce serait quoi ?"}]},
+ {t:"Les formations",tip:"Demande un exemple de formation qui a vraiment servi sur un chantier.",q:[
+  {q:"Les formations, tu les aimes bien ?",o:["Oui","Moyen","Non","Pas encore eu"]},
+  {q:"Elles te servent vraiment sur le terrain ?",o:["Oui","En partie","Non"]},
+  {q:"Qu'est-ce que tu aimerais apprendre ?"}]},
+ {t:"Nos moments ensemble",tip:"Pas d'obligation : certains préfèrent moins d'événements, et c'est très bien aussi.",q:[
+  {q:"Les événements qu'on organise, ça te plaît ?",o:["Oui","Moyen","Non"]},
+  {q:"Des événements, on en fait pas assez, juste ce qu'il faut ou trop ?"},
+  {q:"Une idée de sortie ou de moment à partager ?"}]},
+ {t:"Pour la suite",tip:"Finis sur le positif et redis ce que tu vas mettre en place après l'entretien.",q:[
+  {q:"Sur quoi on devrait mettre le paquet ?",m:["Site internet","Réseaux sociaux","Boutique","Nouveaux services","Outils internes","Autre"],x:"Précise si tu veux"},
+  {q:"Qu'est-ce que tu aimerais qu'on mette en place ?"},
+  {q:"Comment tu te vois chez Servic'eau dans un ou deux ans ?"},
+  {q:"Un dernier mot, quelque chose qu'on ne t'a pas demandé ?"}]}
+];
+const IV_N=IV.reduce((s,t)=>s+t.q.length,0);
+let IVD=store.get("sv4-entretien2",{}),ivWho=null;
+const ivSave=()=>store.set("sv4-entretien2",IVD);
+const ivA=()=>(IVD[ivWho]=IVD[ivWho]||{});
+const ivCount=k=>Object.keys(IVD[k]||{}).length;
+function buildIvWho(){
+  $("#ivWho").innerHTML=IV_PEOPLE.map(k=>{const p=PEOPLE[k],n=ivCount(k);
+    return '<button data-k="'+k+'" style="--pc:'+p.c+'" aria-pressed="'+(ivWho===k)+'">'+p.n+'<small>'+(n===IV_N?"Terminé":n?n+" / "+IV_N+" faites":"Pas commencé")+'</small></button>'}).join("");
+}
+function buildIv(){
+  buildIvWho();
+  const on=!!ivWho;$("#ivProg").hidden=!on;$("#ivEmpty").hidden=on;
+  if(!on){$("#ivTabs").innerHTML="";return}
+  const a=ivA();
+  $("#ivTabs").innerHTML=IV.map((tab,ti)=>'<article class="iv-tab" data-t="'+ti+'"><button aria-expanded="false"><span class="chev">›</span><span><span class="n">'+String(ti+1).padStart(2,"0")+'</span> <b>'+esc(tab.t)+'</b></span><span class="c" id="ivc-'+ti+'"></span></button><div class="iv-b">'+(tab.tip?'<p class="iv-tip">💡 '+esc(tab.tip)+'</p>':'')+
+    tab.q.map((q,qi)=>{const k=ti+"-"+qi;return '<label class="iv-q"><input type="checkbox" data-k="'+k+'"'+(a[k]?" checked":"")+'><span>'+esc(q.q)+'</span><em>'+(a[k]?"Fait":"Pas fait")+'</em></label>'}).join("")+'</div></article>').join("");
+  ivRefresh();
+}
+function ivRefresh(){
+  if(!ivWho)return;const a=ivA();let tot=0;
+  IV.forEach((tab,ti)=>{const n=tab.q.filter((q,qi)=>a[ti+"-"+qi]).length;tot+=n;
+    const c=$("#ivc-"+ti);if(c){c.textContent=n+" / "+tab.q.length;c.closest(".iv-tab").classList.toggle("full",n===tab.q.length)}});
+  $("#ivBar").style.width=Math.round(tot/IV_N*100)+"%";$("#ivCount").textContent=tot+" / "+IV_N;
+}
+function ivMode(on){document.body.classList.toggle("iv-on",on);buildFilter();if(on){buildIv();window.scrollTo(0,0)}}
+$("#ivWho").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;ivWho=b.dataset.k;buildIv()});
+$("#ivTabs").addEventListener("click",e=>{const b=e.target.closest(".iv-tab>button");if(!b)return;const t=b.parentElement;t.classList.toggle("open");b.setAttribute("aria-expanded",t.classList.contains("open"))});
+$("#ivTabs").addEventListener("change",e=>{const k=e.target.dataset.k;if(!k||!ivWho)return;const a=ivA();
+  if(e.target.checked)a[k]=1;else delete a[k];ivSave();
+  e.target.closest(".iv-q").querySelector("em").textContent=e.target.checked?"Fait":"Pas fait";
+  ivRefresh();buildIvWho()});
+$("#ivBack").addEventListener("click",()=>ivMode(false));
 
 /* Init */
 buildHub();buildPriorities();buildThemes();buildNav();buildFilter();refresh();
